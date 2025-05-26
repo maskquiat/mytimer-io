@@ -10,6 +10,37 @@
 
   gtag('config', 'G-18XR8R8MFP');
 </script>
+    <script>
+// Track when someone can install your PWA
+let deferredPrompt;
+window.addEventListener('beforeinstallprompt', (e) => {
+  deferredPrompt = e;
+  gtag('event', 'pwa_install_prompt_shown');
+  console.log('PWA install prompt available');
+});
+
+// Track actual PWA installs
+window.addEventListener('appinstalled', () => {
+  gtag('event', 'pwa_installed');
+  console.log('PWA was installed!');
+});
+
+// Track timer usage (add this to your timer functions)
+function startTimer() {
+  gtag('event', 'timer_started');
+  // Your existing timer code here
+}
+
+function pauseTimer() {
+  gtag('event', 'timer_paused');
+  // Your existing timer code here
+}
+
+function resetTimer() {
+  gtag('event', 'timer_reset');
+  // Your existing timer code here
+}
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Multi-Activity Countdown Timer</title>
