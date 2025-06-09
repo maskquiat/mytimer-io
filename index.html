@@ -1,240 +1,529 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-
-  gtag('config', 'G-18XR8R8MFP');
-</script>
-    <script>
-// Track when someone can install your PWA
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  deferredPrompt = e;
-  gtag('event', 'pwa_install_prompt_shown');
-  console.log('PWA install prompt available');
-});
-
-// Track actual PWA installs
-window.addEventListener('appinstalled', () => {
-  gtag('event', 'pwa_installed');
-  console.log('PWA was installed!');
-});
-
-// Track timer usage (add this to your timer functions)
-function startTimer() {
-  gtag('event', 'timer_started');
-  // Your existing timer code here
-}
-
-function pauseTimer() {
-  gtag('event', 'timer_paused');
-  // Your existing timer code here
-}
-
-function resetTimer() {
-  gtag('event', 'timer_reset');
-  // Your existing timer code here
-}
-</script>
-    <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "rpsuy2wdef");
-</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Multi-Activity Countdown Timer</title>
-<!-- PWA Meta Tags for mytimer.io -->
-<meta name="theme-color" content="#4CAF50">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="default">
-<meta name="apple-mobile-web-app-title" content="MyTimer.io">
-<meta name="msapplication-TileColor" content="#4CAF50">
-<meta name="msapplication-TileImage" content="icons/icon-144x144.png">
-
-<!-- Manifest -->
-<link rel="manifest" href="manifest.json">
-
-<!-- Icons for different platforms -->
-<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192x192.png">
-<link rel="icon" type="image/png" sizes="512x512" href="icons/icon-512x512.png">
-<link rel="apple-touch-icon" sizes="180x180" href="icons/icon-192x192.png">
-<link rel="apple-touch-icon" sizes="152x152" href="icons/icon-152x152.png">
-<link rel="apple-touch-icon" sizes="144x144" href="icons/icon-144x144.png">
-<link rel="apple-touch-icon" sizes="120x120" href="icons/icon-128x128.png">
-<link rel="apple-touch-icon" sizes="72x72" href="icons/icon-72x72.png">
+    <title>myTimer.io | Multi-Activity Countdown Timer</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: white;
-            color: black;
-            transition: background-color 0.3s, color 0.3s;
+        * {
             margin: 0;
-            padding: 15px;
+            padding: 0;
+            box-sizing: border-box;
         }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            animation: float 10s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(180deg); }
+        }
+
         body.dark-mode {
-            background-color: #121212;
-            color: white;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
-        body.dark-mode .activity-key th, 
-        body.dark-mode .activity-key td {
-            border-color: #aaa;
-        }
-        body.dark-mode #analogClock {
-            border-color: #aaa;
-            background-color: #333;
-        }
-        body.dark-mode .modal-content {
-            background-color: #222;
-            color: white;
-        }
-        body.dark-mode .preset-box {
-            background-color: #333;
-            border-color: #555;
-        }
-        /* Focus mode styles */
+
         body.focus-mode .non-essential {
             display: none !important;
         }
+
+        body.focus-mode .main-container {
+            max-width: 600px;
+        }
+
         body.focus-mode .clock-container {
-            max-width: 400px;
-            max-height: 400px;
+            max-width: 500px;
+            max-height: 500px;
         }
-        body.focus-mode #analogClock {
-            width: 100%;
-            height: 100%;
-        }
-        body.focus-mode #activityLabel {
-            font-size: 1.8em;
-            padding: 10px 20px;
-            margin: 20px auto;
-        }
+
         body.focus-mode #digitalTimer {
-            font-size: 3em;
+            font-size: 4rem;
         }
-        body.focus-mode .controls {
-            margin: 30px auto;
-        }
-        body.focus-mode .controls button {
-            padding: 15px 25px;
-            font-size: 1.2em;
-        }
+
         body.focus-mode .focus-toggle {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 100;
-            opacity: 0.7;
+            opacity: 0.8;
         }
-        body.focus-mode .focus-toggle:hover {
-            opacity: 1;
+
+        .main-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.15);
+            overflow: hidden;
+            animation: slideUp 0.8s ease-out;
+            position: relative;
         }
-        .focus-toggle {
-            background-color: #f0f0f0;
-            border: 1px solid #ddd;
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
+
+        @keyframes slideUp {
+            from { transform: translateY(40px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .header {
+            background: linear-gradient(45deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: headerFloat 8s ease-in-out infinite;
+        }
+
+        @keyframes headerFloat {
+            0%, 100% { transform: translate(-50%, -50%) rotate(0deg); }
+            50% { transform: translate(-50%, -50%) rotate(90deg); }
+        }
+
+        .header h2 {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            font-weight: 700;
+            position: relative;
+            z-index: 2;
+            text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-subtitle {
+            font-size: 1.3rem;
+            opacity: 0.9;
+            position: relative;
+            z-index: 2;
+        }
+
+        .timer-badge {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            background: rgba(255,255,255,0.2);
+            padding: 12px 20px;
+            border-radius: 25px;
+            font-size: 1rem;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            z-index: 3;
+            animation: pulse 3s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            padding: 50px;
+        }
+
+        .left-panel {
             display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: all 0.3s;
+            flex-direction: column;
+            gap: 30px;
         }
-        body.dark-mode .focus-toggle {
-            background-color: #333;
-            border-color: #555;
+
+        .right-panel {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            padding: 30px;
+            border-radius: 20px;
+            border: 2px solid #e1e5e9;
+            height: fit-content;
+            position: sticky;
+            top: 20px;
         }
+
+        .section {
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+        }
+
+        .section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
         .clock-container {
             width: 90vw;
-            max-width: 300px;
+            max-width: 400px;
             height: 90vw;
-            max-height: 300px;
+            max-height: 400px;
             position: relative;
-            margin: 20px auto;
-            transition: max-width 0.3s, max-height 0.3s;
+            margin: 30px auto;
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            padding: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
         }
+
         #analogClock {
             width: 100%;
             height: 100%;
-            border: 5px solid black;
+            border: 8px solid transparent;
+            border-radius: 50%;
+            background: linear-gradient(white, white) padding-box,
+                        linear-gradient(45deg, #4facfe, #00f2fe) border-box;
+            box-shadow: inset 0 0 30px rgba(79, 172, 254, 0.1);
+        }
+
+        body.dark-mode #analogClock {
+            background: linear-gradient(#333, #333) padding-box,
+                        linear-gradient(45deg, #4facfe, #00f2fe) border-box;
+            box-shadow: inset 0 0 30px rgba(79, 172, 254, 0.2);
+        }
+
+        .toggle-container {
+            display: flex;
+            gap: 30px;
+            justify-content: center;
+            align-items: center;
+            background: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+
+        body.dark-mode .toggle-container {
+            background: #333;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
+        .toggle-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            position: relative;
+        }
+
+        .toggle-item input[type="checkbox"] {
+            appearance: none;
+            width: 50px;
+            height: 26px;
+            background: #ddd;
+            border-radius: 13px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .toggle-item input[type="checkbox"]:checked {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        .toggle-item input[type="checkbox"]::before {
+            content: '';
+            position: absolute;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             background: white;
+            top: 2px;
+            left: 2px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
         }
-        .activity-key {
-            margin-top: 20px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+
+        .toggle-item input[type="checkbox"]:checked::before {
+            left: 26px;
         }
-        .activity-key table {
-            border-collapse: collapse;
-            width: 90%;
-            max-width: 500px;
-            margin: auto;
-        }
-        .activity-key th, .activity-key td {
-            border: 1px solid black;
-            padding: 5px;
-            text-align: left;
-        }
-        .color-box {
-            width: 20px;
-            height: 20px;
-            display: inline-block;
+
+        .toggle-item label {
+            font-weight: 600;
+            color: #333;
             cursor: pointer;
-            border-radius: 3px;
         }
+
+        body.dark-mode .toggle-item label {
+            color: #fff;
+        }
+
         #activityLabel {
             font-weight: bold;
-            background-color: yellow;
-            padding: 5px;
+            background: linear-gradient(45deg, #ffd700, #ffed4e);
+            padding: 15px 25px;
             display: inline-block;
-            border-radius: 5px;
-            transition: font-size 0.3s, padding 0.3s, margin 0.3s;
+            border-radius: 15px;
+            font-size: 1.3rem;
+            margin: 20px auto;
+            text-align: center;
+            box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);
+            transition: all 0.3s ease;
+            animation: labelGlow 2s ease-in-out infinite alternate;
         }
+
+        @keyframes labelGlow {
+            from { box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3); }
+            to { box-shadow: 0 12px 35px rgba(255, 215, 0, 0.5); }
+        }
+
+        #digitalTimer {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #667eea;
+            text-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+            margin: 20px 0;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
         .controls {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 5px;
-            margin: 10px 0;
-            transition: margin 0.3s;
+            gap: 15px;
+            margin: 30px 0;
         }
-        .controls button {
-            padding: 8px 12px;
-            font-weight: bold;
-            min-width: 80px;
-            transition: padding 0.3s, font-size 0.3s;
+
+        .controls button, .feature-container button {
+            padding: 15px 25px;
+            border: none;
+            border-radius: 15px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            min-width: 120px;
         }
+
+        .controls button::before, .feature-container button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .controls button:hover::before, .feature-container button:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-secondary {
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            color: white;
+            box-shadow: 0 8px 25px rgba(132, 250, 176, 0.3);
+        }
+
+        .btn-secondary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(132, 250, 176, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff4757, #ff6b7a);
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 71, 87, 0.3);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(255, 71, 87, 0.4);
+        }
+
         .feature-container {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            gap: 10px;
-            margin: 20px 0;
+            gap: 15px;
+            margin: 30px 0;
         }
-        .feature-container button {
-            padding: 8px 12px;
-            min-width: 120px;
+
+        .activity-key {
+            margin-top: 30px;
+            padding: 30px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
         }
-        .dark-toggle {
-            margin: 10px;
+
+        .activity-key h3 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            text-align: center;
         }
-        #digitalTimer {
-            font-size: 1.5em;
+
+        .activity-key table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: auto;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .activity-key th {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            color: white;
+            padding: 15px;
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .activity-key td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: all 0.3s ease;
+        }
+
+        .activity-key tr:hover td {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+        }
+
+        .color-box {
+            width: 25px;
+            height: 25px;
+            display: inline-block;
+            cursor: pointer;
+            border-radius: 8px;
+            border: 2px solid white;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            transition: all 0.3s ease;
+        }
+
+        .color-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        .draggable-row {
+            cursor: move;
+            transition: all 0.3s ease;
+        }
+
+        .draggable-row.dragging {
+            opacity: 0.7;
+            transform: scale(1.02);
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+        }
+
+        .drag-handle {
+            cursor: move;
+            padding: 8px;
+            user-select: none;
+            color: #667eea;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .drag-handle:hover {
+            color: #4facfe;
+            transform: scale(1.1);
+        }
+
+        .drag-handle::before {
+            content: "☰";
+        }
+
+        .focus-toggle {
+            background: linear-gradient(45deg, #667eea, #764ba2);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 8px 25px rgba(102, 126, 234, 0.3);
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 100;
+        }
+
+        .focus-toggle:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(102, 126, 234, 0.4);
+        }
+
+        .next-activity {
+            padding: 15px 25px;
+            border-radius: 15px;
+            margin: 20px auto;
+            display: inline-block;
             font-weight: bold;
-            transition: font-size 0.3s;
+            background: linear-gradient(45deg, #84fab0, #8fd3f4);
+            color: white;
+            box-shadow: 0 8px 25px rgba(132, 250, 176, 0.3);
+            transition: all 0.3s ease;
+            opacity: 0;
+            text-align: center;
         }
-        
+
+        body.focus-mode .next-activity {
+            opacity: 1;
+        }
+
         /* Modal Styles */
         .modal {
             display: none;
@@ -245,237 +534,385 @@ function resetTimer() {
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0, 0, 0, 0.7);
+            background-color: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(5px);
         }
+
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
-            padding: 20px;
-            border: 1px solid #888;
-            width: 80%;
-            max-width: 600px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: white;
+            margin: 5% auto;
+            padding: 40px;
+            border: none;
+            width: 90%;
+            max-width: 700px;
+            border-radius: 25px;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.3);
+            animation: modalSlideIn 0.3s ease-out;
         }
+
+        @keyframes modalSlideIn {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        body.dark-mode .modal-content {
+            background: #333;
+            color: white;
+        }
+
         .close-button {
             color: #aaa;
             float: right;
-            font-size: 28px;
+            font-size: 32px;
             font-weight: bold;
             cursor: pointer;
+            transition: all 0.3s ease;
         }
+
         .close-button:hover {
-            color: black;
-        }
-        
-        /* Color Picker Styles */
-        .color-palette {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 5px;
-            margin-top: 15px;
-        }
-        .harmony-option {
-            margin: 10px 0;
-        }
-        .color-option {
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            cursor: pointer;
-            border: 2px solid transparent;
-        }
-        .color-option.selected {
-            border: 2px solid #000;
+            color: #ff4757;
             transform: scale(1.1);
         }
-        .harmony-selector {
-            margin-bottom: 15px;
+
+        /* Progress Indicators */
+        .progress-container {
+            background: #f0f0f0;
+            height: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            overflow: hidden;
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
-        
-        /* Sound Selector Styles */
-        .sound-option {
-            display: flex;
-            align-items: center;
-            padding: 5px;
-            margin: 5px 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            cursor: pointer;
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            box-shadow: 0 2px 10px rgba(79, 172, 254, 0.4);
         }
-        .sound-option:hover {
-            background-color: #f0f0f0;
+
+        /* Notification Styles */
+        .notification {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+            color: white;
+            padding: 20px 30px;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(79, 172, 254, 0.4);
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            z-index: 1001;
+            font-weight: 600;
+            max-width: 300px;
         }
-        .sound-option.selected {
-            background-color: #e0e0ff;
+
+        .notification.show {
+            transform: translateX(0);
         }
-        .sound-option button {
-            margin-left: auto;
-        }
-        body.dark-mode .sound-option {
-            border-color: #555;
-        }
-        body.dark-mode .sound-option:hover {
-            background-color: #333;
-        }
-        body.dark-mode .sound-option.selected {
-            background-color: #303060;
-        }
-        
-        /* Preset Management Styles */
-        .preset-container {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 10px;
-            margin-top: 15px;
-        }
-        .preset-box {
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            padding: 10px;
-            width: 150px;
-            text-align: center;
-            cursor: pointer;
+
+        /* Statistics Panel */
+        .stats-panel {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 25px;
             position: relative;
-            background-color: #f9f9f9;
+            overflow: hidden;
         }
-        .preset-box:hover {
-            background-color: #f0f0f0;
-        }
-        .preset-box .delete-preset {
+
+        .stats-panel::before {
+            content: '';
             position: absolute;
-            top: 2px;
-            right: 2px;
-            background-color: transparent;
-            border: none;
-            cursor: pointer;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 12s linear infinite;
+        }
+
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 15px;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
             font-weight: bold;
-            color: #999;
+            color: #00f2fe;
+            text-shadow: 0 2px 10px rgba(0, 242, 254, 0.3);
         }
-        .preset-box .delete-preset:hover {
-            color: #f00;
+
+        .stat-label {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            margin-top: 5px;
         }
-        #newPresetName {
-            padding: 8px;
-            width: 70%;
-            margin: 10px 0;
-            border-radius: 4px;
-            border: 1px solid #ddd;
-        }
-        
-        /* Drag and Drop Styles */
-        .draggable-row {
-            cursor: move;
-        }
-        .draggable-row.dragging {
-            opacity: 0.5;
-            background-color: #f0f0f0;
-        }
-        .drag-handle {
-            cursor: move;
-            padding: 5px;
-            user-select: none;
-        }
-        .drag-handle::before {
-            content: "☰";
-        }
-        
-        @media screen and (max-width: 600px) {
-            #activityLabel {
-                font-size: 1em;
+
+        /* Responsive Design */
+        @media screen and (max-width: 768px) {
+            .main-content {
+                grid-template-columns: 1fr;
+                padding: 25px;
             }
-            .activity-key table {
-                font-size: 0.9em;
+            
+            .right-panel {
+                position: static;
             }
+            
+            .header h2 {
+                font-size: 2rem;
+            }
+            
             #digitalTimer {
-                font-size: 1.2em;
+                font-size: 2.5rem;
             }
+            
             .controls {
                 flex-direction: column;
                 align-items: center;
             }
-            .controls button {
-                width: 80%;
-                margin: 3px 0;
+            
+            .controls button, .feature-container button {
+                width: 100%;
+                max-width: 300px;
             }
+            
             .modal-content {
                 width: 95%;
-                margin: 5% auto;
-                padding: 15px;
+                margin: 10% auto;
+                padding: 25px;
             }
-            body.focus-mode #activityLabel {
-                font-size: 1.4em;
-            }
+            
             body.focus-mode #digitalTimer {
-                font-size: 2.2em;
+                font-size: 3rem;
             }
         }
 
-        /* Next Activity Indicator (for Focus Mode) */
-        .next-activity {
-            padding: 8px 15px;
-            border-radius: 5px;
-            margin: 15px auto;
-            display: inline-block;
-            font-weight: bold;
-            transition: opacity 0.3s;
-            opacity: 0;
+        .hidden {
+            display: none;
         }
-        body.focus-mode .next-activity {
-            opacity: 1;
+
+        /* Sound and color palette styles remain the same but with enhanced gradients */
+        .color-palette {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .color-option {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            border: 3px solid transparent;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .color-option:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+        }
+
+        .color-option.selected {
+            border: 3px solid #667eea;
+            transform: scale(1.15);
+        }
+
+        .sound-option {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            border: 2px solid #f0f0f0;
+            border-radius: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .sound-option:hover {
+            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+            border-color: #4facfe;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(79, 172, 254, 0.2);
+        }
+
+        .sound-option.selected {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-color: #667eea;
         }
     </style>
 </head>
 <body>
-    <h2 class="non-essential">Multi-Activity Countdown Timer</h2>
-    <div class="dark-toggle non-essential">
-        <label for="darkModeToggle"><input type="checkbox" id="darkModeToggle"> Dark Mode</label>
-        <label for="realTimeClockToggle" style="margin-left: 15px;"><input type="checkbox" id="realTimeClockToggle" checked> Show Real-Time Clock</label>
+    <div class="main-container">
+        <div class="header">
+            <div class="timer-badge">🎯 Smart Timer</div>
+            <h2>myTimer.io | Multi-Activity Countdown Timer</h2>
+            <p class="header-subtitle">Increase Time Perception — Your Pathway to Peak Performance and Executive Functioning Excellence</p>
+        </div>
+
+        <div class="main-content">
+            <div class="left-panel">
+                <div class="toggle-container non-essential">
+                    <div class="toggle-item">
+                        <input type="checkbox" id="darkModeToggle">
+                        <label for="darkModeToggle">Dark Mode</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="realTimeClockToggle" checked>
+                        <label for="realTimeClockToggle">Real-Time Clock</label>
+                    </div>
+                    <div class="toggle-item">
+                        <input type="checkbox" id="fixedStartToggle">
+                        <label for="fixedStartToggle">Fixed 12 O'Clock Start</label>
+                    </div>
+                </div>
+
+                <div class="section">
+                    <div class="clock-container">
+                        <canvas id="analogClock"></canvas>
+                    </div>
+                    
+                    <p id="activityLabel">No Activities Started</p>
+                    <p id="digitalTimer" aria-live="polite"></p>
+                    
+                    <div id="nextActivityContainer" class="next-activity" style="display: none;">
+                        Next: <span id="nextActivityLabel"></span>
+                    </div>
+
+                    <div id="totalTimeContainer" class="non-essential" style="font-weight: bold; margin: 20px 0; display: none; text-align: center; color: #667eea;"></div>
+                    <div id="endTimeContainer" class="non-essential" style="font-style: italic; margin-bottom: 20px; display: none; text-align: center; color: #666;"></div>
+                    <div class="progress-container non-essential" style="display: none;">
+                        <div id="overallProgressBar" class="progress-bar" style="width: 0%;"></div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button onclick="addActivity()" class="non-essential btn-primary" aria-label="Add Activity">➕ Add Activity</button>
+                    <button onclick="startTimer()" id="startBtn" class="btn-primary" aria-label="Start Timer">🚀 START</button>
+                    <button onclick="pauseTimer()" id="pauseBtn" class="btn-secondary" aria-label="Pause Timer">⏸️ Pause</button>
+                    <button onclick="resumeTimer()" id="resumeBtn" style="display:none;" class="btn-primary" aria-label="Resume Timer">▶️ Resume</button>
+                    <button onclick="resetTimer()" class="btn-danger" aria-label="Reset Timer">🔄 Reset</button>
+                    <button onclick="skipToNext()" id="skipBtn" style="display:none;" class="btn-secondary" aria-label="Skip to Next">⏭️ Skip</button>
+                </div>
+                
+                <div class="feature-container non-essential">
+                    <button onclick="openPresetsModal()" class="btn-primary" aria-label="Manage Presets">📋 Presets</button>
+                    <button onclick="openColorModal()" class="btn-secondary" aria-label="Choose Colors">🎨 Colors</button>
+                    <button onclick="openSoundModal()" class="btn-primary" aria-label="Select Sounds">🔊 Sounds</button>
+                    <button onclick="exportActivities()" class="btn-secondary" aria-label="Export Activities">📤 Export</button>
+                    <button onclick="importActivities()" class="btn-primary" aria-label="Import Activities">📥 Import</button>
+                </div>
+
+                <div class="activity-key non-essential" id="activityKey" aria-label="Activity List">
+                    <h3>Activity Timeline</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">Add activities to see your personalized schedule</p>
+                </div>
+
+                <div id="undoBanner" class="non-essential" style="display: none; background: linear-gradient(45deg, #ffd700, #ffed4e); padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
+                    Activity deleted. <button onclick="undoDelete()" class="btn-primary" style="margin-left: 10px;">Undo</button>
+                </div>
+            </div>
+
+            <div class="right-panel">
+                <!-- Statistics Panel -->
+                <div class="stats-panel">
+                    <h3 style="margin-bottom: 20px; position: relative; z-index: 2;">📊 Session Stats</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalActivities">0</div>
+                            <div class="stat-label">Total Activities</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="completedCount">0</div>
+                            <div class="stat-label">Completed</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="totalPlannedTime">0m</div>
+                            <div class="stat-label">Planned Time</div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-value" id="efficiency">100%</div>
+                            <div class="stat-label">Efficiency</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Insights -->
+                <div style="background: white; border: 2px solid #e1e5e9; border-radius: 20px; padding: 25px; margin-bottom: 25px;">
+                    <h3 style="color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
+                        🧠 Smart Insights
+                    </h3>
+                    <div id="insights-list">
+                        <div style="padding: 15px; background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%); margin-bottom: 12px; border-radius: 12px; border-left: 4px solid #4facfe; font-size: 0.95rem;">
+                            🎯 Perfect timing to start your focused work session!
+                        </div>
+                        <div style="padding: 15px; background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%); margin-bottom: 12px; border-radius: 12px; border-left: 4px solid #4facfe; font-size: 0.95rem;">
+                            ⚡ Your productivity peaks with timed activities.
+                        </div>
+                        <div style="padding: 15px; background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%); margin-bottom: 12px; border-radius: 12px; border-left: 4px solid #4facfe; font-size: 0.95rem;">
+                            📈 Break tasks into 25-minute focused sessions.
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div style="display: grid; gap: 15px;">
+                    <button onclick="showSummary()" class="btn-primary" style="width: 100%;">
+                        📊 Session Summary
+                    </button>
+                    <button onclick="saveActivities()" class="btn-secondary" style="width: 100%;">
+                        💾 Save Session
+                    </button>
+                    <button onclick="loadActivities()" class="btn-primary" style="width: 100%;">
+                        📂 Load Session
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="clock-container">
-        <canvas id="analogClock"></canvas>
-    </div>
-    <p id="activityLabel">No Activities Started</p>
-    <p id="digitalTimer" aria-live="polite"></p>
-    <div id="nextActivityContainer" class="next-activity" style="display: none;">
-        Next: <span id="nextActivityLabel"></span>
-    </div>
-    <div class="controls">
-        <button onclick="addActivity()" class="non-essential" aria-label="Add Activity">Add Activity</button>
-        <button onclick="startTimer()" id="startBtn" aria-label="Start Timer"><b>START</b></button>
-        <button onclick="pauseTimer()" id="pauseBtn" aria-label="Pause Timer">Pause</button>
-        <button onclick="resumeTimer()" id="resumeBtn" style="display:none;" aria-label="Resume Timer">Resume</button>
-        <button onclick="resetTimer()" aria-label="Reset Timer">Reset</button>
-        <button onclick="skipToNext()" id="skipBtn" style="display:none;" aria-label="Skip to Next">Skip</button>
-    </div>
-    
-    <div class="feature-container non-essential">
-        <button onclick="openPresetsModal()" aria-label="Manage Presets">Presets</button>
-        <button onclick="openColorModal()" aria-label="Choose Colors">Color Themes</button>
-        <button onclick="openSoundModal()" aria-label="Select Sounds">Sound Effects</button>
-        <button onclick="exportActivities()" aria-label="Export Activities">Export</button>
-        <button onclick="importActivities()" aria-label="Import Activities">Import</button>
-    </div>
-    
+
     <div class="focus-toggle" onclick="toggleFocusMode()" title="Toggle Focus Mode">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
             <circle cx="12" cy="12" r="3"></circle>
         </svg>
     </div>
-    
-    <div class="activity-key non-essential" id="activityKey" aria-label="Activity List"></div>
 
     <!-- Modals -->
     <div id="colorModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('colorModal')">&times;</span>
-            <h3>Color Theme Selection</h3>
-            <div class="harmony-selector">
-                <label for="harmonyType">Color Harmony: </label>
-                <select id="harmonyType" onchange="generateColorPalette()">
+            <h3 style="margin-bottom: 25px; color: #333;">🎨 Color Theme Selection</h3>
+            <div style="margin-bottom: 20px;">
+                <label for="harmonyType" style="font-weight: 600; margin-right: 10px;">Color Harmony: </label>
+                <select id="harmonyType" onchange="generateColorPalette()" style="padding: 8px 12px; border-radius: 8px; border: 2px solid #e1e5e9;">
                     <option value="monochromatic">Monochromatic</option>
                     <option value="analogous">Analogous</option>
                     <option value="complementary">Complementary</option>
@@ -484,9 +921,9 @@ function resetTimer() {
                     <option value="tetradic">Tetradic</option>
                 </select>
             </div>
-            <div class="harmony-option">
-                <label for="baseColor">Base Color: </label>
-                <input type="color" id="baseColor" value="#3366ff" onchange="generateColorPalette()">
+            <div style="margin-bottom: 20px;">
+                <label for="baseColor" style="font-weight: 600; margin-right: 10px;">Base Color: </label>
+                <input type="color" id="baseColor" value="#3366ff" onchange="generateColorPalette()" style="width: 50px; height: 40px; border: none; border-radius: 8px; cursor: pointer;">
             </div>
             <div class="color-palette" id="colorPalette"></div>
         </div>
@@ -495,8 +932,8 @@ function resetTimer() {
     <div id="soundModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('soundModal')">&times;</span>
-            <h3>Sound Selection</h3>
-            <p>Choose a sound to play when an activity completes:</p>
+            <h3 style="margin-bottom: 25px; color: #333;">🔊 Sound Selection</h3>
+            <p style="margin-bottom: 20px; color: #666;">Choose a sound to play when an activity completes:</p>
             <div id="soundList"></div>
         </div>
     </div>
@@ -504,19 +941,38 @@ function resetTimer() {
     <div id="presetsModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('presetsModal')">&times;</span>
-            <h3>Preset Management</h3>
-            <p>Save your current activities as a preset or load a previously saved preset:</p>
+            <h3 style="margin-bottom: 25px; color: #333;">📋 Preset Management</h3>
+            <p style="margin-bottom: 20px; color: #666;">Save your current activities as a preset or load a previously saved preset:</p>
             
-            <div>
-                <input type="text" id="newPresetName" placeholder="Preset Name (e.g. Morning Routine)">
-                <button onclick="saveAsPreset()">Save Current as Preset</button>
+            <div style="margin-bottom: 25px;">
+                <input type="text" id="newPresetName" placeholder="Preset Name (e.g. Morning Routine)" style="padding: 12px 16px; width: 70%; border: 2px solid #e1e5e9; border-radius: 10px; margin-right: 10px;">
+                <button onclick="saveAsPreset()" class="btn-primary">Save Current as Preset</button>
             </div>
             
-            <h4>Available Presets</h4>
-            <div class="preset-container" id="presetContainer">
-                <p id="noPresetsMessage">No saved presets found.</p>
+            <h4 style="margin-bottom: 15px; color: #333;">Available Presets</h4>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; gap: 15px;" id="presetContainer">
+                <p id="noPresetsMessage" style="color: #666; text-align: center;">No saved presets found.</p>
             </div>
         </div>
+    </div>
+
+    <!-- Session Summary Modal -->
+    <div id="summaryModal" class="modal non-essential">
+        <div class="modal-content">
+            <span class="close-button" onclick="document.getElementById('summaryModal').style.display='none'">&times;</span>
+            <h3 style="margin-bottom: 25px; color: #333;">📊 Session Summary</h3>
+            <ul id="summaryList" style="list-style: none; padding: 0;"></ul>
+            <canvas id="summaryChart" style="max-width: 100%; height: 300px; margin: 30px auto; display: block; border-radius: 15px;"></canvas>
+            <div style="display: flex; flex-wrap: wrap; gap: 15px; justify-content: center; margin-top: 25px;">
+                <button id="exportSummaryBtn" class="btn-primary">📤 Export Summary</button>
+                <button id="saveChartBtn" class="btn-secondary">🖼️ Save Chart</button>
+                <button id="printSummaryBtn" class="btn-primary">🖨️ Print Summary</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="notification" id="notification">
+        ⏰ Timer completed! Time for a break!
     </div>
 
     <!-- Audio elements -->
@@ -526,6 +982,7 @@ function resetTimer() {
     <audio id="alarmSound" src="https://actions.google.com/sounds/v1/alarms/alarm_clock.ogg"></audio>
     <audio id="notificationSound" src="https://actions.google.com/sounds/v1/alarms/notification_alert_chord.ogg"></audio>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         // Constants
         const DEFAULT_COLORS = ["#3366ff", "#33cc33", "#ff6600", "#9933cc", "#cc3366", "#33cccc"];
@@ -542,58 +999,62 @@ function resetTimer() {
         let colorPalette = [...DEFAULT_COLORS];
         let dragStartIndex;
         let inFocusMode = false;
-        let startingAngleOffset = 0; // Will store the offset angle based on current time
-        let totalElapsedTime = 0; // Track total elapsed time
+        let startingAngleOffset = 0;
+        let totalElapsedTime = 0;
+        let clockAnimationFrame;
+        let showRealTimeClock = true;
+        let useFixedStartPosition = false;
+        let lastDeletedActivity = null;
 
         document.addEventListener("DOMContentLoaded", () => {
             initializeCanvas();
-            document.getElementById("darkModeToggle").addEventListener("change", toggleDarkMode);
-            document.getElementById("realTimeClockToggle").addEventListener("change", function() {
-                toggleRealTimeClock();
-            });
+            setupEventListeners();
             loadSavedSettings();
             populateSoundOptions();
             generateColorPalette();
-            
-            // Start the real-time clock
             startRealTimeClock();
+            updateStats();
             
-            // Load from storage if available
             if (localStorage.getItem("activities")) {
                 loadActivities();
             }
         });
 
+        function setupEventListeners() {
+            document.getElementById("darkModeToggle").addEventListener("change", toggleDarkMode);
+            document.getElementById("realTimeClockToggle").addEventListener("change", toggleRealTimeClock);
+            document.getElementById("fixedStartToggle").addEventListener("change", toggleFixedStartPosition);
+        }
+
         function loadSavedSettings() {
-            // Load dark mode setting
             if (localStorage.getItem("darkMode") === "true") {
                 document.getElementById("darkModeToggle").checked = true;
                 document.body.classList.add("dark-mode");
             }
             
-            // Load focus mode setting
             if (localStorage.getItem("focusMode") === "true") {
                 inFocusMode = true;
                 document.body.classList.add("focus-mode");
             }
             
-            // Load real-time clock setting
             if (localStorage.getItem("showRealTimeClock") === "false") {
                 showRealTimeClock = false;
                 document.getElementById("realTimeClockToggle").checked = false;
             }
             
-            // Load selected sound
+            if (localStorage.getItem("useFixedStartPosition") === "true") {
+                useFixedStartPosition = true;
+                document.getElementById("fixedStartToggle").checked = true;
+            }
+            
             if (localStorage.getItem("selectedSound")) {
                 selectedSound = localStorage.getItem("selectedSound");
             }
             
-            // Load color palette
             if (localStorage.getItem("colorPalette")) {
                 try {
                     colorPalette = JSON.parse(localStorage.getItem("colorPalette"));
                 } catch (e) {
-                    console.error("Error loading color palette:", e);
                     colorPalette = [...DEFAULT_COLORS];
                 }
             }
@@ -611,39 +1072,51 @@ function resetTimer() {
 
         function resizeCanvas() {
             const container = document.querySelector('.clock-container');
-            const size = Math.min(container.clientWidth, container.clientHeight);
+            const size = Math.min(container.clientWidth - 40, container.clientHeight - 40);
             canvas.width = size;
             canvas.height = size;
+            if (ctx) {
+                radius = canvas.width / 2;
+                ctx.setTransform(1, 0, 0, 1, 0, 0);
+                ctx.translate(radius, radius);
+            }
         }
 
         function toggleDarkMode(e) {
             document.body.classList.toggle("dark-mode", e.target.checked);
             localStorage.setItem("darkMode", e.target.checked);
-            updateClockDisplay(); // Redraw the clock with appropriate colors
+            updateClockDisplay();
         }
         
         function toggleFocusMode() {
             inFocusMode = !inFocusMode;
             document.body.classList.toggle("focus-mode", inFocusMode);
             localStorage.setItem("focusMode", inFocusMode);
-            
-            // If we're running and in focus mode, show the next activity indicator
             updateNextActivityIndicator();
             
-            // Resize canvas to adjust to new container size
             setTimeout(() => {
                 resizeCanvas();
                 updateClockDisplay();
-                
-                // Force canvas to match container dimensions
-                const container = document.querySelector('.clock-container');
-                const canvas = document.getElementById('analogClock');
-                canvas.width = container.clientWidth;
-                canvas.height = container.clientHeight;
-                radius = canvas.width / 2;
-                ctx.setTransform(1, 0, 0, 1, 0, 0);
-                ctx.translate(radius, radius);
             }, 300);
+        }
+
+        function toggleRealTimeClock() {
+            showRealTimeClock = !showRealTimeClock;
+            localStorage.setItem("showRealTimeClock", showRealTimeClock);
+            updateClockDisplay();
+            document.getElementById("realTimeClockToggle").checked = showRealTimeClock;
+        }
+
+        function toggleFixedStartPosition() {
+            useFixedStartPosition = document.getElementById("fixedStartToggle").checked;
+            localStorage.setItem("useFixedStartPosition", useFixedStartPosition);
+            updateClockDisplay();
+            
+            if (isRunning) {
+                const activity = activities[currentActivityIndex];
+                const progress = (activity.duration * 60 - activity.remainingTime) / (activity.duration * 60);
+                updateClockDisplay(progress);
+            }
         }
         
         function updateNextActivityIndicator() {
@@ -661,35 +1134,45 @@ function resetTimer() {
 
         function drawClockBase() {
             ctx.beginPath();
-            ctx.arc(0, 0, radius - 5, 0, 2 * Math.PI);
+            ctx.arc(0, 0, radius - 10, 0, 2 * Math.PI);
             ctx.fillStyle = document.body.classList.contains("dark-mode") ? "#333" : "white";
             ctx.fill();
-            ctx.lineWidth = 5;
-            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#aaa" : "black";
+            ctx.lineWidth = 3;
+            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#4facfe" : "#667eea";
             ctx.stroke();
         }
 
         function drawClockNumbers() {
-            ctx.font = radius * 0.15 + "px Arial";
-            ctx.fillStyle = document.body.classList.contains("dark-mode") ? "white" : "black";
+            ctx.font = radius * 0.12 + "px 'Segoe UI', sans-serif";
+            ctx.fillStyle = document.body.classList.contains("dark-mode") ? "white" : "#333";
             ctx.textAlign = "center";
             ctx.textBaseline = "middle";
+            ctx.fontWeight = "600";
+            
             for (let i = 1; i <= 12; i++) {
                 let angle = (i * 30) * (Math.PI / 180);
-                let x = Math.cos(angle - Math.PI / 2) * (radius - 30);
-                let y = Math.sin(angle - Math.PI / 2) * (radius - 30);
+                let x = Math.cos(angle - Math.PI / 2) * (radius - 35);
+                let y = Math.sin(angle - Math.PI / 2) * (radius - 35);
                 ctx.fillText(i, x, y);
             }
         }
 
         function drawMinuteHashes() {
-            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "white" : "black";
+            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#4facfe" : "#667eea";
+            ctx.lineWidth = 1;
+            
             for (let i = 0; i < 60; i++) {
                 let angle = i * 6 * (Math.PI / 180);
-                let x1 = Math.cos(angle - Math.PI / 2) * (radius - 10);
-                let y1 = Math.sin(angle - Math.PI / 2) * (radius - 10);
-                let x2 = Math.cos(angle - Math.PI / 2) * (radius - 5);
-                let y2 = Math.sin(angle - Math.PI / 2) * (radius - 5);
+                let isHour = i % 5 === 0;
+                let innerRadius = radius - (isHour ? 25 : 15);
+                let outerRadius = radius - 10;
+                
+                let x1 = Math.cos(angle - Math.PI / 2) * innerRadius;
+                let y1 = Math.sin(angle - Math.PI / 2) * innerRadius;
+                let x2 = Math.cos(angle - Math.PI / 2) * outerRadius;
+                let y2 = Math.sin(angle - Math.PI / 2) * outerRadius;
+                
+                ctx.lineWidth = isHour ? 2 : 1;
                 ctx.beginPath();
                 ctx.moveTo(x1, y1);
                 ctx.lineTo(x2, y2);
@@ -698,23 +1181,19 @@ function resetTimer() {
         }
         
         function drawRealTimeClock() {
-            // Get current time
             const now = new Date();
             const hours = now.getHours() % 12;
             const minutes = now.getMinutes();
             const seconds = now.getSeconds();
             const milliseconds = now.getMilliseconds();
             
-            // Get precise positions accounting for seconds and milliseconds
-            // For the minute hand, we'll move it smoothly based on seconds and milliseconds
             const smoothMinutes = minutes + (seconds / 60) + (milliseconds / 60000);
-            
-            // For the hour hand, we'll move it smoothly based on minutes
             const smoothHours = hours + (smoothMinutes / 60);
             
-            // Draw hour hand
-            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#fff" : "#000";
+            // Hour hand
+            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#fff" : "#333";
             ctx.lineWidth = 6;
+            ctx.lineCap = "round";
             ctx.beginPath();
             const hourAngle = smoothHours * 30 * (Math.PI / 180);
             ctx.moveTo(0, 0);
@@ -724,8 +1203,7 @@ function resetTimer() {
             );
             ctx.stroke();
             
-            // Draw minute hand
-            ctx.strokeStyle = document.body.classList.contains("dark-mode") ? "#fff" : "#000";
+            // Minute hand
             ctx.lineWidth = 4;
             ctx.beginPath();
             const minuteAngle = smoothMinutes * 6 * (Math.PI / 180);
@@ -736,8 +1214,8 @@ function resetTimer() {
             );
             ctx.stroke();
             
-            // Draw second hand
-            ctx.strokeStyle = "#ff0000";
+            // Second hand
+            ctx.strokeStyle = "#ff4757";
             ctx.lineWidth = 2;
             ctx.beginPath();
             const secondAngle = seconds * 6 * (Math.PI / 180);
@@ -748,27 +1226,21 @@ function resetTimer() {
             );
             ctx.stroke();
             
-            // Draw center circle
-            ctx.fillStyle = "#ff0000";
+            // Center circle
+            ctx.fillStyle = "#ff4757";
             ctx.beginPath();
-            ctx.arc(0, 0, radius * 0.04, 0, 2 * Math.PI);
+            ctx.arc(0, 0, radius * 0.05, 0, 2 * Math.PI);
             ctx.fill();
-            
-            // Display digital time (24-hour or 12-hour based on preference)
-            ctx.fillStyle = document.body.classList.contains("dark-mode") ? "#fff" : "#000";
-            ctx.font = radius * 0.1 + "px Arial";
-            ctx.textAlign = "center";
-            
-            // Show user's locale-formatted time
-            const timeString = now.toLocaleTimeString([], { timeStyle: 'short' });
-            ctx.fillText(timeString, 0, -radius * 0.2);
         }
 
         function drawActivitySectors(currentProgress = 0) {
             if (activities.length === 0) return;
             
-            // Start angle is now offset by the current time position
-            let startAngle = -Math.PI / 2 + (isRunning ? startingAngleOffset : 0);
+            let startAngle = -Math.PI / 2;
+            
+            if (!useFixedStartPosition && isRunning) {
+                startAngle += startingAngleOffset;
+            }
             
             activities.forEach((activity, index) => {
                 let arcLength = (activity.duration / 60) * 2 * Math.PI;
@@ -776,95 +1248,73 @@ function resetTimer() {
 
                 ctx.beginPath();
                 ctx.moveTo(0, 0);
+                
                 if (index === currentActivityIndex && isRunning) {
-                    // For the current activity, we only draw from the current progress point to the end
-                    // This makes the sector disappear clockwise (from start to end)
                     let progressStart = startAngle + arcLength * currentProgress;
-                    ctx.arc(0, 0, radius - 15, progressStart, endAngle);
+                    ctx.arc(0, 0, radius - 20, progressStart, endAngle);
                     ctx.fillStyle = activity.color;
+                    ctx.globalAlpha = 0.8;
                 } else {
-                    ctx.arc(0, 0, radius - 15, startAngle, endAngle);
+                    ctx.arc(0, 0, radius - 20, startAngle, endAngle);
                     ctx.fillStyle = activity.color;
-                    ctx.globalAlpha = activity.completed ? 0.5 : 0.2;
+                    ctx.globalAlpha = activity.completed ? 0.3 : 0.6;
                 }
+                
                 ctx.closePath();
                 ctx.fill();
                 ctx.globalAlpha = 1;
+                
+                // Add a subtle border
+                ctx.strokeStyle = "rgba(255,255,255,0.3)";
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                
                 startAngle = endAngle;
             });
         }
 
         function updateClockDisplay(currentProgress = 0) {
-            // Reset transform to clear the entire canvas properly
             ctx.setTransform(1, 0, 0, 1, 0, 0);
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             ctx.translate(radius, radius);
             
             drawClockBase();
-            drawClockNumbers();
             drawMinuteHashes();
-            drawActivitySectors(currentProgress); // Now uses offset based on current time
+            drawClockNumbers();
+            drawActivitySectors(currentProgress);
             
-            // Draw the real-time clock hands on top
             if (showRealTimeClock) {
                 drawRealTimeClock();
             }
         }
         
-        // Setup real-time clock updating
-        let clockInterval;
-        let showRealTimeClock = true; // Default to showing real-time clock
-        
         function startRealTimeClock() {
-            // Update immediately
-            updateClockDisplay();
+            if (clockAnimationFrame) cancelAnimationFrame(clockAnimationFrame);
             
-            // Then update more frequently (60fps) to ensure smooth hand movement
-            clockInterval = setInterval(() => {
-                // Only update if not currently running a timer to avoid visual conflicts
-                if (!isRunning) {
+            function animateClock() {
+                if (!isRunning && showRealTimeClock) {
                     updateClockDisplay();
+                    clockAnimationFrame = requestAnimationFrame(animateClock);
                 }
-            }, 16); // ~60 frames per second for smooth animation
-        }
-        
-        function stopRealTimeClock() {
-            clearInterval(clockInterval);
-        }
-        
-        function toggleRealTimeClock() {
-            showRealTimeClock = !showRealTimeClock;
-            localStorage.setItem("showRealTimeClock", showRealTimeClock);
-            
-            // Update clock display immediately to show/hide the clock
-            updateClockDisplay();
-            
-            // Update checkbox state
-            document.getElementById("realTimeClockToggle").checked = showRealTimeClock;
+            }
+            animateClock();
         }
 
         function playSound(soundId = selectedSound) {
             try {
                 const soundElement = document.getElementById(soundId);
                 if (soundElement) {
-                    // Reset to beginning
                     soundElement.currentTime = 0;
-                    
-                    // Limit sound playback to 5 seconds
-                    const originalDuration = soundElement.duration;
-                    
-                    // Play the sound
                     soundElement.play().catch(error => {
                         console.warn("Could not play sound:", error);
                     });
                     
-                    // Set a timeout to stop the sound after 5 seconds
                     setTimeout(() => {
                         if (!soundElement.paused) {
                             soundElement.pause();
                             soundElement.currentTime = 0;
                         }
-                    }, 5000); // 5 seconds
+                    }, 5000);
                 }
             } catch (error) {
                 console.error("Error playing sound:", error);
@@ -879,34 +1329,54 @@ function resetTimer() {
             let duration = parseInt(durationInput);
             
             if (isNaN(duration) || duration <= 0) {
-                alert("Please enter a valid positive number for duration.");
+                showNotification("❌ Please enter a valid positive number for duration.");
                 return;
             }
 
-            // Use color from palette
             let color = colorPalette[activities.length % colorPalette.length];
             activities.push({ 
                 name, 
                 duration, 
                 color, 
                 completed: false,
-                startTime: null, // Will be set when timer starts
-                elapsedTime: 0,  // Track elapsed time for this activity
-                remainingTime: duration * 60 // Store remaining time in seconds
+                startTime: null,
+                elapsedTime: 0,
+                remainingTime: duration * 60
             });
             
             updateClockDisplay();
             updateActivityKey();
+            updateStats();
+            showNotification(`✅ Activity "${name}" added successfully!`);
+        }
+
+        function updateStats() {
+            document.getElementById("totalActivities").textContent = activities.length;
+            document.getElementById("completedCount").textContent = activities.filter(a => a.completed).length;
+            
+            const totalMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
+            document.getElementById("totalPlannedTime").textContent = totalMinutes + "m";
+            
+            const completionRate = activities.length > 0 ? 
+                Math.round((activities.filter(a => a.completed).length / activities.length) * 100) : 100;
+            document.getElementById("efficiency").textContent = completionRate + "%";
         }
 
         function updateActivityKey() {
             let keyContainer = document.getElementById("activityKey");
-            keyContainer.innerHTML = "<h3>Activity Key</h3><p><small>Drag rows to reorder activities</small></p>";
             
             if (activities.length === 0) {
-                keyContainer.innerHTML += "<p>No activities added yet.</p>";
+                keyContainer.innerHTML = `
+                    <h3>Activity Timeline</h3>
+                    <p style="text-align: center; color: #666; margin-bottom: 20px;">Add activities to see your personalized schedule</p>
+                `;
                 return;
             }
+            
+            keyContainer.innerHTML = `
+                <h3>Activity Timeline</h3>
+                <p style="text-align: center; color: #666; margin-bottom: 20px;"><small>Drag rows to reorder activities</small></p>
+            `;
             
             let table = document.createElement("table");
             table.id = "activitiesTable";
@@ -917,9 +1387,7 @@ function resetTimer() {
                 let row = table.insertRow();
                 row.classList.add("draggable-row");
                 row.setAttribute("data-index", i);
-                const statusId = `activity-status-${i}`;
                 
-                // Create cells
                 let dragCell = row.insertCell();
                 let colorCell = row.insertCell();
                 let nameCell = row.insertCell();
@@ -928,10 +1396,8 @@ function resetTimer() {
                 let statusCell = row.insertCell();
                 let actionsCell = row.insertCell();
                 
-                // Add drag handle
                 dragCell.classList.add("drag-handle");
                 
-                // Set up editable cells and content
                 colorCell.innerHTML = `<span class='color-box' style='background:${act.color}' onclick='openColorPickerForActivity(${i})'></span>`;
                 nameCell.setAttribute('contenteditable', 'true');
                 nameCell.innerText = act.name;
@@ -941,47 +1407,37 @@ function resetTimer() {
                 durationCell.innerText = act.duration;
                 durationCell.addEventListener('blur', () => validateAndUpdateActivity(i, 'duration', durationCell.innerText));
                 
-                // Start time (calculated or actual)
                 startTimeCell.id = `activity-start-time-${i}`;
                 startTimeCell.innerText = act.startTime ? formatTime(act.startTime) : calculateProjectedStartTime(i);
                 
-                statusCell.id = statusId;
+                statusCell.id = `activity-status-${i}`;
                 statusCell.innerText = act.completed ? "✔ Completed" : "Pending";
                 
-                // Delete button
                 const deleteBtn = document.createElement('button');
                 deleteBtn.innerText = 'Delete';
+                deleteBtn.className = 'btn-danger';
+                deleteBtn.style.padding = '5px 10px';
+                deleteBtn.style.fontSize = '0.8rem';
                 deleteBtn.onclick = () => deleteActivity(i);
                 actionsCell.appendChild(deleteBtn);
             });
             
             keyContainer.appendChild(table);
-            
-            // Set up drag and drop
             setupDragAndDrop();
         }
-        
-        // Helper function to format time
+
         function formatTime(date) {
             return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         }
         
-        // Calculate projected start time based on current time and preceding activities
         function calculateProjectedStartTime(activityIndex) {
-            if (isRunning) {
-                // If timer is running, use the actual start times that were set
-                if (activities[activityIndex].startTime) {
-                    return formatTime(activities[activityIndex].startTime);
-                } else {
-                    return "Pending";
-                }
+            if (isRunning && activities[activityIndex].startTime) {
+                return formatTime(activities[activityIndex].startTime);
             }
             
-            // Start with current time
             const now = new Date();
             let projectedStart = new Date(now);
             
-            // Add durations of previous activities
             for (let i = 0; i < activityIndex; i++) {
                 projectedStart = new Date(projectedStart.getTime() + activities[i].duration * 60000);
             }
@@ -989,25 +1445,13 @@ function resetTimer() {
             return formatTime(projectedStart);
         }
         
-        // Update all projected start times
-        function updateProjectedStartTimes() {
-            activities.forEach((activity, index) => {
-                const startTimeCell = document.getElementById(`activity-start-time-${index}`);
-                if (startTimeCell) {
-                    startTimeCell.innerText = activity.startTime ? 
-                        formatTime(activity.startTime) : 
-                        calculateProjectedStartTime(index);
-                }
-            });
-        }
-        
         function validateAndUpdateActivity(index, field, value) {
             if (index >= activities.length) return;
             
             if (field === 'name') {
                 if (value.trim() === '') {
-                    alert('Activity name cannot be empty');
-                    updateActivityKey(); // Revert to previous value
+                    showNotification('❌ Activity name cannot be empty');
+                    updateActivityKey();
                     return;
                 }
                 activities[index].name = value.trim();
@@ -1015,12 +1459,11 @@ function resetTimer() {
             else if (field === 'duration') {
                 const duration = parseInt(value);
                 if (isNaN(duration) || duration <= 0) {
-                    alert('Duration must be a positive number');
-                    updateActivityKey(); // Revert to previous value
+                    showNotification('❌ Duration must be a positive number');
+                    updateActivityKey();
                     return;
                 }
                 activities[index].duration = duration;
-                // Update remaining time if not started yet
                 if (!activities[index].startTime || activities[index].completed) {
                     activities[index].remainingTime = duration * 60;
                 }
@@ -1028,29 +1471,48 @@ function resetTimer() {
             
             updateClockDisplay();
             updateNextActivityIndicator();
+            updateStats();
         }
         
         function deleteActivity(index) {
             if (isRunning) {
-                alert("Please stop the timer before deleting activities.");
+                showNotification("⏸️ Please stop the timer before deleting activities.");
                 return;
             }
             
-            if (confirm(`Delete activity "${activities[index].name}"?`)) {
-                activities.splice(index, 1);
-                updateActivityKey();
-                updateClockDisplay();
-                
-                if (currentActivityIndex >= index) {
-                    currentActivityIndex = Math.max(0, currentActivityIndex - 1);
-                }
+            lastDeletedActivity = { ...activities[index], index };
+            activities.splice(index, 1);
+            updateActivityKey();
+            updateClockDisplay();
+            updateStats();
+            
+            const undoBanner = document.getElementById("undoBanner");
+            undoBanner.style.display = "block";
+            clearTimeout(undoBanner.hideTimer);
+            undoBanner.hideTimer = setTimeout(() => {
+                undoBanner.style.display = "none";
+                lastDeletedActivity = null;
+            }, 5000);
+            
+            if (currentActivityIndex >= index) {
+                currentActivityIndex = Math.max(0, currentActivityIndex - 1);
             }
+        }
+
+        function undoDelete() {
+            if (!lastDeletedActivity) return;
+            activities.splice(lastDeletedActivity.index, 0, lastDeletedActivity);
+            updateActivityKey();
+            updateClockDisplay();
+            updateStats();
+            lastDeletedActivity = null;
+            document.getElementById("undoBanner").style.display = "none";
         }
 
         function startTimer() {
             if (isRunning) return;
             if (activities.length === 0) {
-                alert("Please add at least one activity first.");
+                showNotification("❌ Please add at least one activity first.");
                 return;
             }
             
@@ -1060,67 +1522,87 @@ function resetTimer() {
             document.getElementById("skipBtn").style.display = "inline-block";
             document.getElementById("startBtn").style.display = "none";
             
-            // Calculate the starting angle offset based on current time
-            const now = new Date();
-            const minutes = now.getMinutes();
-            const seconds = now.getSeconds();
+            if (!useFixedStartPosition) {
+                const now = new Date();
+                const minutes = now.getMinutes();
+                const seconds = now.getSeconds();
+                startingAngleOffset = ((minutes * 60 + seconds) / 3600) * (2 * Math.PI);
+            } else {
+                startingAngleOffset = 0;
+            }
             
-            // Convert current time to angle (360 degrees = 60 minutes)
-            startingAngleOffset = ((minutes * 60 + seconds) / 3600) * (2 * Math.PI);
-            
-            // Reset total elapsed time
             totalElapsedTime = 0;
             
-            // Set start times for all activities based on now
-            let currentStartTime = new Date(now);
+            let currentStartTime = new Date();
             activities.forEach((activity, index) => {
                 activity.startTime = new Date(currentStartTime);
                 activity.completed = index < currentActivityIndex;
                 activity.elapsedTime = 0;
                 activity.remainingTime = activity.duration * 60;
-                
-                // Add this activity's duration to get the next start time
                 currentStartTime = new Date(currentStartTime.getTime() + activity.duration * 60000);
             });
             
-            // Update the activity table to show start times
             updateActivityKey();
+            updateTotalTimeIndicator();
             
-            // Auto-enable focus mode when starting
             if (!inFocusMode) {
                 toggleFocusMode();
             }
             
             runActivity(currentActivityIndex);
+            showNotification("🚀 Timer started! Stay focused!");
+        }
+
+        function updateTotalTimeIndicator() {
+            const totalTimeContainer = document.getElementById("totalTimeContainer");
+            const endTimeContainer = document.getElementById("endTimeContainer");
+            const progressContainer = document.querySelector('.progress-container');
+            
+            if (!totalTimeContainer || !endTimeContainer) return;
+
+            const now = new Date();
+            let totalSeconds = activities.reduce((sum, act, idx) => {
+                if (idx < currentActivityIndex) return sum;
+                return sum + (act.remainingTime || act.duration * 60);
+            }, 0);
+
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            totalTimeContainer.innerText = `⏰ Time Remaining: ${hours > 0 ? hours + 'h ' : ''}${minutes}m ${seconds}s`;
+
+            const estimatedEnd = new Date(now.getTime() + totalSeconds * 1000);
+            endTimeContainer.innerText = `🎯 Estimated End: ${estimatedEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
+
+            const progressBar = document.getElementById("overallProgressBar");
+            const totalPlanned = activities.reduce((sum, act) => sum + act.duration * 60, 0);
+            const completedSeconds = totalPlanned - totalSeconds;
+            const percentage = Math.min(100, Math.floor((completedSeconds / totalPlanned) * 100));
+            progressBar.style.width = percentage + "%";
+
+            totalTimeContainer.style.display = isRunning ? 'block' : 'none';
+            endTimeContainer.style.display = isRunning ? 'block' : 'none';
+            progressContainer.style.display = isRunning ? 'block' : 'none';
         }
         
         function skipToNext() {
             if (!isRunning) return;
             
             clearInterval(timerInterval);
-            playSound("beepSound"); // Play a different sound for skip
+            playSound("beepSound");
             
-            // Mark current activity as completed
             const currentActivity = activities[currentActivityIndex];
             currentActivity.completed = true;
             updateActivityStatus(currentActivityIndex);
             
-            // Get the current time
             const now = new Date();
-            
-            // Move to next activity
             currentActivityIndex++;
             
             if (currentActivityIndex < activities.length) {
                 const nextActivity = activities[currentActivityIndex];
-                
-                // Set the start time of the next activity to now
                 nextActivity.startTime = new Date(now);
                 
-                // Calculate time difference between planned and actual start
-                const originalStartTime = nextActivity.startTime;
-                
-                // Update the start times of all subsequent activities based on the remaining durations
                 for (let i = currentActivityIndex + 1; i < activities.length; i++) {
                     const prevActivityEndTime = i === currentActivityIndex + 1 
                         ? new Date(nextActivity.startTime.getTime() + (nextActivity.duration * 60000))
@@ -1129,77 +1611,42 @@ function resetTimer() {
                     activities[i].startTime = prevActivityEndTime;
                 }
                 
-                // Update the UI to reflect these changes
                 updateActivityKey();
                 updateClockDisplay();
                 updateNextActivityIndicator();
+                updateStats();
                 
-                // Run the next activity
                 runActivity(currentActivityIndex);
+                showNotification(`⏭️ Skipped to: ${nextActivity.name}`);
             } else {
-                // All activities completed
-                isRunning = false;
-                document.getElementById("activityLabel").innerText = "All Activities Completed!";
-                document.getElementById("activityLabel").style.backgroundColor = "lightgreen";
-                document.getElementById("digitalTimer").innerText = "";
-                document.getElementById("pauseBtn").style.display = "none";
-                document.getElementById("skipBtn").style.display = "none";
-                document.getElementById("startBtn").style.display = "inline-block";
-                
-                // Hide next activity indicator
-                document.getElementById("nextActivityContainer").style.display = "none";
-                
-                playSound(); // Play completion sound
+                endSession();
             }
         }
 
         function runActivity(index) {
             if (index >= activities.length) {
-                isRunning = false;
-                document.getElementById("activityLabel").innerText = "All Activities Completed!";
-                document.getElementById("activityLabel").style.backgroundColor = "lightgreen";
-                document.getElementById("digitalTimer").innerText = "";
-                document.getElementById("pauseBtn").style.display = "none";
-                document.getElementById("skipBtn").style.display = "none";
-                document.getElementById("startBtn").style.display = "inline-block";
-                
-                // Hide next activity indicator
-                document.getElementById("nextActivityContainer").style.display = "none";
-                
-                playSound(); // Play completion sound
+                endSession();
                 return;
             }
             
             currentActivityIndex = index;
             let activity = activities[index];
             
-            // Use remaining time directly from the activity data
-            let remaining;
-            if (paused) {
-                remaining = pausedRemaining;
-            } else {
-                // If not paused, use the remaining time property
-                remaining = activity.remainingTime;
-            }
-            
+            let remaining = paused ? pausedRemaining : activity.remainingTime;
             paused = false;
 
             document.getElementById("activityLabel").innerText = `Current: ${activity.name}`;
-            document.getElementById("activityLabel").style.backgroundColor = activity.color;
+            document.getElementById("activityLabel").style.background = `linear-gradient(45deg, ${activity.color}, ${adjustBrightness(activity.color, 20)})`;
 
             updateTimerDisplay(remaining);
             updateNextActivityIndicator();
+            updateTotalTimeIndicator();
             
             clearInterval(timerInterval);
-            const startTime = Date.now(); // Record the start time for this session
+            const startTime = Date.now();
+            
             timerInterval = setInterval(() => {
-                // Calculate elapsed time in this session
-                const sessionElapsed = Math.floor((Date.now() - startTime) / 1000);
-                
-                // Update activity's elapsed time
                 activity.elapsedTime += 1;
-                
-                // Directly decrement the remaining time
                 remaining = activity.remainingTime - 1;
                 activity.remainingTime = remaining;
                 
@@ -1209,32 +1656,56 @@ function resetTimer() {
                     activities[index].completed = true;
                     updateActivityStatus(index);
                     updateClockDisplay();
+                    updateStats();
                     document.getElementById("digitalTimer").innerText = "";
                     
-                    // Set the next activity's start time based on now
+                    showNotification(`✅ "${activity.name}" completed!`);
+                    
                     if (index + 1 < activities.length) {
                         const now = new Date();
                         activities[index + 1].startTime = now;
                         
-                        // Update all subsequent start times
                         for (let i = index + 2; i < activities.length; i++) {
                             const prevEnd = new Date(activities[i-1].startTime.getTime() + 
                                                     (activities[i-1].duration * 60000));
                             activities[i].startTime = prevEnd;
                         }
                         
-                        // Update activity key to show new start times
                         updateActivityKey();
                     }
                     
-                    runActivity(index + 1);
+                    setTimeout(() => runActivity(index + 1), 1000);
                     return;
                 }
                 
                 updateTimerDisplay(remaining);
+                updateTotalTimeIndicator();
                 let progress = (activity.duration * 60 - remaining) / (activity.duration * 60);
                 updateClockDisplay(progress);
             }, 1000);
+        }
+
+        function endSession() {
+            isRunning = false;
+            document.getElementById("activityLabel").innerText = "🎉 All Activities Completed!";
+            document.getElementById("activityLabel").style.background = "linear-gradient(45deg, #4caf50, #66bb6a)";
+            document.getElementById("digitalTimer").innerText = "";
+            document.getElementById("pauseBtn").style.display = "none";
+            document.getElementById("skipBtn").style.display = "none";
+            document.getElementById("startBtn").style.display = "inline-block";
+            
+            document.getElementById("nextActivityContainer").style.display = "none";
+            document.getElementById("totalTimeContainer").style.display = "none";
+            document.getElementById("endTimeContainer").style.display = "none";
+            document.querySelector('.progress-container').style.display = "none";
+            
+            updateStats();
+            playSound();
+            showNotification("🎉 Congratulations! All activities completed!");
+            
+            setTimeout(() => {
+                showSummary();
+            }, 2000);
         }
         
         function updateTimerDisplay(seconds) {
@@ -1247,6 +1718,8 @@ function resetTimer() {
             const statusElement = document.getElementById(`activity-status-${index}`);
             if (statusElement) {
                 statusElement.innerText = "✔ Completed";
+                statusElement.style.color = "#4caf50";
+                statusElement.style.fontWeight = "bold";
             }
         }
 
@@ -1257,11 +1730,12 @@ function resetTimer() {
             paused = true;
             isRunning = false;
             
-            // Store the current remaining time
             pausedRemaining = activities[currentActivityIndex].remainingTime;
             
             document.getElementById("resumeBtn").style.display = "inline-block";
             document.getElementById("pauseBtn").style.display = "none";
+            
+            showNotification("⏸️ Timer paused");
         }
 
         function resumeTimer() {
@@ -1270,19 +1744,11 @@ function resetTimer() {
             const now = new Date();
             const currentActivity = activities[currentActivityIndex];
             
-            // Calculate time spent paused
-            const pauseTime = now;
-            
-            // Update start times for all activities from current onwards
-            // to maintain the correct remaining time
             for (let i = currentActivityIndex; i < activities.length; i++) {
-                // First activity resumes now
                 if (i === currentActivityIndex) {
-                    // Adjust start time to maintain the correct remaining time
                     const timeElapsed = currentActivity.duration * 60 - pausedRemaining;
                     currentActivity.startTime = new Date(now.getTime() - (timeElapsed * 1000));
                 } else {
-                    // Subsequent activities start when previous ends
                     const prevActivity = activities[i-1];
                     const prevEndTime = new Date(prevActivity.startTime.getTime() + 
                                               (prevActivity.remainingTime * 1000));
@@ -1295,20 +1761,22 @@ function resetTimer() {
             document.getElementById("pauseBtn").style.display = "inline-block";
             updateActivityKey();
             runActivity(currentActivityIndex);
+            
+            showNotification("▶️ Timer resumed");
         }
 
         function resetTimer() {
             clearInterval(timerInterval);
             isRunning = false;
             paused = false;
-            startingAngleOffset = 0; // Reset the offset angle
+            startingAngleOffset = 0;
             totalElapsedTime = 0;
             
             if (confirm("Reset all activities? This will clear your activity list.")) {
                 activities = [];
                 currentActivityIndex = 0;
                 document.getElementById("activityLabel").innerText = "No Activities Started";
-                document.getElementById("activityLabel").style.backgroundColor = "yellow";
+                document.getElementById("activityLabel").style.background = "linear-gradient(45deg, #ffd700, #ffed4e)";
                 document.getElementById("digitalTimer").innerText = "";
                 document.getElementById("resumeBtn").style.display = "none";
                 document.getElementById("pauseBtn").style.display = "inline-block";
@@ -1316,11 +1784,15 @@ function resetTimer() {
                 document.getElementById("startBtn").style.display = "inline-block";
                 updateClockDisplay();
                 updateActivityKey();
+                updateStats();
                 
-                // Hide next activity indicator
                 document.getElementById("nextActivityContainer").style.display = "none";
+                document.getElementById("totalTimeContainer").style.display = "none";
+                document.getElementById("endTimeContainer").style.display = "none";
+                document.querySelector('.progress-container').style.display = "none";
+                
+                showNotification("🔄 Activities cleared");
             } else {
-                // Just reset the current session without clearing activities
                 activities.forEach(act => {
                     act.completed = false;
                     act.startTime = null;
@@ -1329,7 +1801,7 @@ function resetTimer() {
                 });
                 currentActivityIndex = 0;
                 document.getElementById("activityLabel").innerText = "Timer Reset";
-                document.getElementById("activityLabel").style.backgroundColor = "yellow";
+                document.getElementById("activityLabel").style.background = "linear-gradient(45deg, #ffd700, #ffed4e)";
                 document.getElementById("digitalTimer").innerText = "";
                 document.getElementById("resumeBtn").style.display = "none";
                 document.getElementById("pauseBtn").style.display = "inline-block";
@@ -1337,12 +1809,16 @@ function resetTimer() {
                 document.getElementById("startBtn").style.display = "inline-block";
                 updateActivityKey();
                 updateClockDisplay();
+                updateStats();
                 
-                // Hide next activity indicator
                 document.getElementById("nextActivityContainer").style.display = "none";
+                document.getElementById("totalTimeContainer").style.display = "none";
+                document.getElementById("endTimeContainer").style.display = "none";
+                document.querySelector('.progress-container').style.display = "none";
+                
+                showNotification("🔄 Timer reset");
             }
             
-            // Exit focus mode on reset
             if (inFocusMode) {
                 toggleFocusMode();
             }
@@ -1351,10 +1827,10 @@ function resetTimer() {
         function saveActivities() {
             try {
                 localStorage.setItem("activities", JSON.stringify(activities));
-                alert("Activities saved!");
+                showNotification("💾 Activities saved!");
             } catch (error) {
                 console.error("Error saving activities:", error);
-                alert("Could not save activities. Error: " + error.message);
+                showNotification("❌ Could not save activities");
             }
         }
 
@@ -1363,30 +1839,51 @@ function resetTimer() {
                 const saved = localStorage.getItem("activities");
                 if (saved) {
                     activities = JSON.parse(saved);
-                    // Reset start times and completed status
                     activities.forEach(act => {
                         if (act.startTime) {
                             act.startTime = new Date(act.startTime);
                         }
                         act.completed = false;
-                        // Make sure all activities have the remainingTime property
                         if (typeof act.remainingTime === 'undefined') {
                             act.remainingTime = act.duration * 60;
                         }
-                        // Make sure all activities have the elapsedTime property
                         if (typeof act.elapsedTime === 'undefined') {
                             act.elapsedTime = 0;
                         }
                     });
                     updateActivityKey();
                     updateClockDisplay();
+                    updateStats();
+                    showNotification("📂 Activities loaded!");
                 } else {
-                    alert("No saved activities found.");
+                    showNotification("❌ No saved activities found");
                 }
             } catch (error) {
                 console.error("Error loading activities:", error);
-                alert("Could not load activities. Error: " + error.message);
+                showNotification("❌ Could not load activities");
             }
+        }
+
+        // Utility Functions
+        function adjustBrightness(color, percent) {
+            const num = parseInt(color.replace("#",""), 16);
+            const amt = Math.round(2.55 * percent);
+            const R = (num >> 16) + amt;
+            const G = (num >> 8 & 0x00FF) + amt;
+            const B = (num & 0x0000FF) + amt;
+            return "#" + (0x1000000 + (R<255?R<1?0:R:255)*0x10000 +
+                (G<255?G<1?0:G:255)*0x100 + (B<255?B<1?0:B:255))
+                .toString(16).slice(1);
+        }
+
+        function showNotification(message) {
+            const notification = document.getElementById("notification");
+            notification.textContent = message;
+            notification.classList.add("show");
+            
+            setTimeout(() => {
+                notification.classList.remove("show");
+            }, 3000);
         }
 
         // Drag and Drop functionality
@@ -1400,29 +1897,16 @@ function resetTimer() {
                 const dragHandle = row.querySelector('.drag-handle');
                 
                 dragHandle.addEventListener('mousedown', function(e) {
-                    // Prevent text selection during drag
                     e.preventDefault();
-                    
-                    // Get the index of the row
                     dragStartIndex = parseInt(row.getAttribute('data-index'));
-                    
-                    // Add dragging class
                     row.classList.add('dragging');
-                    
-                    // Add event listeners for mouse movement and release
                     document.addEventListener('mousemove', handleDrag);
                     document.addEventListener('mouseup', stopDrag);
                 });
                 
-                // Touch support
                 dragHandle.addEventListener('touchstart', function(e) {
-                    // Get the index of the row
                     dragStartIndex = parseInt(row.getAttribute('data-index'));
-                    
-                    // Add dragging class
                     row.classList.add('dragging');
-                    
-                    // Add event listeners for touch movement and end
                     document.addEventListener('touchmove', handleTouchDrag);
                     document.addEventListener('touchend', stopDrag);
                 });
@@ -1436,7 +1920,6 @@ function resetTimer() {
             const table = document.getElementById("activitiesTable");
             const rows = Array.from(table.querySelectorAll('.draggable-row'));
             
-            // Find the row the cursor is over
             let closest = null;
             let closestDistance = Infinity;
             
@@ -1447,7 +1930,6 @@ function resetTimer() {
                 const rowMiddle = rect.top + rect.height / 2;
                 const distance = Math.abs(e.clientY - rowMiddle);
                 
-                // If this row is closer than the previous closest, update
                 if (distance < closestDistance) {
                     closest = row;
                     closestDistance = distance;
@@ -1455,33 +1937,25 @@ function resetTimer() {
             });
             
             if (closest) {
-                const closestIndex = parseInt(closest.getAttribute('data-index'));
                 const rect = closest.getBoundingClientRect();
                 const rowMiddle = rect.top + rect.height / 2;
                 
-                // Determine if we should insert before or after the closest row
                 if (e.clientY < rowMiddle) {
                     table.insertBefore(draggingRow, closest);
                 } else {
                     table.insertBefore(draggingRow, closest.nextSibling);
                 }
                 
-                // Update data-index attributes after reordering
                 updateRowIndices();
             }
         }
         
         function handleTouchDrag(e) {
-            // Get the touch position
             const touch = e.touches[0];
-            
-            // Simulate a mouse event with the touch coordinates
             const mouseEvent = {
                 clientX: touch.clientX,
                 clientY: touch.clientY
             };
-            
-            // Use the same handler as mouse drag
             handleDrag(mouseEvent);
         }
         
@@ -1489,23 +1963,16 @@ function resetTimer() {
             const draggingRow = document.querySelector('.dragging');
             if (!draggingRow) return;
             
-            // Remove the dragging class
             draggingRow.classList.remove('dragging');
-            
-            // Get the new index of the row
             const dragEndIndex = parseInt(draggingRow.getAttribute('data-index'));
             
-            // If the position changed, update the activities array
             if (dragStartIndex !== dragEndIndex) {
-                // Move the activity in the array
                 const [movedActivity] = activities.splice(dragStartIndex, 1);
                 activities.splice(dragEndIndex, 0, movedActivity);
                 
-                // Update the view
                 updateActivityKey();
                 updateClockDisplay();
                 
-                // Update current activity index if needed
                 if (isRunning) {
                     if (currentActivityIndex === dragStartIndex) {
                         currentActivityIndex = dragEndIndex;
@@ -1516,11 +1983,10 @@ function resetTimer() {
                     }
                 }
                 
-                // Update next activity indicator if needed
                 updateNextActivityIndicator();
+                showNotification("📋 Activities reordered");
             }
             
-            // Remove event listeners
             document.removeEventListener('mousemove', handleDrag);
             document.removeEventListener('mouseup', stopDrag);
             document.removeEventListener('touchmove', handleTouchDrag);
@@ -1536,7 +2002,7 @@ function resetTimer() {
             });
         }
         
-        // Color Palette Functions
+        // Color Management Functions
         function openColorModal() {
             document.getElementById('colorModal').style.display = 'block';
         }
@@ -1552,13 +2018,9 @@ function resetTimer() {
             const palette = generateHarmony(baseColor, harmonyType);
             colorPalette = palette;
             
-            // Save to local storage
             localStorage.setItem('colorPalette', JSON.stringify(colorPalette));
-            
-            // Update the color palette display
             displayColorPalette(palette);
             
-            // Update activities colors if needed
             if (activities.length > 0) {
                 activities.forEach((activity, index) => {
                     activity.color = palette[index % palette.length];
@@ -1588,24 +2050,16 @@ function resetTimer() {
         }
         
         function selectColor(element) {
-            // Remove selected class from all colors
             document.querySelectorAll('.color-option').forEach(el => {
                 el.classList.remove('selected');
             });
-            
-            // Add selected class to clicked color
             element.classList.add('selected');
         }
         
-        // For picking a color for a specific activity
         function openColorPickerForActivity(activityIndex) {
-            // Store the activity index for later use
             window.currentEditingActivity = activityIndex;
-            
-            // Open the color modal
             openColorModal();
             
-            // Add event listener for color selection
             document.querySelectorAll('.color-option').forEach(option => {
                 option.addEventListener('click', function() {
                     const color = this.getAttribute('data-color');
@@ -1620,33 +2074,27 @@ function resetTimer() {
                 activities[index].color = color;
                 updateActivityKey();
                 updateClockDisplay();
+                showNotification("🎨 Activity color updated!");
             }
         }
         
-        // Color Utilities
+        // Color Harmony Generation
         function hexToRgb(hex) {
-            // Remove # if present
             hex = hex.replace('#', '');
-            
-            // Parse hex values
             const r = parseInt(hex.substring(0, 2), 16);
             const g = parseInt(hex.substring(2, 4), 16);
             const b = parseInt(hex.substring(4, 6), 16);
-            
             return { r, g, b };
         }
         
         function rgbToHsl(r, g, b) {
-            r /= 255;
-            g /= 255;
-            b /= 255;
-            
+            r /= 255; g /= 255; b /= 255;
             const max = Math.max(r, g, b);
             const min = Math.min(r, g, b);
             let h, s, l = (max + min) / 2;
             
             if (max === min) {
-                h = s = 0; // achromatic
+                h = s = 0;
             } else {
                 const d = max - min;
                 s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
@@ -1656,26 +2104,18 @@ function resetTimer() {
                     case g: h = (b - r) / d + 2; break;
                     case b: h = (r - g) / d + 4; break;
                 }
-                
                 h /= 6;
             }
             
-            h = Math.round(h * 360);
-            s = Math.round(s * 100);
-            l = Math.round(l * 100);
-            
-            return { h, s, l };
+            return { h: Math.round(h * 360), s: Math.round(s * 100), l: Math.round(l * 100) };
         }
         
         function hslToRgb(h, s, l) {
-            h /= 360;
-            s /= 100;
-            l /= 100;
-            
+            h /= 360; s /= 100; l /= 100;
             let r, g, b;
             
             if (s === 0) {
-                r = g = b = l; // achromatic
+                r = g = b = l;
             } else {
                 const hue2rgb = (p, q, t) => {
                     if (t < 0) t += 1;
@@ -1694,18 +2134,11 @@ function resetTimer() {
                 b = hue2rgb(p, q, h - 1/3);
             }
             
-            return {
-                r: Math.round(r * 255),
-                g: Math.round(g * 255),
-                b: Math.round(b * 255)
-            };
+            return { r: Math.round(r * 255), g: Math.round(g * 255), b: Math.round(b * 255) };
         }
         
         function rgbToHex(r, g, b) {
-            return '#' + 
-                ((1 << 24) + (r << 16) + (g << 8) + b)
-                .toString(16)
-                .slice(1);
+            return '#' + ((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1);
         }
         
         function hexToHsl(hex) {
@@ -1721,7 +2154,6 @@ function resetTimer() {
         function generateHarmony(baseColor, harmonyType) {
             const hsl = hexToHsl(baseColor);
             const { h, s, l } = hsl;
-            
             let colors = [];
             
             switch (harmonyType) {
@@ -1730,12 +2162,11 @@ function resetTimer() {
                         hslToHex(h, s, l),
                         hslToHex(h, s * 0.7, l),
                         hslToHex(h, s, l * 0.8),
-                        hslToHex(h, s * 0.7, l * 1.2),
-                        hslToHex(h, s * 1.3, l * 0.8),
-                        hslToHex(h, s * 1.3, l * 1.2)
+                        hslToHex(h, s * 0.7, Math.min(100, l * 1.2)),
+                        hslToHex(h, Math.min(100, s * 1.3), l * 0.8),
+                        hslToHex(h, Math.min(100, s * 1.3), Math.min(100, l * 1.2))
                     ];
                     break;
-                    
                 case 'analogous':
                     colors = [
                         hslToHex(h, s, l),
@@ -1743,32 +2174,29 @@ function resetTimer() {
                         hslToHex((h + 60) % 360, s, l),
                         hslToHex((h - 30 + 360) % 360, s, l),
                         hslToHex((h - 60 + 360) % 360, s, l),
-                        hslToHex(h, s * 0.8, l * 1.2)
+                        hslToHex(h, s * 0.8, Math.min(100, l * 1.2))
                     ];
                     break;
-                    
                 case 'triadic':
                     colors = [
                         hslToHex(h, s, l),
                         hslToHex((h + 120) % 360, s, l),
                         hslToHex((h + 240) % 360, s, l),
-                        hslToHex(h, s * 0.8, l * 1.2),
-                        hslToHex((h + 120) % 360, s * 0.8, l * 1.2),
-                        hslToHex((h + 240) % 360, s * 0.8, l * 1.2)
+                        hslToHex(h, s * 0.8, Math.min(100, l * 1.2)),
+                        hslToHex((h + 120) % 360, s * 0.8, Math.min(100, l * 1.2)),
+                        hslToHex((h + 240) % 360, s * 0.8, Math.min(100, l * 1.2))
                     ];
                     break;
-                    
                 case 'tetradic':
                     colors = [
                         hslToHex(h, s, l),
                         hslToHex((h + 90) % 360, s, l),
                         hslToHex((h + 180) % 360, s, l),
                         hslToHex((h + 270) % 360, s, l),
-                        hslToHex(h, s * 0.8, l * 1.2),
-                        hslToHex((h + 180) % 360, s * 0.8, l * 1.2)
+                        hslToHex(h, s * 0.8, Math.min(100, l * 1.2)),
+                        hslToHex((h + 180) % 360, s * 0.8, Math.min(100, l * 1.2))
                     ];
                     break;
-                    
                 default:
                     colors = [...DEFAULT_COLORS];
             }
@@ -1776,15 +2204,15 @@ function resetTimer() {
             return colors;
         }
         
-        // Sound Options Functions
+        // Sound Management Functions
         function populateSoundOptions() {
             const soundList = document.getElementById('soundList');
             const sounds = [
-                { id: 'chimeSound', name: 'Digital Chime' },
-                { id: 'bellSound', name: 'Bell' },
-                { id: 'beepSound', name: 'Beep' },
-                { id: 'alarmSound', name: 'Alarm Clock' },
-                { id: 'notificationSound', name: 'Notification' }
+                { id: 'chimeSound', name: '🔔 Digital Chime', desc: 'Gentle electronic tone' },
+                { id: 'bellSound', name: '🔔 Bell', desc: 'Classic bell ring' },
+                { id: 'beepSound', name: '📯 Beep', desc: 'Short alert beep' },
+                { id: 'alarmSound', name: '⏰ Alarm Clock', desc: 'Traditional alarm sound' },
+                { id: 'notificationSound', name: '📢 Notification', desc: 'Soft notification chord' }
             ];
             
             soundList.innerHTML = '';
@@ -1794,8 +2222,11 @@ function resetTimer() {
                 option.className = `sound-option ${sound.id === selectedSound ? 'selected' : ''}`;
                 option.setAttribute('data-sound-id', sound.id);
                 option.innerHTML = `
-                    <span>${sound.name}</span>
-                    <button onclick="previewSound('${sound.id}')">Preview</button>
+                    <div>
+                        <div style="font-weight: 600;">${sound.name}</div>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">${sound.desc}</div>
+                    </div>
+                    <button onclick="previewSound('${sound.id}')" class="btn-secondary" style="margin-left: auto; padding: 8px 15px;">Preview</button>
                 `;
                 
                 option.addEventListener('click', function(e) {
@@ -1820,10 +2251,11 @@ function resetTimer() {
             selectedSound = soundId;
             localStorage.setItem('selectedSound', soundId);
             
-            // Update selected class
             document.querySelectorAll('.sound-option').forEach(option => {
                 option.classList.toggle('selected', option.getAttribute('data-sound-id') === soundId);
             });
+            
+            showNotification("🔊 Sound updated!");
         }
         
         // Preset Management Functions
@@ -1834,46 +2266,37 @@ function resetTimer() {
         
         function saveAsPreset() {
             if (activities.length === 0) {
-                alert("Please add at least one activity before saving a preset.");
+                showNotification("❌ Please add at least one activity before saving a preset");
                 return;
             }
             
             const presetName = document.getElementById('newPresetName').value.trim();
             if (!presetName) {
-                alert("Please enter a name for your preset.");
+                showNotification("❌ Please enter a name for your preset");
                 return;
             }
             
             try {
-                // Get existing presets
                 let presets = {};
                 if (localStorage.getItem('timerPresets')) {
                     presets = JSON.parse(localStorage.getItem('timerPresets'));
                 }
                 
-                // Store current activities without runtime data
                 const presetActivities = activities.map(act => ({
                     name: act.name,
                     duration: act.duration,
                     color: act.color
                 }));
                 
-                // Add or update preset
                 presets[presetName] = presetActivities;
-                
-                // Save to localStorage
                 localStorage.setItem('timerPresets', JSON.stringify(presets));
-                
-                // Clear input field
                 document.getElementById('newPresetName').value = '';
-                
-                // Reload presets display
                 loadPresets();
                 
-                alert(`Preset "${presetName}" saved successfully!`);
+                showNotification(`✅ Preset "${presetName}" saved successfully!`);
             } catch (error) {
                 console.error("Error saving preset:", error);
-                alert("Could not save preset. Error: " + error.message);
+                showNotification("❌ Could not save preset");
             }
         }
         
@@ -1888,6 +2311,7 @@ function resetTimer() {
                 if (presetNames.length === 0) {
                     noPresetsMsg.style.display = 'block';
                     container.innerHTML = '';
+                    container.appendChild(noPresetsMsg);
                     return;
                 }
                 
@@ -1896,20 +2320,60 @@ function resetTimer() {
                 
                 presetNames.forEach(name => {
                     const presetBox = document.createElement('div');
-                    presetBox.className = 'preset-box';
+                    presetBox.style.cssText = `
+                        border: 2px solid #e1e5e9;
+                        border-radius: 15px;
+                        padding: 20px;
+                        width: 200px;
+                        text-align: center;
+                        cursor: pointer;
+                        position: relative;
+                        background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+                        transition: all 0.3s ease;
+                        margin: 10px;
+                    `;
                     
                     const activitiesCount = presets[name].length;
                     const totalDuration = presets[name].reduce((sum, act) => sum + act.duration, 0);
                     
                     presetBox.innerHTML = `
-                        <h4>${name}</h4>
-                        <p>${activitiesCount} activities</p>
-                        <p>Total: ${totalDuration} min</p>
-                        <button class="delete-preset" onclick="deletePreset('${name}', event)">×</button>
+                        <h4 style="margin-bottom: 10px; color: #333;">${name}</h4>
+                        <p style="color: #666; margin: 5px 0;">${activitiesCount} activities</p>
+                        <p style="color: #666; margin: 5px 0;">Total: ${totalDuration} min</p>
+                        <button onclick="deletePreset('${name}', event)" style="
+                            position: absolute;
+                            top: 8px;
+                            right: 8px;
+                            background: transparent;
+                            border: none;
+                            cursor: pointer;
+                            font-weight: bold;
+                            color: #999;
+                            font-size: 18px;
+                            width: 25px;
+                            height: 25px;
+                            border-radius: 50%;
+                            display: flex;
+                            align-items: center;
+                            justify-content: center;
+                            transition: all 0.3s ease;
+                        " onmouseover="this.style.color='#ff4757'; this.style.backgroundColor='rgba(255,71,87,0.1)'" onmouseout="this.style.color='#999'; this.style.backgroundColor='transparent'">×</button>
                     `;
                     
+                    presetBox.addEventListener('mouseover', () => {
+                        presetBox.style.transform = 'translateY(-5px)';
+                        presetBox.style.boxShadow = '0 15px 35px rgba(102, 126, 234, 0.2)';
+                        presetBox.style.borderColor = '#4facfe';
+                    });
+                    
+                    presetBox.addEventListener('mouseout', () => {
+                        presetBox.style.transform = 'translateY(0)';
+                        presetBox.style.boxShadow = 'none';
+                        presetBox.style.borderColor = '#e1e5e9';
+                    });
+                    
                     presetBox.addEventListener('click', function(e) {
-                        if (e.target.className !== 'delete-preset') {
+                        if (e.target.tagName !== 'BUTTON') {
                             loadPreset(name);
                         }
                     });
@@ -1920,6 +2384,7 @@ function resetTimer() {
                 console.error("Error loading presets:", error);
                 noPresetsMsg.style.display = 'block';
                 container.innerHTML = '';
+                container.appendChild(noPresetsMsg);
             }
         }
         
@@ -1928,21 +2393,18 @@ function resetTimer() {
                 const presets = JSON.parse(localStorage.getItem('timerPresets') || '{}');
                 
                 if (!presets[presetName]) {
-                    alert(`Preset "${presetName}" not found.`);
+                    showNotification(`❌ Preset "${presetName}" not found`);
                     return;
                 }
                 
-                // Confirm if there are existing activities
                 if (activities.length > 0) {
                     if (!confirm(`Load preset "${presetName}"? This will replace your current activities.`)) {
                         return;
                     }
                 }
                 
-                // Reset current state
                 resetTimer();
                 
-                // Load activities from preset
                 activities = presets[presetName].map(act => ({
                     ...act,
                     completed: false,
@@ -1951,22 +2413,19 @@ function resetTimer() {
                     remainingTime: act.duration * 60
                 }));
                 
-                // Update UI
                 updateActivityKey();
                 updateClockDisplay();
-                
-                // Close modal
+                updateStats();
                 closeModal('presetsModal');
                 
-                alert(`Preset "${presetName}" loaded successfully!`);
+                showNotification(`✅ Preset "${presetName}" loaded successfully!`);
             } catch (error) {
                 console.error("Error loading preset:", error);
-                alert("Could not load preset. Error: " + error.message);
+                showNotification("❌ Could not load preset");
             }
         }
         
         function deletePreset(presetName, event) {
-            // Stop event propagation to prevent loading the preset
             event.stopPropagation();
             
             if (!confirm(`Delete preset "${presetName}"?`)) {
@@ -1982,54 +2441,46 @@ function resetTimer() {
                 }
                 
                 loadPresets();
+                showNotification(`🗑️ Preset "${presetName}" deleted`);
             } catch (error) {
                 console.error("Error deleting preset:", error);
-                alert("Could not delete preset. Error: " + error.message);
+                showNotification("❌ Could not delete preset");
             }
         }
 
         // Import/Export Functions
         function exportActivities() {
             if (activities.length === 0) {
-                alert("No activities to export.");
+                showNotification("❌ No activities to export");
                 return;
             }
             
             try {
-                // Create a simplified version of the activities for export
                 const exportData = activities.map(act => ({
                     name: act.name,
                     duration: act.duration,
                     color: act.color
                 }));
                 
-                // Convert to JSON string
                 const jsonData = JSON.stringify(exportData, null, 2);
-                
-                // Create a data URI
                 const dataUri = "data:text/json;charset=utf-8," + encodeURIComponent(jsonData);
                 
-                // Create a temporary link element
                 const link = document.createElement('a');
                 link.href = dataUri;
-                link.download = "activities-export.json";
+                link.download = `timer-activities-${new Date().toISOString().slice(0, 10)}.json`;
                 document.body.appendChild(link);
-                
-                // Trigger download
                 link.click();
-                
-                // Cleanup
                 document.body.removeChild(link);
                 
+                showNotification("📤 Activities exported successfully!");
             } catch (error) {
                 console.error("Error exporting activities:", error);
-                alert("Could not export activities. Error: " + error.message);
+                showNotification("❌ Could not export activities");
             }
         }
         
         function importActivities() {
             try {
-                // Create a file input element
                 const input = document.createElement('input');
                 input.type = 'file';
                 input.accept = '.json';
@@ -2043,12 +2494,10 @@ function resetTimer() {
                         try {
                             const importedData = JSON.parse(event.target.result);
                             
-                            // Validate the imported data
                             if (!Array.isArray(importedData)) {
                                 throw new Error("Invalid import format: not an array");
                             }
                             
-                            // Check if there are existing activities
                             if (activities.length > 0) {
                                 if (!confirm("This will replace your current activities. Continue?")) {
                                     return;
@@ -2056,9 +2505,7 @@ function resetTimer() {
                                 resetTimer();
                             }
                             
-                            // Process and set the imported activities
                             activities = importedData.map(act => {
-                                // Validate each activity
                                 if (!act.name || typeof act.duration !== 'number') {
                                     throw new Error("Invalid activity format");
                                 }
@@ -2074,593 +2521,409 @@ function resetTimer() {
                                 };
                             });
                             
-                            // Update UI
                             updateActivityKey();
                             updateClockDisplay();
+                            updateStats();
                             
-                            alert("Activities imported successfully!");
+                            showNotification("📥 Activities imported successfully!");
                         } catch (error) {
                             console.error("Error parsing import file:", error);
-                            alert("Error importing activities: " + error.message);
+                            showNotification("❌ Error importing activities: " + error.message);
                         }
                     };
                     
                     reader.readAsText(file);
                 };
                 
-                // Trigger file selection
                 input.click();
-                
             } catch (error) {
                 console.error("Error setting up import:", error);
-                alert("Could not import activities. Error: " + error.message);
+                showNotification("❌ Could not import activities");
             }
         }
-    </script>
-<!-- Updated RealFocusTimer.html with performance, UX, and progress bar enhancements -->
-<!-- Only the JavaScript section is shown for brevity -->
 
-<script>
-    // Existing code remains...
+        // Session Summary Functions
+        function showSummary() {
+            const summaryModal = document.getElementById("summaryModal");
+            const summaryList = document.getElementById("summaryList");
+            const exportBtn = document.getElementById("exportSummaryBtn");
+            const saveChartBtn = document.getElementById("saveChartBtn");
+            const printBtn = document.getElementById("printSummaryBtn");
+            
+            summaryList.innerHTML = "";
 
-    let clockAnimationFrame;
+            activities.forEach((act, i) => {
+                const li = document.createElement("li");
+                li.style.cssText = `
+                    display: flex;
+                    align-items: center;
+                    padding: 15px;
+                    margin: 10px 0;
+                    background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
+                    border-radius: 12px;
+                    border-left: 4px solid ${act.color};
+                `;
+                
+                const minutes = Math.floor((act.elapsedTime || 0) / 60);
+                const seconds = (act.elapsedTime || 0) % 60;
+                
+                li.innerHTML = `
+                    <div style="width: 20px; height: 20px; background: ${act.color}; border-radius: 50%; margin-right: 15px; border: 2px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2);"></div>
+                    <div style="flex: 1;">
+                        <strong style="color: #333;">${act.name}</strong>
+                        <div style="font-size: 0.9rem; color: #666; margin-top: 5px;">
+                            Planned: ${act.duration} min | Actual: ${minutes}m ${seconds}s | 
+                            <span style="color: ${act.completed ? '#4caf50' : '#ff4757'}; font-weight: 600;">
+                                ${act.completed ? '✅ Completed' : '❌ Incomplete'}
+                            </span>
+                        </div>
+                    </div>
+                `;
+                summaryList.appendChild(li);
+            });
 
-    function startRealTimeClock() {
-        if (clockAnimationFrame) cancelAnimationFrame(clockAnimationFrame);
-        function animateClock() {
-            if (!isRunning && showRealTimeClock) {
-                updateClockDisplay();
-                clockAnimationFrame = requestAnimationFrame(animateClock);
-            }
-        }
-        animateClock();
-    }
+            exportBtn.onclick = exportSummary;
+            saveChartBtn.onclick = saveChartAsImage;
+            printBtn.onclick = printSummary;
+            summaryModal.style.display = "block";
 
-    function stopRealTimeClock() {
-        if (clockAnimationFrame) cancelAnimationFrame(clockAnimationFrame);
-    }
-
-    // UX: show total time left
-    function updateTotalTimeIndicator() {
-        const totalTimeContainer = document.getElementById("totalTimeContainer");
-        const endTimeContainer = document.getElementById("endTimeContainer");
-        if (!totalTimeContainer || !endTimeContainer) return;
-
-        const now = new Date();
-        let totalSeconds = activities.reduce((sum, act, idx) => {
-            if (idx < currentActivityIndex) return sum;
-            return sum + (act.remainingTime || act.duration * 60);
-        }, 0);
-
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-
-        totalTimeContainer.innerText = `Time Remaining: ${hours > 0 ? hours + 'h ' : ''}${minutes}m ${seconds}s`;
-
-        // Estimate end time
-        const estimatedEnd = new Date(now.getTime() + totalSeconds * 1000);
-        endTimeContainer.innerText = `Estimated End: ${estimatedEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-
-        const progressBar = document.getElementById("overallProgressBar");
-        const totalPlanned = activities.reduce((sum, act) => sum + act.duration * 60, 0);
-        const completedSeconds = totalPlanned - totalSeconds;
-        const percentage = Math.min(100, Math.floor((completedSeconds / totalPlanned) * 100));
-        progressBar.style.width = percentage + "%";
-
-        totalTimeContainer.style.display = isRunning ? 'block' : 'none';
-        endTimeContainer.style.display = isRunning ? 'block' : 'none';
-        progressBar.parentElement.style.display = isRunning ? 'block' : 'none';
-    }
-
-    // Add `updateTotalTimeIndicator()` in `runActivity`, `pauseTimer`, etc.
-
-    let lastDeletedActivity = null;
-    function deleteActivity(index) {
-        if (isRunning) {
-            alert("Please stop the timer before deleting activities.");
-            return;
-        }
-
-        lastDeletedActivity = { ...activities[index], index };
-        activities.splice(index, 1);
-        updateActivityKey();
-        updateClockDisplay();
-
-        const undoBanner = document.getElementById("undoBanner");
-        undoBanner.style.display = "block";
-        clearTimeout(undoBanner.hideTimer);
-        undoBanner.hideTimer = setTimeout(() => {
-            undoBanner.style.display = "none";
-            lastDeletedActivity = null;
-        }, 5000);
-    }
-
-    function undoDelete() {
-        if (!lastDeletedActivity) return;
-        activities.splice(lastDeletedActivity.index, 0, lastDeletedActivity);
-        updateActivityKey();
-        updateClockDisplay();
-        lastDeletedActivity = null;
-        document.getElementById("undoBanner").style.display = "none";
-    }
-</script>
-
-<!-- Updated RealFocusTimer.html with performance, UX, progress bar, and end-of-session summary -->
-<!-- Only the JavaScript section is shown for brevity -->
-
-<script>
-    // Existing code remains...
-
-    let clockAnimationFrame;
-
-    function startRealTimeClock() {
-        if (clockAnimationFrame) cancelAnimationFrame(clockAnimationFrame);
-        function animateClock() {
-            if (!isRunning && showRealTimeClock) {
-                updateClockDisplay();
-                clockAnimationFrame = requestAnimationFrame(animateClock);
-            }
-        }
-        animateClock();
-    }
-
-    function stopRealTimeClock() {
-        if (clockAnimationFrame) cancelAnimationFrame(clockAnimationFrame);
-    }
-
-    // UX: show total time left
-    function updateTotalTimeIndicator() {
-        const totalTimeContainer = document.getElementById("totalTimeContainer");
-        const endTimeContainer = document.getElementById("endTimeContainer");
-        if (!totalTimeContainer || !endTimeContainer) return;
-
-        const now = new Date();
-        let totalSeconds = activities.reduce((sum, act, idx) => {
-            if (idx < currentActivityIndex) return sum;
-            return sum + (act.remainingTime || act.duration * 60);
-        }, 0);
-
-        const hours = Math.floor(totalSeconds / 3600);
-        const minutes = Math.floor((totalSeconds % 3600) / 60);
-        const seconds = totalSeconds % 60;
-
-        totalTimeContainer.innerText = `Time Remaining: ${hours > 0 ? hours + 'h ' : ''}${minutes}m ${seconds}s`;
-
-        const estimatedEnd = new Date(now.getTime() + totalSeconds * 1000);
-        endTimeContainer.innerText = `Estimated End: ${estimatedEnd.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}`;
-
-        const progressBar = document.getElementById("overallProgressBar");
-        const totalPlanned = activities.reduce((sum, act) => sum + act.duration * 60, 0);
-        const completedSeconds = totalPlanned - totalSeconds;
-        const percentage = Math.min(100, Math.floor((completedSeconds / totalPlanned) * 100));
-        progressBar.style.width = percentage + "%";
-
-        totalTimeContainer.style.display = isRunning ? 'block' : 'none';
-        endTimeContainer.style.display = isRunning ? 'block' : 'none';
-        progressBar.parentElement.style.display = isRunning ? 'block' : 'none';
-    }
-
-    function showSummary() {
-        const summaryModal = document.getElementById("summaryModal");
-        const summaryList = document.getElementById("summaryList");
-        summaryList.innerHTML = "";
-
-        activities.forEach((act, i) => {
-            const li = document.createElement("li");
-            li.innerHTML = `<strong>${act.name}</strong>: ${act.duration} min - ${act.completed ? '✅ Completed' : '❌ Skipped or Incomplete'}`;
-            summaryList.appendChild(li);
-        });
-
-        summaryModal.style.display = "block";
-    }
-
-    let lastDeletedActivity = null;
-    function deleteActivity(index) {
-        if (isRunning) {
-            alert("Please stop the timer before deleting activities.");
-            return;
-        }
-
-        lastDeletedActivity = { ...activities[index], index };
-        activities.splice(index, 1);
-        updateActivityKey();
-        updateClockDisplay();
-
-        const undoBanner = document.getElementById("undoBanner");
-        undoBanner.style.display = "block";
-        clearTimeout(undoBanner.hideTimer);
-        undoBanner.hideTimer = setTimeout(() => {
-            undoBanner.style.display = "none";
-            lastDeletedActivity = null;
-        }, 5000);
-    }
-
-    function undoDelete() {
-        if (!lastDeletedActivity) return;
-        activities.splice(lastDeletedActivity.index, 0, lastDeletedActivity);
-        updateActivityKey();
-        updateClockDisplay();
-        lastDeletedActivity = null;
-        document.getElementById("undoBanner").style.display = "none";
-    }
-
-    // Call this at the end of the last activity in runActivity()
-    function endSession() {
-        isRunning = false;
-        showSummary();
-    }
-</script>
-
-<!-- Add to HTML body -->
-<div id="totalTimeContainer" class="non-essential" style="font-weight: bold; margin: 10px 0; display: none;"></div>
-<div id="endTimeContainer" class="non-essential" style="font-style: italic; margin-bottom: 10px; display: none;"></div>
-<div class="non-essential" style="height: 12px; width: 90%; max-width: 400px; margin: 0 auto 15px; background: #eee; border-radius: 6px; overflow: hidden; display: none;">
-    <div id="overallProgressBar" style="height: 100%; width: 0%; background-color: #66c; transition: width 0.5s;"></div>
-</div>
-<div id="undoBanner" class="non-essential" style="display: none; background: #ffd; padding: 10px; border: 1px solid #cc0;">
-    Activity deleted. <button onclick="undoDelete()">Undo</button>
-</div>
-
-<!-- End of session summary modal -->
-<div id="summaryModal" class="modal non-essential" style="display: none;">
-    <div class="modal-content">
-        <span class="close-button" onclick="document.getElementById('summaryModal').style.display='none'">&times;</span>
-        <h3>Session Summary</h3>
-        <ul id="summaryList"></ul>
-    </div>
-</div>
-<!-- Updated RealFocusTimer.html with localStorage history and printable session summary -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    function showSummary() {
-        const summaryModal = document.getElementById("summaryModal");
-        const summaryList = document.getElementById("summaryList");
-        const exportBtn = document.getElementById("exportSummaryBtn");
-        const saveChartBtn = document.getElementById("saveChartBtn");
-        const printBtn = document.getElementById("printSummaryBtn");
-        const ctx = document.getElementById("summaryChart").getContext("2d");
-
-        summaryList.innerHTML = "";
-
-        activities.forEach((act, i) => {
-            const li = document.createElement("li");
-            li.innerHTML = `<strong>${act.name}</strong>: ${act.duration} min - ${act.completed ? '✅ Completed' : '❌ Skipped or Incomplete'}`;
-            summaryList.appendChild(li);
-        });
-
-        exportBtn.onclick = exportSummary;
-        saveChartBtn.onclick = saveChartAsImage;
-        printBtn.onclick = printSummary;
-        summaryModal.style.display = "block";
-
-        const labels = activities.map(act => act.name);
-        const data = activities.map(act => act.duration);
-        const bgColors = activities.map(act => act.completed ? '#4caf50' : '#f44336');
-
-        if (window.summaryChart) window.summaryChart.destroy();
-        window.summaryChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels,
-                datasets: [{
-                    label: 'Duration (min)',
-                    data,
-                    backgroundColor: bgColors
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: { display: false },
-                    title: { display: true, text: 'Activity Durations and Status' }
+            // Create chart
+            const ctx = document.getElementById("summaryChart").getContext("2d");
+            const labels = activities.map(act => act.name);
+            const plannedData = activities.map(act => act.duration);
+            const actualData = activities.map(act => Math.round((act.elapsedTime || 0) / 60));
+            
+            if (window.summaryChart) window.summaryChart.destroy();
+            window.summaryChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels,
+                    datasets: [
+                        {
+                            label: 'Planned (min)',
+                            data: plannedData,
+                            backgroundColor: activities.map(act => act.color + '80'),
+                            borderColor: activities.map(act => act.color),
+                            borderWidth: 2
+                        },
+                        {
+                            label: 'Actual (min)',
+                            data: actualData,
+                            backgroundColor: activities.map(act => act.completed ? '#4caf50' : '#ff4757'),
+                            borderColor: activities.map(act => act.completed ? '#388e3c' : '#d32f2f'),
+                            borderWidth: 2
+                        }
+                    ]
                 },
-                scales: {
-                    y: { beginAtZero: true }
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: { 
+                            display: true,
+                            position: 'top',
+                            labels: {
+                                usePointStyle: true,
+                                padding: 20
+                            }
+                        },
+                        title: { 
+                            display: true, 
+                            text: 'Session Performance Overview',
+                            font: {
+                                size: 16,
+                                weight: 'bold'
+                            },
+                            padding: 20
+                        }
+                    },
+                    scales: {
+                        y: { 
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Minutes'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Activities'
+                            }
+                        }
+                    }
+                }
+            });
+
+            saveSessionToHistory();
+        }
+
+        function exportSummary() {
+            const completedCount = activities.filter(act => act.completed).length;
+            const totalCount = activities.length;
+            const totalMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
+            const actualMinutes = activities.reduce((sum, act) => sum + Math.round((act.elapsedTime || 0) / 60), 0);
+
+            const lines = [
+                `🎯 TIMER SESSION SUMMARY`,
+                `Generated: ${new Date().toLocaleString()}`,
+                ``,
+                `📊 OVERVIEW`,
+                `Total Activities: ${totalCount}`,
+                `Completed: ${completedCount} (${Math.round((completedCount/totalCount)*100)}%)`,
+                `Total Time Planned: ${totalMinutes} minutes`,
+                `Total Time Actual: ${actualMinutes} minutes`,
+                `Efficiency: ${Math.round((actualMinutes/totalMinutes)*100)}%`,
+                ``,
+                `📋 DETAILED BREAKDOWN`,
+                `${'='.repeat(50)}`
+            ];
+
+            activities.forEach((act, index) => {
+                const actualTime = act.elapsedTime || 0;
+                const minutes = Math.floor(actualTime / 60);
+                const seconds = actualTime % 60;
+                const efficiency = Math.round((actualTime / (act.duration * 60)) * 100);
+                
+                lines.push(`${index + 1}. ${act.name}`);
+                lines.push(`   Planned: ${act.duration} minutes`);
+                lines.push(`   Actual: ${minutes}m ${seconds}s`);
+                lines.push(`   Status: ${act.completed ? '✅ Completed' : '❌ Incomplete'}`);
+                lines.push(`   Efficiency: ${efficiency}%`);
+                lines.push('');
+            });
+
+            const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `Timer_Session_Summary_${new Date().toISOString().slice(0, 10)}.txt`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+            
+            showNotification("📤 Summary exported successfully!");
+        }
+
+        function saveChartAsImage() {
+            const canvas = document.getElementById("summaryChart");
+            const image = canvas.toDataURL("image/png");
+            const link = document.createElement("a");
+            link.href = image;
+            link.download = `Timer_Performance_Chart_${new Date().toISOString().slice(0, 10)}.png`;
+            link.click();
+            
+            showNotification("🖼️ Chart saved as image!");
+        }
+
+        function printSummary() {
+            const printWindow = window.open('', '_blank');
+            const chartImage = document.getElementById("summaryChart").toDataURL("image/png");
+            const completedCount = activities.filter(act => act.completed).length;
+            const totalCount = activities.length;
+
+            let html = `
+                <html>
+                <head>
+                    <title>Timer Session Summary</title>
+                    <style>
+                        body { font-family: Arial, sans-serif; margin: 40px; }
+                        .header { text-align: center; margin-bottom: 30px; }
+                        .stats { background: #f5f5f5; padding: 20px; border-radius: 10px; margin: 20px 0; }
+                        .activity { margin: 15px 0; padding: 15px; border-left: 4px solid #4facfe; background: #f9f9f9; }
+                        .chart { text-align: center; margin: 30px 0; }
+                        @media print { .no-print { display: none; } }
+                    </style>
+                </head>
+                <body>
+                    <div class="header">
+                        <h1>🎯 Timer Session Summary</h1>
+                        <p>Generated: ${new Date().toLocaleString()}</p>
+                    </div>
+                    
+                    <div class="stats">
+                        <h3>📊 Session Overview</h3>
+                        <p><strong>Total Activities:</strong> ${totalCount}</p>
+                        <p><strong>Completed:</strong> ${completedCount} (${Math.round((completedCount/totalCount)*100)}%)</p>
+                        <p><strong>Success Rate:</strong> ${Math.round((completedCount/totalCount)*100)}%</p>
+                    </div>
+
+                    <h3>📋 Activity Details</h3>
+            `;
+
+            activities.forEach((act, index) => {
+                const minutes = Math.floor((act.elapsedTime || 0) / 60);
+                const seconds = (act.elapsedTime || 0) % 60;
+                
+                html += `
+                    <div class="activity" style="border-left-color: ${act.color};">
+                        <h4>${index + 1}. ${act.name}</h4>
+                        <p><strong>Planned:</strong> ${act.duration} minutes</p>
+                        <p><strong>Actual:</strong> ${minutes}m ${seconds}s</p>
+                        <p><strong>Status:</strong> ${act.completed ? '✅ Completed' : '❌ Incomplete'}</p>
+                    </div>
+                `;
+            });
+
+            html += `
+                    <div class="chart">
+                        <h3>📈 Performance Chart</h3>
+                        <img src="${chartImage}" style="max-width: 100%; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+                    </div>
+                </body>
+                </html>
+            `;
+
+            printWindow.document.write(html);
+            printWindow.document.close();
+            printWindow.focus();
+            setTimeout(() => {
+                printWindow.print();
+                printWindow.close();
+            }, 500);
+            
+            showNotification("🖨️ Summary sent to printer!");
+        }
+
+        function saveSessionToHistory() {
+            const session = {
+                timestamp: new Date().toISOString(),
+                activities: activities.map(act => ({
+                    name: act.name,
+                    duration: act.duration,
+                    completed: act.completed,
+                    elapsedTime: act.elapsedTime || 0,
+                    color: act.color
+                }))
+            };
+
+            const history = JSON.parse(localStorage.getItem('sessionHistory') || '[]');
+            history.push(session);
+            
+            // Keep only last 50 sessions
+            if (history.length > 50) {
+                history.splice(0, history.length - 50);
+            }
+            
+            localStorage.setItem('sessionHistory', JSON.stringify(history));
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.querySelectorAll('.modal');
+            modals.forEach(modal => {
+                if (event.target === modal) {
+                    modal.style.display = "none";
+                }
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', function(e) {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            
+            switch(e.key) {
+                case ' ':
+                    e.preventDefault();
+                    if (isRunning) {
+                        pauseTimer();
+                    } else if (paused) {
+                        resumeTimer();
+                    } else {
+                        startTimer();
+                    }
+                    break;
+                case 'r':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        resetTimer();
+                    }
+                    break;
+                case 's':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        saveActivities();
+                    }
+                    break;
+                case 'f':
+                    if (e.ctrlKey || e.metaKey) {
+                        e.preventDefault();
+                        toggleFocusMode();
+                    }
+                    break;
+                case 'Escape':
+                    const openModal = document.querySelector('.modal[style*="block"]');
+                    if (openModal) {
+                        openModal.style.display = 'none';
+                    }
+                    break;
+            }
+        });
+
+        // Initialize insights rotation
+        function rotateInsights() {
+            const insights = [
+                "🎯 Perfect timing to start your focused work session!",
+                "⚡ Your productivity peaks with timed activities.",
+                "📈 Break tasks into 25-minute focused sessions.",
+                "🧠 Use breaks between activities to recharge.",
+                "🎵 Try background music to enhance focus.",
+                "💪 Physical movement between tasks boosts energy.",
+                "📝 Review completed tasks for motivation.",
+                "🌟 Celebrate small wins to maintain momentum.",
+                "⏰ Consistent timing builds productive habits.",
+                "🔄 Regular breaks prevent mental fatigue."
+            ];
+            
+            const insightsList = document.getElementById('insights-list');
+            let currentInsightIndex = 0;
+            
+            setInterval(() => {
+                if (insightsList && !isRunning) {
+                    const insight = insights[currentInsightIndex];
+                    insightsList.innerHTML = `
+                        <div style="padding: 15px; background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%); margin-bottom: 12px; border-radius: 12px; border-left: 4px solid #4facfe; font-size: 0.95rem; animation: fadeInUp 0.5s ease-out;">
+                            ${insight}
+                        </div>
+                    `;
+                    currentInsightIndex = (currentInsightIndex + 1) % insights.length;
+                }
+            }, 10000); // Rotate every 10 seconds
+        }
+
+        // Add fade-in animation to CSS
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInUp {
+                from {
+                    opacity: 0;
+                    transform: translateY(20px);
+                }
+                to {
+                    opacity: 1;
+                    transform: translateY(0);
                 }
             }
-        });
-
-        saveSessionToHistory();
-    }
-
-    function exportSummary() {
-        const completedCount = activities.filter(act => act.completed).length;
-        const totalCount = activities.length;
-        const totalMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
-
-        const lines = [
-            `Session Summary - ${new Date().toLocaleString()}`,
-            `Total Activities: ${totalCount}`,
-            `Completed: ${completedCount}`,
-            `Total Time Planned: ${totalMinutes} minutes`,
-            '',
-            'Details:'
-        ];
-
-        activities.forEach(act => {
-            const actualTime = act.elapsedTime || 0;
-            const minutes = Math.floor(actualTime / 60);
-            const seconds = actualTime % 60;
-            lines.push(`- ${act.name}: ${act.duration} min - ${act.completed ? 'Completed' : 'Incomplete'} - Time Spent: ${minutes}m ${seconds}s`);
-        });
-
-        const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
-        const url = URL.createObjectURL(blob);
-
-        const link = document.createElement('a');
-        link.href = url;
-        link.download = `Session_Summary_${new Date().toISOString().slice(0, 10)}.txt`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
-    }
-
-    function saveChartAsImage() {
-        const canvas = document.getElementById("summaryChart");
-        const image = canvas.toDataURL("image/png");
-        const link = document.createElement("a");
-        link.href = image;
-        link.download = `Activity_Summary_Chart_${new Date().toISOString().slice(0, 10)}.png`;
-        link.click();
-    }
-
-    function printSummary() {
-        const printWindow = window.open('', '_blank');
-        const chartImage = document.getElementById("summaryChart").toDataURL("image/png");
-
-        let html = `
-            <html><head><title>Session Summary</title></head><body>
-            <h2>Session Summary - ${new Date().toLocaleString()}</h2>
-            <ul>
         `;
+        document.head.appendChild(style);
 
-        activities.forEach(act => {
-            const minutes = Math.floor((act.elapsedTime || 0) / 60);
-            const seconds = (act.elapsedTime || 0) % 60;
-            html += `<li><strong>${act.name}</strong>: ${act.duration} min - ${act.completed ? '✅ Completed' : '❌ Incomplete'} - Time Spent: ${minutes}m ${seconds}s</li>`;
-        });
+        // Start insights rotation after page load
+        setTimeout(rotateInsights, 3000);
 
-        html += `</ul><br><img src="${chartImage}" style="max-width: 100%;"><br></body></html>`;
+        // Auto-save activities every 30 seconds
+        setInterval(() => {
+            if (activities.length > 0) {
+                saveActivities();
+            }
+        }, 30000);
 
-        printWindow.document.write(html);
-        printWindow.document.close();
-        printWindow.focus();
-        printWindow.print();
-        printWindow.close();
-    }
-
-    function saveSessionToHistory() {
-        const session = {
-            timestamp: new Date().toISOString(),
-            activities: activities.map(act => ({
-                name: act.name,
-                duration: act.duration,
-                completed: act.completed,
-                elapsedTime: act.elapsedTime || 0
-            }))
-        };
-
-        const history = JSON.parse(localStorage.getItem('sessionHistory') || '[]');
-        history.push(session);
-        localStorage.setItem('sessionHistory', JSON.stringify(history));
-    }
-</script>
-
-<!-- Add to HTML body -->
-<div id="totalTimeContainer" class="non-essential" style="font-weight: bold; margin: 10px 0; display: none;"></div>
-<div id="endTimeContainer" class="non-essential" style="font-style: italic; margin-bottom: 10px; display: none;"></div>
-<div class="non-essential" style="height: 12px; width: 90%; max-width: 400px; margin: 0 auto 15px; background: #eee; border-radius: 6px; overflow: hidden; display: none;">
-    <div id="overallProgressBar" style="height: 100%; width: 0%; background-color: #66c; transition: width 0.5s;"></div>
-</div>
-<div id="undoBanner" class="non-essential" style="display: none; background: #ffd; padding: 10px; border: 1px solid #cc0;">
-    Activity deleted. <button onclick="undoDelete()">Undo</button>
-</div>
-
-<!-- End of session summary modal -->
-<div id="summaryModal" class="modal non-essential" style="display: none;">
-    <div class="modal-content">
-        <span class="close-button" onclick="document.getElementById('summaryModal').style.display='none'">&times;</span>
-        <h3>Session Summary</h3>
-        <ul id="summaryList"></ul>
-        <canvas id="summaryChart" style="max-width: 100%; height: 250px; margin: 20px auto;"></canvas>
-        <div style="display: flex; flex-wrap: wrap; gap: 10px; justify-content: center; margin-top: 15px;">
-            <button id="exportSummaryBtn">Export Summary</button>
-            <button id="saveChartBtn">Save Chart Image</button>
-            <button id="printSummaryBtn">Print Summary</button>
-        </div>
-    </div>
-</div>
-<!-- Add this to the HTML in the dark-toggle section -->
-<label for="fixedStartToggle" style="margin-left: 15px;"><input type="checkbox" id="fixedStartToggle"> Fixed 12 o'clock Start</label>
-
-<!-- Add these script modifications to the existing JavaScript -->
-<script>
-// Add these variables to the global variables section
-let useFixedStartPosition = false; // Whether to use fixed 12 o'clock start
-
-// Add this to the document.addEventListener("DOMContentLoaded", ...) function
-document.getElementById("fixedStartToggle").addEventListener("change", function() {
-    toggleFixedStartPosition();
-});
-
-// Add this to the loadSavedSettings() function
-// Load fixed start position setting
-if (localStorage.getItem("useFixedStartPosition") === "true") {
-    useFixedStartPosition = true;
-    document.getElementById("fixedStartToggle").checked = true;
-}
-
-// Add this function to toggle the fixed start position
-function toggleFixedStartPosition() {
-    useFixedStartPosition = document.getElementById("fixedStartToggle").checked;
-    localStorage.setItem("useFixedStartPosition", useFixedStartPosition);
-    
-    // Update the clock display immediately
-    updateClockDisplay();
-    
-    // If timer is running, redraw with new settings
-    if (isRunning) {
-        const activity = activities[currentActivityIndex];
-        const progress = (activity.duration * 60 - activity.remainingTime) / (activity.duration * 60);
-        updateClockDisplay(progress);
-    }
-}
-
-// Modify the drawActivitySectors function
-function drawActivitySectors(currentProgress = 0) {
-    if (activities.length === 0) return;
-    
-    // Start angle depends on setting:
-    // -Math.PI/2 is 12 o'clock position
-    // For fixed start, always use 12 o'clock
-    // For dynamic start, use current time offset when running
-    let startAngle = -Math.PI / 2; // Default to 12 o'clock position
-    
-    // Only apply time-based offset if:
-    // 1. Not using fixed start position AND
-    // 2. Timer is running
-    if (!useFixedStartPosition && isRunning) {
-        startAngle += startingAngleOffset;
-    }
-    
-    activities.forEach((activity, index) => {
-        let arcLength = (activity.duration / 60) * 2 * Math.PI;
-        let endAngle = startAngle + arcLength;
-
-        ctx.beginPath();
-        ctx.moveTo(0, 0);
-        if (index === currentActivityIndex && isRunning) {
-            // For the current activity, we only draw from the current progress point to the end
-            // This makes the sector disappear clockwise (from start to end)
-            let progressStart = startAngle + arcLength * currentProgress;
-            ctx.arc(0, 0, radius - 15, progressStart, endAngle);
-            ctx.fillStyle = activity.color;
-        } else {
-            ctx.arc(0, 0, radius - 15, startAngle, endAngle);
-            ctx.fillStyle = activity.color;
-            ctx.globalAlpha = activity.completed ? 0.5 : 0.2;
-        }
-        ctx.closePath();
-        ctx.fill();
-        ctx.globalAlpha = 1;
-        startAngle = endAngle;
-    });
-}
-
-// Modify the startTimer function
-function startTimer() {
-    if (isRunning) return;
-    if (activities.length === 0) {
-        alert("Please add at least one activity first.");
-        return;
-    }
-    
-    isRunning = true;
-    document.getElementById("resumeBtn").style.display = "none";
-    document.getElementById("pauseBtn").style.display = "inline-block";
-    document.getElementById("skipBtn").style.display = "inline-block";
-    document.getElementById("startBtn").style.display = "none";
-    
-    // Calculate the starting angle offset based on current time
-    // Only if not using fixed start position
-    if (!useFixedStartPosition) {
-        const now = new Date();
-        const minutes = now.getMinutes();
-        const seconds = now.getSeconds();
-        
-        // Convert current time to angle (360 degrees = 60 minutes)
-        startingAngleOffset = ((minutes * 60 + seconds) / 3600) * (2 * Math.PI);
-    } else {
-        // If using fixed start, set offset to 0 (12 o'clock position)
-        startingAngleOffset = 0;
-    }
-    
-    // Reset total elapsed time
-    totalElapsedTime = 0;
-    
-    // Set start times for all activities based on now
-    let currentStartTime = new Date();
-    activities.forEach((activity, index) => {
-        activity.startTime = new Date(currentStartTime);
-        activity.completed = index < currentActivityIndex;
-        activity.elapsedTime = 0;
-        activity.remainingTime = activity.duration * 60;
-        
-        // Add this activity's duration to get the next start time
-        currentStartTime = new Date(currentStartTime.getTime() + activity.duration * 60000);
-    });
-    
-    // Update the activity table to show start times
-    updateActivityKey();
-    
-    // Auto-enable focus mode when starting
-    if (!inFocusMode) {
-        toggleFocusMode();
-    }
-    
-    runActivity(currentActivityIndex);
-}
-</script>
-<!-- PWA Installation Script -->
-<script>
-// Register Service Worker
-if ('serviceWorker' in navigator) {
-    window.addEventListener('load', () => {
-        navigator.serviceWorker.register('/sw.js')
-            .then((registration) => {
-                console.log('MyTimer.io PWA registered successfully');
-            })
-            .catch((error) => {
-                console.log('Service Worker registration failed:', error);
-            });
-    });
-}
-
-// Install App Button
-let installPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-    e.preventDefault();
-    installPrompt = e;
-    showInstallButton();
-});
-
-function showInstallButton() {
-    const installBtn = document.createElement('button');
-    installBtn.innerHTML = '📱 Install MyTimer.io';
-    installBtn.style.cssText = `
-        position: fixed;
-        top: 10px;
-        right: 10px;
-        z-index: 1000;
-        padding: 10px 15px;
-        background: #4CAF50;
-        color: white;
-        border: none;
-        border-radius: 5px;
-        cursor: pointer;
-        font-size: 14px;
-        box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    `;
-    
-    installBtn.addEventListener('click', async () => {
-        if (installPrompt) {
-            installPrompt.prompt();
-            installPrompt = null;
-            installBtn.remove();
-        }
-    });
-    
-    document.body.appendChild(installBtn);
-    
-    // Auto-hide after 15 seconds
-    setTimeout(() => {
-        if (installBtn.parentNode) {
-            installBtn.remove();
-        }
-    }, 15000);
-}
-</script>
+        // Show welcome message
+        setTimeout(() => {
+            if (activities.length === 0) {
+                showNotification("👋 Welcome! Add your first activity to get started!");
+            }
+        }, 1000);
+    </script>
 </body>
 </html>
