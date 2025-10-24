@@ -2,13 +2,13 @@
 <html lang="en">
 <head>
     <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-73EVJ7BZT4"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-73EVJ7BZT4');
+  gtag('config', 'G-18XR8R8MFP');
 </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -183,9 +183,9 @@
         }
 
         .main-content {
-            display: grid;
-            grid-template-columns: 1fr 350px;
-            gap: 30px;
+            display: block; max-width: 1200px; margin: 0 auto;
+            
+            
             padding: 50px;
         }
 
@@ -195,15 +195,6 @@
             gap: 30px;
         }
 
-        .right-panel {
-            background: linear-gradient(135deg, #f8f9ff 0%, #e8f4fd 100%);
-            padding: 30px;
-            border-radius: 20px;
-            border: 2px solid #e1e5e9;
-            height: fit-content;
-            position: sticky;
-            top: 20px;
-        }
 
         .section {
             background: white;
@@ -712,13 +703,9 @@
         /* Responsive Design */
         @media screen and (max-width: 768px) {
             .main-content {
-                grid-template-columns: 1fr;
                 padding: 25px;
             }
             
-            .right-panel {
-                position: static;
-            }
             
             .header h2 {
                 font-size: 2rem;
@@ -877,11 +864,9 @@
                 <div id="undoBanner" class="non-essential" style="display: none; background: linear-gradient(45deg, #ffd700, #ffed4e); padding: 15px; border-radius: 15px; text-align: center; box-shadow: 0 8px 25px rgba(255, 215, 0, 0.3);">
                     Activity deleted. <button onclick="undoDelete()" class="btn-primary" style="margin-left: 10px;">Undo</button>
                 </div>
-            </div>
 
-            <div class="right-panel">
                 <!-- Statistics Panel -->
-                <div class="stats-panel">
+                <div class="stats-panel section non-essential">
                     <h3 style="margin-bottom: 20px; position: relative; z-index: 2;">📊 Session Stats</h3>
                     <div class="stats-grid">
                         <div class="stat-card">
@@ -897,14 +882,14 @@
                             <div class="stat-label">Planned Time</div>
                         </div>
                         <div class="stat-card">
-                            <div class="stat-value" id="efficiency">100%</div>
-                            <div class="stat-label">Efficiency</div>
+                            <div class="stat-value" id="progressStat">0%</div>
+                            <div class="stat-label">Progress</div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Quick Insights -->
-                <div style="background: white; border: 2px solid #e1e5e9; border-radius: 20px; padding: 25px; margin-bottom: 25px;">
+                <div class="section non-essential" style="background: white; border: 2px solid #e1e5e9; border-radius: 20px; padding: 25px; margin-bottom: 25px;">
                     <h3 style="color: #333; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
                         🧠 Smart Insights
                     </h3>
@@ -922,7 +907,7 @@
                 </div>
 
                 <!-- Quick Actions -->
-                <div style="display: grid; gap: 15px;">
+                <div class="section non-essential" style="display: grid; gap: 15px;">
                     <button onclick="showSummary()" class="btn-primary" style="width: 100%;">
                         📊 Session Summary
                     </button>
@@ -934,6 +919,7 @@
                     </button>
                 </div>
             </div>
+
         </div>
     </div>
 
@@ -1285,28 +1271,58 @@
                 let arcLength = (activity.duration / 60) * 2 * Math.PI;
                 let endAngle = startAngle + arcLength;
 
-                ctx.beginPath();
-                ctx.moveTo(0, 0);
-                
                 if (index === currentActivityIndex && isRunning) {
-                    let progressStart = startAngle + arcLength * currentProgress;
-                    ctx.arc(0, 0, radius - 20, progressStart, endAngle);
-                    ctx.fillStyle = activity.color;
-                    ctx.globalAlpha = 0.8;
+                    // Draw completed portion of current activity (darker)
+                    let progressAngle = startAngle + arcLength * currentProgress;
+                    
+                    if (currentProgress > 0) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.arc(0, 0, radius - 20, startAngle, progressAngle);
+                        ctx.closePath();
+                        ctx.fillStyle = activity.color;
+                        ctx.globalAlpha = 0.4;
+                        ctx.fill();
+                        ctx.globalAlpha = 1;
+                        
+                        // Border for completed portion
+                        ctx.strokeStyle = "rgba(255,255,255,0.3)";
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
+                    
+                    // Draw remaining portion of current activity (bright)
+                    if (currentProgress < 1) {
+                        ctx.beginPath();
+                        ctx.moveTo(0, 0);
+                        ctx.arc(0, 0, radius - 20, progressAngle, endAngle);
+                        ctx.closePath();
+                        ctx.fillStyle = activity.color;
+                        ctx.globalAlpha = 0.9;
+                        ctx.fill();
+                        ctx.globalAlpha = 1;
+                        
+                        // Border for remaining portion
+                        ctx.strokeStyle = "rgba(255,255,255,0.3)";
+                        ctx.lineWidth = 1;
+                        ctx.stroke();
+                    }
                 } else {
+                    // Draw completed or future activities
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
                     ctx.arc(0, 0, radius - 20, startAngle, endAngle);
+                    ctx.closePath();
                     ctx.fillStyle = activity.color;
                     ctx.globalAlpha = activity.completed ? 0.3 : 0.6;
+                    ctx.fill();
+                    ctx.globalAlpha = 1;
+                    
+                    // Add a subtle border
+                    ctx.strokeStyle = "rgba(255,255,255,0.3)";
+                    ctx.lineWidth = 1;
+                    ctx.stroke();
                 }
-                
-                ctx.closePath();
-                ctx.fill();
-                ctx.globalAlpha = 1;
-                
-                // Add a subtle border
-                ctx.strokeStyle = "rgba(255,255,255,0.3)";
-                ctx.lineWidth = 1;
-                ctx.stroke();
                 
                 startAngle = endAngle;
             });
@@ -1396,9 +1412,12 @@
             const totalMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
             document.getElementById("totalPlannedTime").textContent = totalMinutes + "m";
             
-            const completionRate = activities.length > 0 ? 
-                Math.round((activities.filter(a => a.completed).length / activities.length) * 100) : 100;
-            document.getElementById("efficiency").textContent = completionRate + "%";
+            
+            // Calculate progress percentage
+            const completedCount = activities.filter(a => a.completed).length;
+            const progressPercent = activities.length > 0 ? 
+                Math.round((completedCount / activities.length) * 100) : 0;
+            document.getElementById("progressStat").textContent = progressPercent + "%";
         }
 
         function updateActivityKey() {
@@ -2712,7 +2731,7 @@
                 `Completed: ${completedCount} (${Math.round((completedCount/totalCount)*100)}%)`,
                 `Total Time Planned: ${totalMinutes} minutes`,
                 `Total Time Actual: ${actualMinutes} minutes`,
-                `Efficiency: ${Math.round((actualMinutes/totalMinutes)*100)}%`,
+                
                 ``,
                 `📋 DETAILED BREAKDOWN`,
                 `${'='.repeat(50)}`
@@ -2722,13 +2741,11 @@
                 const actualTime = act.elapsedTime || 0;
                 const minutes = Math.floor(actualTime / 60);
                 const seconds = actualTime % 60;
-                const efficiency = Math.round((actualTime / (act.duration * 60)) * 100);
                 
                 lines.push(`${index + 1}. ${act.name}`);
                 lines.push(`   Planned: ${act.duration} minutes`);
                 lines.push(`   Actual: ${minutes}m ${seconds}s`);
                 lines.push(`   Status: ${act.completed ? '✅ Completed' : '❌ Incomplete'}`);
-                lines.push(`   Efficiency: ${efficiency}%`);
                 lines.push('');
             });
 
