@@ -51,6 +51,178 @@
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
         }
 
+        body.dark-mode .main-container {
+            background: #1e1e2e;
+            box-shadow: 0 25px 60px rgba(0,0,0,0.4);
+        }
+
+        body.dark-mode .header {
+            background: linear-gradient(45deg, #2c3e50 0%, #34495e 100%);
+        }
+
+        body.dark-mode .section {
+            background: #252535;
+            color: #e0e0e0;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        body.dark-mode .section::before {
+            background: linear-gradient(45deg, #4facfe, #00f2fe);
+        }
+
+        body.dark-mode .activity-key {
+            background: #252535;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .stats-panel {
+            background: #252535;
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .stat-card {
+            background: #2a2a3e;
+            border: 1px solid #3a3a4e;
+        }
+
+        body.dark-mode .stat-value {
+            color: #4facfe;
+        }
+
+        body.dark-mode .stat-label {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode h3 {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode p {
+            color: #b0b0b0;
+        }
+
+        body.dark-mode table {
+            color: #e0e0e0;
+        }
+
+        body.dark-mode th {
+            background: #2a2a3e;
+            color: #4facfe;
+        }
+
+        body.dark-mode td {
+            background: #252535;
+            border-color: #3a3a4e;
+        }
+
+        body.dark-mode tr:hover td {
+            background: #2a2a3e;
+        }
+
+        body.dark-mode button {
+            background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+            color: white;
+        }
+
+        body.dark-mode .btn-secondary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        body.dark-mode .btn-danger {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+        }
+
+        body.dark-mode #activityLabel {
+            background: rgba(79, 172, 254, 0.2);
+            color: #e0e0e0;
+            border-color: #4facfe;
+        }
+
+        body.dark-mode #digitalTimer {
+            color: #4facfe;
+        }
+
+        body.dark-mode .next-activity {
+            background: rgba(79, 172, 254, 0.1);
+            color: #e0e0e0;
+            border-color: #4facfe;
+        }
+
+        body.dark-mode .clock-container {
+            background: linear-gradient(135deg, #2a2a3e 0%, #1e1e2e 100%);
+        }
+
+        body.dark-mode .focus-toggle {
+            background: rgba(79, 172, 254, 0.2);
+            color: #e0e0e0;
+        }
+
+        body.dark-mode .timer-badge {
+            background: rgba(79, 172, 254, 0.3);
+        }
+
+        body.dark-mode #insights-list > div {
+            background: linear-gradient(135deg, #2a2a3e 0%, #1e1e2e 100%) !important;
+            color: #e0e0e0 !important;
+            border-left-color: #4facfe !important;
+        }
+
+        /* Collapse header when timer is running or in focus mode */
+        body.timer-running .header,
+        body.focus-mode .header {
+            padding: 20px 15px;
+            transition: all 0.3s ease;
+        }
+
+        body.timer-running .header h2,
+        body.focus-mode .header h2 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+
+        body.timer-running .header-subtitle,
+        body.focus-mode .header-subtitle {
+            font-size: 0.9rem;
+        }
+
+        body.timer-running .timer-badge,
+        body.focus-mode .timer-badge {
+            font-size: 0.85rem;
+            padding: 8px 15px;
+        }
+
+        /* Fix timer badge positioning on mobile */
+        @media screen and (max-width: 600px) {
+            .timer-badge {
+                position: static;
+                display: inline-block;
+                margin: 0 auto 15px;
+            }
+
+            .header {
+                text-align: center;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            body.timer-running .header,
+            body.focus-mode .header {
+                padding: 15px 10px;
+            }
+
+            body.timer-running .header h2,
+            body.focus-mode .header h2 {
+                font-size: 1.5rem;
+                margin-bottom: 5px;
+            }
+
+            body.timer-running .header-subtitle,
+            body.focus-mode .header-subtitle {
+                font-size: 0.8rem;
+            }
+        }
+
         body.focus-mode .non-essential {
             display: none !important;
         }
@@ -154,6 +326,7 @@
             position: relative;
             z-index: 2;
             text-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            animation: pulse 3s infinite;
         }
 
         .header-subtitle {
@@ -168,13 +341,13 @@
             top: 25px;
             right: 25px;
             background: rgba(255,255,255,0.2);
-            padding: 12px 20px;
-            border-radius: 25px;
-            font-size: 1rem;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
             backdrop-filter: blur(15px);
             border: 1px solid rgba(255,255,255,0.1);
             z-index: 3;
-            animation: pulse 3s infinite;
+            font-weight: 600;
         }
 
         @keyframes pulse {
@@ -706,6 +879,34 @@
                 padding: 25px;
             }
             
+            /* Fix clock container to be fully visible on mobile */
+            .clock-container {
+                width: 85vw;
+                max-width: 350px;
+                height: 85vw;
+                max-height: 350px;
+                padding: 15px;
+                margin: 20px auto;
+            }
+            
+            /* Fix toggle container for mobile - stack vertically */
+            .toggle-container {
+                flex-direction: column;
+                gap: 15px;
+                padding: 20px 15px;
+                align-items: stretch;
+            }
+            
+            .toggle-item {
+                justify-content: space-between;
+                width: 100%;
+            }
+            
+            .toggle-item label {
+                font-size: 0.95rem;
+                white-space: nowrap;
+            }
+            
             
             .header h2 {
                 font-size: 2rem;
@@ -733,6 +934,75 @@
             
             body.focus-mode #digitalTimer {
                 font-size: 3rem;
+            }
+        }
+
+        /* Enhanced mobile responsiveness */
+        @media screen and (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+            .main-container {
+                border-radius: 15px;
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            .header {
+                padding: 25px 15px;
+            }
+            .main-content {
+                padding: 15px;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .section {
+                width: 100%;
+            }
+            .clock-container {
+                width: 82vw;
+                max-width: 82vw;
+                height: 82vw;
+                max-height: 82vw;
+                padding: 5px;
+                margin: 15px auto;
+                box-sizing: border-box;
+                overflow: visible;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            #analogClock {
+                width: 100%;
+                height: 100%;
+                display: block;
+                margin: 0 auto;
+            }
+            #digitalTimer {
+                font-size: 1.8rem;
+            }
+            #activityLabel {
+                font-size: 1.1rem;
+                padding: 10px 20px;
+            }
+            .controls {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .controls button {
+                width: 100%;
+                font-size: 0.9rem;
+                padding: 12px;
+            }
+            .toggle-container {
+                flex-direction: column;
+            }
+            .modal-content {
+                width: 95%;
+                padding: 15px;
+            }
+            .stats-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
             }
         }
 
@@ -798,9 +1068,8 @@
 <body>
     <div class="main-container">
         <div class="header">
-            <div class="timer-badge">🎯 Smart Timer</div>
-            <h2>The Multi-Activity Timer</h2>
-            <p class="header-subtitle">Time Management | Increased Awareness | Productivity</p>
+            <h2>🎯 MyTimer.io</h2>
+            <p class="header-subtitle">Multi-Activity Timer | Increased Awareness | Productivity</p>
         </div>
 
         <div class="main-content">
@@ -1097,7 +1366,9 @@
 
         function resizeCanvas() {
             const container = document.querySelector('.clock-container');
-            const size = Math.min(container.clientWidth - 40, container.clientHeight - 40);
+            const isMobile = window.innerWidth <= 600;
+            const buffer = isMobile ? 16 : 40;
+            const size = Math.min(container.clientWidth - buffer, container.clientHeight - buffer);
             canvas.width = size;
             canvas.height = size;
             if (ctx) {
@@ -1575,6 +1846,7 @@
             }
             
             isRunning = true;
+            document.body.classList.add('timer-running');
             document.getElementById("resumeBtn").style.display = "none";
             document.getElementById("pauseBtn").style.display = "inline-block";
             document.getElementById("skipBtn").style.display = "inline-block";
@@ -1745,6 +2017,7 @@
 
         function endSession() {
             isRunning = false;
+            document.body.classList.remove('timer-running');
             document.getElementById("activityLabel").innerText = "🎉 All Activities Completed!";
             document.getElementById("activityLabel").style.background = "linear-gradient(45deg, #4caf50, #66bb6a)";
             document.getElementById("digitalTimer").innerText = "";
@@ -1826,6 +2099,7 @@
         function resetTimer() {
             clearInterval(timerInterval);
             isRunning = false;
+            document.body.classList.remove('timer-running');
             paused = false;
             startingAngleOffset = 0;
             totalElapsedTime = 0;
