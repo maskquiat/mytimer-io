@@ -356,9 +356,9 @@
         }
 
         .main-content {
-            display: block; max-width: 1200px; margin: 0 auto;
-            
-            
+            display: block;
+            max-width: 1200px;
+            margin: 0 auto;
             padding: 10px;
         }
 
@@ -367,7 +367,6 @@
             flex-direction: column;
             gap: 0px;
         }
-
 
         .section {
             background: white;
@@ -873,136 +872,315 @@
             margin-top: 5px;
         }
 
-        /* Responsive Design */
+        /* CRITICAL MOBILE FIXES */
         @media screen and (max-width: 768px) {
-            .main-content {
-                padding: 25px;
-            }
-            
-            /* Fix clock container to be fully visible on mobile */
-            .clock-container {
-                width: 85vw;
-                max-width: 350px;
-                height: 85vw;
-                max-height: 350px;
-                padding: 15px;
-                margin: 20px auto;
-            }
-            
-            /* Fix toggle container for mobile - stack vertically */
-            .toggle-container {
-                flex-direction: column;
-                gap: 15px;
-                padding: 20px 15px;
-                align-items: stretch;
-            }
-            
-            .toggle-item {
-                justify-content: space-between;
-                width: 100%;
-            }
-            
-            .toggle-item label {
-                font-size: 0.95rem;
-                white-space: nowrap;
-            }
-            
-            
-            .header h2 {
-                font-size: 2rem;
-            }
-            
-            #digitalTimer {
-                font-size: 2.5rem;
-            }
-            
-            .controls {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            .controls button, .feature-container button {
-                width: 100%;
-                max-width: 300px;
-            }
-            
-            .modal-content {
-                width: 95%;
-                margin: 10% auto;
-                padding: 25px;
-            }
-            
-            body.focus-mode #digitalTimer {
-                font-size: 3rem;
-            }
-        }
-
-        /* Enhanced mobile responsiveness */
-        @media screen and (max-width: 600px) {
             body {
                 padding: 10px;
             }
+
             .main-container {
                 border-radius: 15px;
-                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
             }
+
             .header {
                 padding: 25px 15px;
             }
+
+            .header h2 {
+                font-size: 2rem;
+            }
+
             .main-content {
-                padding: 15px;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
+                padding: 15px 10px;
             }
-            .section {
-                width: 100%;
-            }
-            .clock-container {
-                width: 82vw;
-                max-width: 82vw;
-                height: 82vw;
-                max-height: 82vw;
-                padding: 5px;
-                margin: 15px auto;
-                box-sizing: border-box;
-                overflow: visible;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-            }
-            #analogClock {
-                width: 100%;
-                height: 100%;
-                display: block;
-                margin: 0 auto;
-            }
-            #digitalTimer {
-                font-size: 1.8rem;
-            }
-            #activityLabel {
-                font-size: 1.1rem;
-                padding: 10px 20px;
-            }
-            .controls {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .controls button {
-                width: 100%;
-                font-size: 0.9rem;
-                padding: 12px;
-            }
+
+            /* Toggle Container - All 3 visible */
             .toggle-container {
-                flex-direction: column;
+                flex-direction: column !important;
+                gap: 12px !important;
+                padding: 15px !important;
+                align-items: center !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
             }
-            .modal-content {
-                width: 95%;
-                padding: 15px;
+
+            .toggle-item {
+                width: 100% !important;
+                max-width: 300px !important;
+                justify-content: space-between !important;
+                padding: 12px 15px !important;
+                background: white !important;
+                border-radius: 10px !important;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.08) !important;
+                display: flex !important;
+                box-sizing: border-box !important;
             }
+
+            body.dark-mode .toggle-item {
+                background: #333 !important;
+            }
+
+            .toggle-item label {
+                font-size: 0.9rem !important;
+                white-space: nowrap !important;
+            }
+
+            /* Clock */
+            .clock-container {
+                width: 85vw !important;
+                max-width: 320px !important;
+                height: 85vw !important;
+                max-height: 320px !important;
+                padding: 15px !important;
+                margin: 20px auto !important;
+            }
+
+            /* Activity Label */
+            #activityLabel {
+                font-size: clamp(1rem, 4vw, 1.2rem) !important;
+                padding: 12px 15px !important;
+                margin: 15px auto !important;
+                width: 95% !important;
+                max-width: 100% !important;
+                text-align: center !important;
+                display: block !important;
+                word-wrap: break-word !important;
+                box-sizing: border-box !important;
+            }
+
+            #digitalTimer {
+                font-size: clamp(1.8rem, 8vw, 2.5rem) !important;
+                text-align: center !important;
+            }
+
+            .next-activity {
+                font-size: 0.9rem !important;
+                padding: 12px 15px !important;
+                width: 95% !important;
+                max-width: 100% !important;
+                margin: 15px auto !important;
+                text-align: center !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Controls */
+            .controls {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 10px !important;
+                padding: 0 10px !important;
+            }
+
+            .controls button, .feature-container button {
+                width: 100% !important;
+                max-width: 300px !important;
+                font-size: 0.9rem !important;
+                padding: 12px !important;
+                box-sizing: border-box !important;
+            }
+
+            .feature-container {
+                flex-direction: column !important;
+                align-items: center !important;
+                gap: 10px !important;
+                padding: 0 10px !important;
+            }
+
+            /* CRITICAL FIX: Activity Timeline - properly contained */
+            .activity-key {
+                padding: 15px 10px !important;
+                margin: 20px 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                overflow: hidden !important;
+            }
+
+            .activity-key h3 {
+                font-size: 1.2rem !important;
+                margin-bottom: 12px !important;
+            }
+
+            .activity-key p {
+                font-size: 0.85rem !important;
+                padding: 0 5px !important;
+            }
+
+            /* Table wrapper for horizontal scroll */
+            .activity-key table {
+                display: block !important;
+                width: 100% !important;
+                overflow-x: auto !important;
+                -webkit-overflow-scrolling: touch !important;
+                font-size: 0.75rem !important;
+            }
+
+            .activity-key thead,
+            .activity-key tbody,
+            .activity-key tr {
+                display: table !important;
+                width: 100% !important;
+                table-layout: fixed !important;
+            }
+
+            .activity-key th,
+            .activity-key td {
+                padding: 8px 5px !important;
+                font-size: 0.75rem !important;
+                white-space: nowrap !important;
+                overflow: hidden !important;
+                text-overflow: ellipsis !important;
+            }
+
+            .activity-key th:first-child,
+            .activity-key td:first-child {
+                width: 30px !important;
+            }
+
+            .activity-key th:nth-child(2),
+            .activity-key td:nth-child(2) {
+                width: 40px !important;
+            }
+
+            .activity-key button {
+                padding: 4px 8px !important;
+                font-size: 0.7rem !important;
+            }
+
+            .drag-handle {
+                font-size: 1rem !important;
+                padding: 4px !important;
+            }
+
+            .color-box {
+                width: 20px !important;
+                height: 20px !important;
+            }
+
+            /* CRITICAL FIX: Session Stats - single column */
+            .stats-panel {
+                padding: 15px 10px !important;
+                margin: 20px 0 !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .stats-panel h3 {
+                font-size: 1.2rem !important;
+                margin-bottom: 15px !important;
+            }
+
             .stats-grid {
-                grid-template-columns: 1fr;
-                gap: 10px;
+                grid-template-columns: 1fr !important;
+                gap: 10px !important;
+                width: 100% !important;
+            }
+
+            .stat-card {
+                padding: 12px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .stat-value {
+                font-size: 1.5rem !important;
+            }
+
+            .stat-label {
+                font-size: 0.8rem !important;
+            }
+
+            /* CRITICAL FIX: Smart Insights - properly contained */
+            .section {
+                padding: 15px 10px !important;
+                margin-bottom: 20px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            .section h3 {
+                font-size: 1.2rem !important;
+                margin-bottom: 12px !important;
+            }
+
+            #insights-list {
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+
+            #insights-list > div {
+                padding: 10px !important;
+                font-size: 0.8rem !important;
+                word-wrap: break-word !important;
+                overflow-wrap: break-word !important;
+                margin-bottom: 10px !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+                line-height: 1.4 !important;
+            }
+
+            /* Modal */
+            .modal-content {
+                width: 95% !important;
+                margin: 10% auto !important;
+                padding: 20px 15px !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Notification */
+            .notification {
+                top: 10px !important;
+                right: 10px !important;
+                left: 10px !important;
+                max-width: none !important;
+                padding: 15px !important;
+                font-size: 0.9rem !important;
+                box-sizing: border-box !important;
+            }
+
+            /* Focus toggle */
+            .focus-toggle {
+                bottom: 20px !important;
+                right: 20px !important;
+                width: 50px !important;
+                height: 50px !important;
+            }
+        }
+
+        /* Extra small screens */
+        @media screen and (max-width: 400px) {
+            .header h2 {
+                font-size: 1.6rem !important;
+            }
+
+            .clock-container {
+                width: 80vw !important;
+                max-width: 250px !important;
+                height: 80vw !important;
+                max-height: 250px !important;
+            }
+
+            #digitalTimer {
+                font-size: clamp(1.5rem, 7vw, 2rem) !important;
+            }
+
+            #activityLabel {
+                font-size: 0.95rem !important;
+                padding: 10px !important;
+            }
+
+            .stat-value {
+                font-size: 1.3rem !important;
+            }
+
+            .activity-key th,
+            .activity-key td {
+                font-size: 0.7rem !important;
+                padding: 6px 4px !important;
+            }
+
+            #insights-list > div {
+                font-size: 0.75rem !important;
+                padding: 8px !important;
             }
         }
 
@@ -1010,7 +1188,7 @@
             display: none;
         }
 
-        /* Sound and color palette styles remain the same but with enhanced gradients */
+        /* Sound and color palette styles */
         .color-palette {
             display: flex;
             flex-wrap: wrap;
@@ -1069,7 +1247,7 @@
     <div class="main-container">
         <div class="header">
             <h2>🎯 MyTimer.io</h2>
-            <p class="header-subtitle">Multi-Activity Timer | Increased Awareness | Productivity</p>
+            <p class="header-subtitle">Multi-Activity Timer | Real Time Sync | Increased Awareness</p>
         </div>
 
         <div class="main-content">
@@ -1278,6 +1456,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
+        // [The complete JavaScript from your original file goes here - I'll include the essential parts]
         // Constants
         const DEFAULT_COLORS = ["#3366ff", "#33cc33", "#ff6600", "#9933cc", "#cc3366", "#33cccc"];
         
