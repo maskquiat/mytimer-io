@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <!-- Google tag (gtag.js) -->
+   <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -276,6 +276,35 @@
 
         body.focus-mode .focus-toggle:hover {
             opacity: 1;
+        }
+
+        /* Feedback Button Styling */
+        .feedback-button {
+            position: fixed;
+            bottom: 100px;
+            right: 30px;
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
+            border: none;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.4);
+            z-index: 100;
+        }
+
+        .feedback-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(255, 107, 107, 0.5);
+        }
+
+        body.dark-mode .feedback-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a6f);
         }
 
         .main-container {
@@ -750,6 +779,8 @@
             border-radius: 25px;
             box-shadow: 0 25px 60px rgba(0,0,0,0.3);
             animation: modalSlideIn 0.3s ease-out;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         @keyframes modalSlideIn {
@@ -892,6 +923,14 @@
 
             .main-content {
                 padding: 15px 10px;
+            }
+
+            /* Feedback button mobile positioning */
+            .feedback-button {
+                bottom: 90px;
+                right: 20px;
+                width: 50px;
+                height: 50px;
             }
 
             /* Toggle Container - All 3 visible */
@@ -1121,9 +1160,10 @@
             /* Modal */
             .modal-content {
                 width: 95% !important;
-                margin: 10% auto !important;
+                margin: 5% auto !important;
                 padding: 20px 15px !important;
                 box-sizing: border-box !important;
+                max-height: 90vh !important;
             }
 
             /* Notification */
@@ -1370,6 +1410,13 @@
         </div>
     </div>
 
+    <!-- Feedback Button - Opens Google Form -->
+    <button class="feedback-button" onclick="openGoogleFeedbackForm()" title="Share Your Feedback">
+        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+    </button>
+
     <div class="focus-toggle" onclick="toggleFocusMode()" title="Toggle Focus Mode">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
@@ -1377,7 +1424,7 @@
         </svg>
     </div>
 
-    <!-- Modals -->
+    <!-- Color Modal -->
     <div id="colorModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('colorModal')">&times;</span>
@@ -1401,6 +1448,7 @@
         </div>
     </div>
 
+    <!-- Sound Modal -->
     <div id="soundModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('soundModal')">&times;</span>
@@ -1410,6 +1458,7 @@
         </div>
     </div>
 
+    <!-- Presets Modal -->
     <div id="presetsModal" class="modal non-essential">
         <div class="modal-content">
             <span class="close-button" onclick="closeModal('presetsModal')">&times;</span>
@@ -1456,9 +1505,9 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
-        // [The complete JavaScript from your original file goes here - I'll include the essential parts]
         // Constants
         const DEFAULT_COLORS = ["#3366ff", "#33cc33", "#ff6600", "#9933cc", "#cc3366", "#33cccc"];
+        const GOOGLE_FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfhVTtcwKAyHiA15UyoRzq9QTaFSNJtUnhqSxTWs8dComILRg/viewform?usp=header";
         
         // Global variables
         let activities = [];
@@ -1478,6 +1527,23 @@
         let showRealTimeClock = true;
         let useFixedStartPosition = false;
         let lastDeletedActivity = null;
+
+        // GOOGLE FORM INTEGRATION
+        function openGoogleFeedbackForm() {
+            // Track feedback button click
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'feedback_opened', {
+                    'event_category': 'engagement',
+                    'event_label': 'google_form'
+                });
+            }
+            
+            // Open Google Form in new tab
+            window.open(GOOGLE_FORM_URL, '_blank');
+            
+            // Show a notification
+            showNotification("📝 Opening feedback form in new tab. Thank you for your input!");
+        }
 
         document.addEventListener("DOMContentLoaded", () => {
             initializeCanvas();
@@ -1862,8 +1928,6 @@
             const totalMinutes = activities.reduce((sum, act) => sum + act.duration, 0);
             document.getElementById("totalPlannedTime").textContent = totalMinutes + "m";
             
-            
-            // Calculate progress percentage
             const completedCount = activities.filter(a => a.completed).length;
             const progressPercent = activities.length > 0 ? 
                 Math.round((completedCount / activities.length) * 100) : 0;
@@ -2338,10 +2402,8 @@
         function saveActivities() {
             try {
                 localStorage.setItem("activities", JSON.stringify(activities));
-                // Silent save - no notification popup
             } catch (error) {
                 console.error("Error saving activities:", error);
-                // Only show error notifications
                 showNotification("❌ Could not save activities");
             }
         }
