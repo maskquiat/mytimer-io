@@ -2442,22 +2442,13 @@
                 const minutes = Math.floor(remainingSeconds / 60);
                 const seconds = remainingSeconds % 60;
                 const timeDisplay = `${minutes}:${seconds.toString().padStart(2, '0')}`;
-                
-                // Calculate elapsed for progress calculation
-                const elapsedSeconds = totalSeconds - remainingSeconds;
-                const elapsedMinutes = Math.floor(elapsedSeconds / 60);
-                const elapsedSecs = elapsedSeconds % 60;
-                const elapsedDisplay = `${elapsedMinutes}:${elapsedSecs.toString().padStart(2, '0')}`;
-                
-                // Calculate percentage for display
-                const percentComplete = Math.round((elapsedSeconds / totalSeconds) * 100);
 
                 // Set metadata that appears on lock screen
-                // CRITICAL: Put countdown in TITLE to avoid iOS recalculation flicker
+                // Title shows activity name, artist shows countdown
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: `${activityName} - ${timeDisplay} left`,
-                    artist: `${percentComplete}% complete`,
-                    album: `Activity ${currentIndex + 1}/${totalActivities} • MyTimer.io`,
+                    title: activityName,
+                    artist: `${timeDisplay} remaining`,
+                    album: `Activity ${currentIndex + 1} of ${totalActivities} • MyTimer.io`,
                     artwork: [
                         {
                             src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
@@ -2499,9 +2490,25 @@
                 // Set playback state
                 navigator.mediaSession.playbackState = 'playing';
 
-                // DO NOT use setPositionState on iOS - it causes flickering
-                // iOS recalculates display from position/duration which creates the flicker
-                // Instead, we put all time info directly in the metadata above
+                // Set position state for elapsed/remaining time display like Spotify
+                // This shows: elapsed time (left) | progress bar | remaining time (right)
+                if ('setPositionState' in navigator.mediaSession) {
+                    try {
+                        const elapsedSeconds = totalSeconds - remainingSeconds;
+                        
+                        // CRITICAL: Ensure values are valid to prevent flicker
+                        const duration = Math.max(1, totalSeconds); // Never 0
+                        const position = Math.max(0, Math.min(elapsedSeconds, duration)); // Clamped
+                        
+                        navigator.mediaSession.setPositionState({
+                            duration: duration,
+                            playbackRate: 1.0,
+                            position: position
+                        });
+                    } catch (e) {
+                        // Silently handle browsers that don't support this
+                    }
+                }
 
                 // Handle lock screen controls
                 navigator.mediaSession.setActionHandler('play', () => {
