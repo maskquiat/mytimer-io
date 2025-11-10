@@ -1638,6 +1638,7 @@
         // Timestamp-based timer tracking (critical for background operation)
         let activityStartTimestamp = null;
         let activityExpectedEndTimestamp = null;
+        let lastMediaSessionUpdate = 0; // Track last media session update time
 
         // GOOGLE FORM INTEGRATION
         function openGoogleFeedbackForm() {
@@ -2492,14 +2493,16 @@
                 if ('setPositionState' in navigator.mediaSession) {
                     try {
                         const elapsed = totalSeconds - remainingSeconds;
+                        // Ensure position never exceeds duration and is always positive
+                        const position = Math.max(0, Math.min(elapsed, totalSeconds));
+                        
                         navigator.mediaSession.setPositionState({
                             duration: totalSeconds,
                             playbackRate: 1.0,
-                            position: Math.max(0, elapsed)
+                            position: position
                         });
                     } catch (e) {
-                        // Some browsers don't support this fully
-                        console.log('Position state not fully supported');
+                        // Some browsers don't support this fully - silently ignore
                     }
                 }
 
@@ -2569,6 +2572,16 @@
             
             clearInterval(timerInterval);
             
+            // Initial media session update
+            updateMediaSession(
+                activity.name,
+                activity.remainingTime,
+                activity.duration * 60,
+                currentActivityIndex,
+                activities.length
+            );
+            lastMediaSessionUpdate = Date.now();
+            
             // Main timer loop - now calculates remaining time from timestamps
             timerInterval = setInterval(() => {
                 const now = Date.now();
@@ -2579,14 +2592,17 @@
                 activity.elapsedTime = elapsed;
                 activity.remainingTime = remaining;
                 
-                // Update lock screen display (every second)
-                updateMediaSession(
-                    activity.name,
-                    remaining,
-                    activity.duration * 60,
-                    currentActivityIndex,
-                    activities.length
-                );
+                // Update lock screen display ONLY once per second (throttled)
+                if (now - lastMediaSessionUpdate >= 1000) {
+                    updateMediaSession(
+                        activity.name,
+                        remaining,
+                        activity.duration * 60,
+                        currentActivityIndex,
+                        activities.length
+                    );
+                    lastMediaSessionUpdate = now;
+                }
                 
                 if (remaining <= 0) {
                     clearInterval(timerInterval);
