@@ -2442,12 +2442,22 @@
                 const minutes = Math.floor(remainingSeconds / 60);
                 const seconds = remainingSeconds % 60;
                 const timeDisplay = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+                
+                // Calculate elapsed for progress calculation
+                const elapsedSeconds = totalSeconds - remainingSeconds;
+                const elapsedMinutes = Math.floor(elapsedSeconds / 60);
+                const elapsedSecs = elapsedSeconds % 60;
+                const elapsedDisplay = `${elapsedMinutes}:${elapsedSecs.toString().padStart(2, '0')}`;
+                
+                // Calculate percentage for display
+                const percentComplete = Math.round((elapsedSeconds / totalSeconds) * 100);
 
                 // Set metadata that appears on lock screen
+                // CRITICAL: Put countdown in TITLE to avoid iOS recalculation flicker
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: `⏰ ${activityName}`,
-                    artist: `${timeDisplay} remaining`,
-                    album: `Activity ${currentIndex + 1} of ${totalActivities} - MyTimer.io`,
+                    title: `${activityName} - ${timeDisplay} left`,
+                    artist: `${percentComplete}% complete`,
+                    album: `Activity ${currentIndex + 1}/${totalActivities} • MyTimer.io`,
                     artwork: [
                         {
                             src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
@@ -2489,22 +2499,9 @@
                 // Set playback state
                 navigator.mediaSession.playbackState = 'playing';
 
-                // Set position state (shows progress bar on lock screen)
-                if ('setPositionState' in navigator.mediaSession) {
-                    try {
-                        const elapsed = totalSeconds - remainingSeconds;
-                        // Ensure position never exceeds duration and is always positive
-                        const position = Math.max(0, Math.min(elapsed, totalSeconds));
-                        
-                        navigator.mediaSession.setPositionState({
-                            duration: totalSeconds,
-                            playbackRate: 1.0,
-                            position: position
-                        });
-                    } catch (e) {
-                        // Some browsers don't support this fully - silently ignore
-                    }
-                }
+                // DO NOT use setPositionState on iOS - it causes flickering
+                // iOS recalculates display from position/duration which creates the flicker
+                // Instead, we put all time info directly in the metadata above
 
                 // Handle lock screen controls
                 navigator.mediaSession.setActionHandler('play', () => {
