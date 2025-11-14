@@ -1638,7 +1638,6 @@
         // Timestamp-based timer tracking (critical for background operation)
         let activityStartTimestamp = null;
         let activityExpectedEndTimestamp = null;
-        let lastMediaSessionUpdate = 0; // Track last media session update time
 
         // GOOGLE FORM INTEGRATION
         function openGoogleFeedbackForm() {
@@ -2290,9 +2289,6 @@
             updateActivityKey();
             updateTotalTimeIndicator();
             
-            // Initialize and start lock screen audio (requires user interaction)
-            startLockScreenAudio();
-            
             if (!inFocusMode) {
                 toggleFocusMode();
             }
@@ -2374,53 +2370,16 @@
         // Lock Screen Integration Variables
         let silentAudio = null;
         let mediaSessionActive = false;
-        let lockScreenEnabled = false;
 
         // Initialize silent audio for lock screen (required for Media Session API)
         function initializeLockScreenAudio() {
             if (!silentAudio) {
                 silentAudio = new Audio();
-                // Create a longer silent audio data URL (more reliable)
-                const silentData = 'data:audio/mp3;base64,SUQzBAAAAAAAI1RTU0UAAAAPAAADTGF2ZjU4Ljc2LjEwMAAAAAAAAAAAAAAA//tQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAWGluZwAAAA8AAAACAAADhAC7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7u7////////////////////////////////////////////////////////////////////AAAAAExhdmM1OC4xMwAAAAAAAAAAAAAAACQCgAAAAAAAAAOE1Z+SzwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA//sQZAAP8AAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAETEFNRTMuMTAwVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVf/7UGQAD/AAAAaQAAAAgAAA0gAAABAAABpAAAACAAADSAAAAEVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVX/+xBkAA/wAABpAAAACAAADSAAAAEAAAGkAAAAIAAA0gAAABFVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV';
+                // Create a silent audio data URL (1 second of silence)
+                const silentData = 'data:audio/wav;base64,UklGRiQAAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YQAAAAA=';
                 silentAudio.src = silentData;
                 silentAudio.loop = true;
-                silentAudio.volume = 0.01; // Nearly silent but not 0
-                
-                // Add event listeners
-                silentAudio.addEventListener('playing', () => {
-                    console.log('✅ Silent audio playing - lock screen should work');
-                    lockScreenEnabled = true;
-                });
-                
-                silentAudio.addEventListener('error', (e) => {
-                    console.error('❌ Silent audio error:', e);
-                    lockScreenEnabled = false;
-                });
-            }
-        }
-        
-        // Start lock screen audio with user interaction
-        function startLockScreenAudio() {
-            if (!silentAudio) {
-                initializeLockScreenAudio();
-            }
-            
-            if (silentAudio && silentAudio.paused) {
-                // User interaction required - play the audio
-                const playPromise = silentAudio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            console.log('🔊 Lock screen audio started successfully');
-                            lockScreenEnabled = true;
-                        })
-                        .catch(error => {
-                            console.warn('⚠️ Could not start lock screen audio:', error);
-                            console.log('💡 Lock screen may not work on this device');
-                            lockScreenEnabled = false;
-                        });
-                }
+                silentAudio.volume = 0.01; // Nearly silent
             }
         }
 
@@ -2432,11 +2391,9 @@
             }
 
             try {
-                // Ensure audio is playing
+                // Start silent audio if not playing (required for lock screen on iOS)
                 if (silentAudio && silentAudio.paused) {
-                    silentAudio.play().catch(err => {
-                        console.log('⚠️ Silent audio play failed (expected on some devices)');
-                    });
+                    silentAudio.play().catch(err => console.log('Silent audio play failed:', err));
                 }
 
                 const minutes = Math.floor(remainingSeconds / 60);
@@ -2444,44 +2401,14 @@
                 const timeDisplay = `${minutes}:${seconds.toString().padStart(2, '0')}`;
 
                 // Set metadata that appears on lock screen
-                // Title shows activity name, artist shows countdown
                 navigator.mediaSession.metadata = new MediaMetadata({
-                    title: activityName,
-                    artist: `${timeDisplay} remaining`,
-                    album: `Activity ${currentIndex + 1} of ${totalActivities} • MyTimer.io`,
+                    title: `⏰ ${activityName}`,
+                    artist: `Time Remaining: ${timeDisplay}`,
+                    album: `Activity ${currentIndex + 1} of ${totalActivities}`,
                     artwork: [
                         {
-                            src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200">
-                                    <defs>
-                                        <linearGradient id="grad" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" style="stop-color:rgb(79,172,254);stop-opacity:1" />
-                                            <stop offset="100%" style="stop-color:rgb(0,242,254);stop-opacity:1" />
-                                        </linearGradient>
-                                    </defs>
-                                    <circle cx="100" cy="100" r="90" fill="url(#grad)"/>
-                                    <circle cx="100" cy="100" r="75" fill="white"/>
-                                    <text x="100" y="130" font-size="70" font-weight="bold" text-anchor="middle" fill="rgb(79,172,254)">${minutes}</text>
-                                </svg>
-                            `),
+                            src: 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200"><circle cx="100" cy="100" r="80" fill="%234facfe"/><text x="100" y="120" font-size="60" text-anchor="middle" fill="white">' + minutes + '</text></svg>',
                             sizes: '200x200',
-                            type: 'image/svg+xml'
-                        },
-                        {
-                            src: 'data:image/svg+xml;charset=utf-8,' + encodeURIComponent(`
-                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-                                    <defs>
-                                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                                            <stop offset="0%" style="stop-color:rgb(79,172,254);stop-opacity:1" />
-                                            <stop offset="100%" style="stop-color:rgb(0,242,254);stop-opacity:1" />
-                                        </linearGradient>
-                                    </defs>
-                                    <circle cx="256" cy="256" r="240" fill="url(#grad2)"/>
-                                    <circle cx="256" cy="256" r="200" fill="white"/>
-                                    <text x="256" y="330" font-size="180" font-weight="bold" text-anchor="middle" fill="rgb(79,172,254)">${minutes}</text>
-                                </svg>
-                            `),
-                            sizes: '512x512',
                             type: 'image/svg+xml'
                         }
                     ]
@@ -2490,48 +2417,37 @@
                 // Set playback state
                 navigator.mediaSession.playbackState = 'playing';
 
-                // Set position state for elapsed/remaining time display like Spotify
-                // This shows: elapsed time (left) | progress bar | remaining time (right)
+                // Set position state (shows progress bar on lock screen)
                 if ('setPositionState' in navigator.mediaSession) {
-                    try {
-                        const elapsedSeconds = totalSeconds - remainingSeconds;
-                        
-                        // CRITICAL: Ensure values are valid to prevent flicker
-                        const duration = Math.max(1, totalSeconds); // Never 0
-                        const position = Math.max(0, Math.min(elapsedSeconds, duration)); // Clamped
-                        
-                        navigator.mediaSession.setPositionState({
-                            duration: duration,
-                            playbackRate: 1.0,
-                            position: position
-                        });
-                    } catch (e) {
-                        // Silently handle browsers that don't support this
-                    }
+                    const elapsed = totalSeconds - remainingSeconds;
+                    navigator.mediaSession.setPositionState({
+                        duration: totalSeconds,
+                        playbackRate: 1.0,
+                        position: elapsed
+                    });
                 }
 
                 // Handle lock screen controls
                 navigator.mediaSession.setActionHandler('play', () => {
-                    console.log('▶️ Play pressed on lock screen');
                     if (paused) resumeTimer();
                 });
 
                 navigator.mediaSession.setActionHandler('pause', () => {
-                    console.log('⏸️ Pause pressed on lock screen');
                     if (isRunning) pauseTimer();
                 });
 
                 navigator.mediaSession.setActionHandler('nexttrack', () => {
-                    console.log('⏭️ Next pressed on lock screen');
                     if (isRunning) skipToNext();
                 });
 
-                navigator.mediaSession.setActionHandler('previoustrack', null);
+                navigator.mediaSession.setActionHandler('previoustrack', () => {
+                    // Could add "restart current activity" functionality
+                });
 
                 mediaSessionActive = true;
 
             } catch (error) {
-                console.error('❌ Media Session error:', error);
+                console.error('Media Session error:', error);
             }
         }
 
@@ -2574,17 +2490,10 @@
 
             updateNextActivityIndicator();
             
-            clearInterval(timerInterval);
+            // Initialize lock screen integration
+            initializeLockScreenAudio();
             
-            // Initial media session update
-            updateMediaSession(
-                activity.name,
-                activity.remainingTime,
-                activity.duration * 60,
-                currentActivityIndex,
-                activities.length
-            );
-            lastMediaSessionUpdate = Date.now();
+            clearInterval(timerInterval);
             
             // Main timer loop - now calculates remaining time from timestamps
             timerInterval = setInterval(() => {
@@ -2596,17 +2505,14 @@
                 activity.elapsedTime = elapsed;
                 activity.remainingTime = remaining;
                 
-                // Update lock screen display ONLY once per second (throttled)
-                if (now - lastMediaSessionUpdate >= 1000) {
-                    updateMediaSession(
-                        activity.name,
-                        remaining,
-                        activity.duration * 60,
-                        currentActivityIndex,
-                        activities.length
-                    );
-                    lastMediaSessionUpdate = now;
-                }
+                // Update lock screen display (every second)
+                updateMediaSession(
+                    activity.name,
+                    remaining,
+                    activity.duration * 60,
+                    currentActivityIndex,
+                    activities.length
+                );
                 
                 if (remaining <= 0) {
                     clearInterval(timerInterval);
