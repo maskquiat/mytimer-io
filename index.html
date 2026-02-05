@@ -961,17 +961,35 @@
                                                     </div>
                                                 </div>
                                                 
-                                                <div class="flex items-center gap-4">
-                                                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-700 px-2 py-0.5 rounded-lg text-[10px] font-bold text-slate-600 dark:text-slate-400">
-                                                        ${icons.Clock}
+                                                <div class="flex items-center gap-2">
+                                                    <button 
+                                                        onclick="updateActivity('${activity.id}', { duration: Math.max(1, ${activity.duration} - 5) })"
+                                                        class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-all active:scale-95 text-slate-600 dark:text-slate-300 font-bold"
+                                                        title="Decrease by 5 minutes"
+                                                    >
+                                                        −
+                                                    </button>
+                                                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-700 px-3 py-2 rounded-lg">
+                                                        <span class="w-4 h-4 text-slate-500 dark:text-slate-400">${icons.Clock}</span>
                                                         <input 
                                                             type="number"
-                                                            class="w-8 bg-transparent focus:outline-none text-center text-slate-600 dark:text-slate-300"
+                                                            inputmode="numeric"
+                                                            pattern="[0-9]*"
+                                                            class="w-12 bg-transparent focus:outline-none focus:ring-2 focus:ring-indigo-500 rounded text-center text-sm font-bold text-slate-900 dark:text-slate-100 px-1"
                                                             value="${activity.duration}"
                                                             onchange="updateActivity('${activity.id}', { duration: parseInt(this.value) || 0 })"
+                                                            min="1"
+                                                            max="999"
                                                         />
-                                                        min
+                                                        <span class="text-xs font-medium text-slate-500 dark:text-slate-400">min</span>
                                                     </div>
+                                                    <button 
+                                                        onclick="updateActivity('${activity.id}', { duration: ${activity.duration} + 5 })"
+                                                        class="w-8 h-8 flex items-center justify-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-lg transition-all active:scale-95 text-slate-600 dark:text-slate-300 font-bold"
+                                                        title="Increase by 5 minutes"
+                                                    >
+                                                        +
+                                                    </button>
                                                 </div>
                                             </div>
 
