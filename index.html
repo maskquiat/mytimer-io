@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-73EVJ7BZT4"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-18XR8R8MFP');
+  gtag('config', 'G-73EVJ7BZT4');
 </script>
    <title>MyTimer.io - Visual Timer for ADHD & Time Blindness | Free Multi-Activity Timer</title>
 <meta name="description" content="Free visual timer built by a special educator for ADHD, autism, and executive dysfunction. Plan entire routines with analog clock visualization. Works on all devices.">
@@ -25,9 +27,6 @@
 <meta name="twitter:title" content="MyTimer.io - Visual Timer for ADHD">
 <meta name="twitter:description" content="Free visual multi-activity timer built by a special educator">
 <meta name="twitter:image" content="https://mytimer.io/twitter-image.png">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MyTimer.io - Visual Multi-Activity Timer</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -62,9 +61,194 @@
         
         @media print {
             body { background-color: white !important; color: black !important; }
-            nav, .print-hidden { display: none !important; }
+            nav, .print-hidden, .fc { display: none !important; }
             main { display: block !important; margin: 0 !important; padding: 0 !important; }
             section { box-shadow: none !important; border: none !important; margin-bottom: 20px !important; }
+        }
+    </style>
+
+    <!-- Floating clock + clock face styles. Plain CSS (no Tailwind) so the
+         same rules can be copied into the pop-out window. -->
+    <style id="fc-css">
+        /* ---- Clock face ---- */
+        .ck-face { fill: #ffffff; stroke: #e2e8f0; }
+        .dark .ck-face { fill: #1e293b; stroke: #334155; }
+        .ck-tick { stroke: #e2e8f0; }
+        .dark .ck-tick { stroke: #475569; }
+        .ck-tick-major { stroke: #94a3b8; }
+        .ck-num { fill: #64748b; font-weight: 700; font-size: 10px; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; user-select: none; }
+        .dark .ck-num { fill: #94a3b8; }
+        .ck-wedge { opacity: .6; transition: opacity .3s; }
+        .ck-wedge:hover { opacity: .8; }
+        .ck-hour { stroke: #1e293b; }
+        .dark .ck-hour { stroke: #e2e8f0; }
+        .ck-min { stroke: #4f46e5; }
+        .dark .ck-min { stroke: #818cf8; }
+        .ck-sec { stroke: #ef4444; }
+        .ck-cap { fill: #1e293b; }
+        .dark .ck-cap { fill: #ffffff; }
+        .ck-pin { fill: #ef4444; }
+        .ck-shadow { filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15)); }
+
+        /* ---- Floating window ---- */
+        .fc {
+            position: fixed;
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, .94);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid #e2e8f0;
+            border-radius: 18px;
+            box-shadow: 0 24px 48px -16px rgb(15 23 42 / .35), 0 2px 6px rgb(15 23 42 / .08);
+            overflow: hidden;
+            color: #0f172a;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            transition: opacity .2s ease;
+            box-sizing: border-box;
+        }
+        .fc[hidden] { display: none; }
+        .dark .fc { background: rgba(15, 23, 42, .94); border-color: #334155; color: #f1f5f9; }
+        .fc.ghost { opacity: .4; }
+        .fc.ghost:hover, .fc.ghost.dragging, .fc.ghost:focus-within { opacity: 1; }
+        .fc.min { height: auto !important; }
+        .fc.min .fc-body, .fc.min .fc-resize { display: none; }
+
+        .fc-bar {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            padding: 5px 5px 5px 8px;
+            background: #C2E5D3;
+            color: #1e293b;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            flex-shrink: 0;
+        }
+        .fc.dragging .fc-bar { cursor: grabbing; }
+        .fc-grip { display: grid; place-items: center; opacity: .55; }
+        .fc-grip svg { width: 14px; height: 14px; }
+        .fc-title {
+            flex: 1;
+            min-width: 0;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-variant-numeric: tabular-nums;
+        }
+        .fc-btn {
+            width: 30px;
+            height: 30px;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 9px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            padding: 0;
+        }
+        .fc-btn:hover { background: rgba(255, 255, 255, .55); }
+        .fc-btn.on { background: rgba(255, 255, 255, .8); }
+        .fc-btn svg { width: 16px; height: 16px; }
+
+        .fc-body { flex: 1; min-height: 0; container-type: size; }
+        .fc-panel {
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 12px 14px;
+        }
+        .fc-clock { flex: 1 1 0; min-height: 0; min-width: 0; width: 100%; display: flex; justify-content: center; }
+        .fc-clock svg { width: 100%; height: 100%; display: block; }
+        .fc-side { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; max-width: 100%; }
+        .fc-info { display: flex; flex-direction: column; align-items: center; gap: 3px; max-width: 100%; }
+        .fc-name { display: flex; align-items: center; gap: 6px; max-width: 100%; font-size: 13px; font-weight: 700; }
+        .fc-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .fc-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+        .fc-count {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-weight: 800;
+            font-size: clamp(20px, 15cqmin, 72px);
+            line-height: 1;
+            color: #4f46e5;
+            font-variant-numeric: tabular-nums;
+        }
+        .dark .fc-count { color: #818cf8; }
+        .fc-count.fc-now { color: #0f172a; }
+        .dark .fc-count.fc-now { color: #f1f5f9; }
+        .fc-meta { font-size: 11px; font-weight: 600; color: #64748b; text-align: center; }
+        .dark .fc-meta { color: #94a3b8; }
+        .fc-controls { display: flex; gap: 6px; }
+        .fc-ctl {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            border: 0;
+            border-radius: 10px;
+            padding: 7px 11px;
+            font: 800 12px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+            cursor: pointer;
+        }
+        .fc-ctl:hover { background: #e2e8f0; }
+        .dark .fc-ctl { background: #1e293b; color: #e2e8f0; }
+        .dark .fc-ctl:hover { background: #334155; }
+        .fc-ctl.primary { background: #C2E5D3; color: #1e293b; }
+        .fc-ctl.primary:hover { background: #A8D5BF; }
+        .fc-ctl svg { width: 14px; height: 14px; }
+        .fc-btn:focus-visible, .fc-ctl:focus-visible { outline: 2px solid #4f46e5; outline-offset: 2px; }
+
+        .fc-resize {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 22px;
+            height: 22px;
+            cursor: nwse-resize;
+            touch-action: none;
+            background:
+                linear-gradient(135deg, transparent 55%, #94a3b8 55%, #94a3b8 62%, transparent 62%, transparent 72%, #94a3b8 72%, #94a3b8 79%, transparent 79%);
+            opacity: .7;
+        }
+
+        /* Wide window: clock on the left, text on the right */
+        @container (min-aspect-ratio: 5/4) {
+            .fc-panel { flex-direction: row; gap: 14px; padding: 10px 16px; }
+            .fc-clock { flex: 0 1 auto; height: 100%; width: auto; aspect-ratio: 1; }
+            .fc-side { align-items: flex-start; max-width: 55%; }
+            .fc-info { align-items: flex-start; }
+            .fc-meta { text-align: left; }
+        }
+        /* Small window: drop the extras, keep clock + countdown */
+        @container (max-height: 250px) and (max-aspect-ratio: 5/4) { .fc-controls { display: none; } }
+        @container (max-height: 200px) and (max-aspect-ratio: 5/4) { .fc-meta { display: none; } }
+        @container (max-height: 120px) { .fc-controls, .fc-meta, .fc-name { display: none; } }
+
+        /* ---- Pop-out (Picture-in-Picture) window ---- */
+        .pip-root, .pip-root body { margin: 0; height: 100%; background: #ffffff; }
+        .pip-root.dark, .pip-root.dark body { background: #0f172a; }
+        .fc.fc-pip {
+            position: relative;
+            z-index: auto;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
         }
     </style>
 </head>
@@ -148,7 +332,15 @@
             Sparkles: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>',
             ClipboardList: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg>',
             PlayCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>',
-            FileUp: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>'
+            FileUp: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>',
+            // Floating clock icons
+            FloatWindow: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4"></path><rect width="10" height="7" x="12" y="13" rx="2"></rect></svg>',
+            PopOut: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>',
+            Ghost: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"></path></svg>',
+            Minus: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg>',
+            Expand: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"></rect></svg>',
+            Grip: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="9" cy="5" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="9" cy="19" r="1.6"></circle><circle cx="15" cy="5" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="15" cy="19" r="1.6"></circle></svg>',
+            SkipForward: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" x2="19" y1="5" y2="19"></line></svg>'
         };
 
         // Global State
@@ -158,6 +350,7 @@
             viewMode: 'planner',
             currentIndex: 0,
             isRunning: false,
+            activityEndsAt: null, // timestamp (ms) when the current activity ends; keeps time accurate in background tabs
             insights: "",
             isDarkMode: false,
             isSettingsOpen: false,
@@ -187,6 +380,10 @@
             const mins = Math.floor(seconds / 60);
             const secs = seconds % 60;
             return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
         }
 
         function saveToLocalStorage() {
@@ -538,37 +735,67 @@
             render();
         }
 
-        function startTimer() {
-            if (state.timerInterval) clearInterval(state.timerInterval);
-            
-            state.timerInterval = setInterval(() => {
-                if (!state.isRunning || state.currentIndex >= state.activities.length) {
-                    stopTimer();
-                    return;
+        // ---- Timer engine (timestamp-anchored) ----
+        // Remaining time is calculated from a fixed end time rather than counted
+        // down tick by tick, so it stays correct even when the browser slows
+        // timers in a background tab (e.g. while PowerPoint is in front).
+        // tick() is safe to call from anywhere, as often as you like.
+        function tick() {
+            if (state.mode !== AppMode.RUNNING || !state.isRunning || !state.activityEndsAt) return false;
+            const now = Date.now();
+            let changed = false;
+
+            while (state.isRunning) {
+                const current = state.activities[state.currentIndex];
+                if (!current) {
+                    finishSession();
+                    changed = true;
+                    break;
                 }
 
-                const current = state.activities[state.currentIndex];
-                if (current.remainingSeconds > 0) {
-                    current.remainingSeconds--;
-                    render();
-                } else {
-                    playSound();
-                    current.completed = true;
-                    
-                    const nextIncomplete = state.activities.findIndex((a, i) => i > state.currentIndex && !a.completed);
-                    
-                    if (nextIncomplete !== -1) {
-                        state.currentIndex = nextIncomplete;
-                    } else {
-                        state.mode = AppMode.SUMMARY;
-                        state.isRunning = false;
-                        stopTimer();
-                    }
-                    
-                    saveToLocalStorage();
-                    render();
+                const remaining = Math.max(0, Math.ceil((state.activityEndsAt - now) / 1000));
+                if (current.remainingSeconds !== remaining) {
+                    current.remainingSeconds = remaining;
+                    changed = true;
                 }
-            }, 1000);
+                if (remaining > 0) break;
+
+                // Current activity finished
+                playSound();
+                current.completed = true;
+                changed = true;
+
+                const nextIncomplete = state.activities.findIndex((a, i) => i > state.currentIndex && !a.completed);
+                if (nextIncomplete !== -1) {
+                    state.currentIndex = nextIncomplete;
+                    // Chain from the previous end time so no time is lost if we were throttled
+                    state.activityEndsAt += state.activities[nextIncomplete].remainingSeconds * 1000;
+                } else {
+                    finishSession();
+                }
+                saveToLocalStorage();
+            }
+            return changed;
+        }
+
+        function finishSession() {
+            state.mode = AppMode.SUMMARY;
+            state.isRunning = false;
+            state.activityEndsAt = null;
+            stopTimer();
+        }
+
+        function startTimer() {
+            stopTimer();
+            const current = state.activities[state.currentIndex];
+            if (!current) return;
+            state.activityEndsAt = Date.now() + current.remainingSeconds * 1000;
+
+            state.timerInterval = setInterval(() => {
+                if (tick()) {
+                    if (isTyping) updatePanels(); else render();
+                }
+            }, 250);
         }
 
         function stopTimer() {
@@ -579,11 +806,14 @@
         }
 
         function togglePause() {
-            state.isRunning = !state.isRunning;
             if (state.isRunning) {
-                startTimer();
-            } else {
+                tick(); // lock in the exact remaining time
+                state.isRunning = false;
+                state.activityEndsAt = null;
                 stopTimer();
+            } else {
+                state.isRunning = true;
+                startTimer();
             }
             render();
         }
@@ -594,6 +824,7 @@
             state.viewMode = 'planner';
             state.currentIndex = 0;
             state.isRunning = false;
+            state.activityEndsAt = null;
             state.activities = state.activities.map(a => ({
                 ...a,
                 completed: false,
@@ -604,19 +835,24 @@
         }
 
         function skipActivity() {
+            if (state.isRunning) tick();
+            if (state.mode !== AppMode.RUNNING) {
+                render();
+                return;
+            }
+
             if (state.currentIndex >= state.activities.length - 1) {
-                state.mode = AppMode.SUMMARY;
-                state.isRunning = false;
-                stopTimer();
+                finishSession();
             } else {
                 state.activities[state.currentIndex].completed = true;
                 const nextIncomplete = state.activities.findIndex((a, i) => i > state.currentIndex && !a.completed);
                 if (nextIncomplete !== -1) {
                     state.currentIndex = nextIncomplete;
+                    if (state.isRunning) {
+                        state.activityEndsAt = Date.now() + state.activities[nextIncomplete].remainingSeconds * 1000;
+                    }
                 } else {
-                    state.mode = AppMode.SUMMARY;
-                    state.isRunning = false;
-                    stopTimer();
+                    finishSession();
                 }
             }
             saveToLocalStorage();
@@ -723,8 +959,8 @@
             render();
         }
 
-        // Visual Timer Component
-        function createVisualTimer() {
+        // Clock face SVG — shared by the main page, the floating clock and the pop-out window
+        function buildClockSvg(extraClass = '') {
             const radius = 100;
             const viewBoxSize = 240;
             const center = viewBoxSize / 2;
@@ -742,15 +978,16 @@
 
             const hourScale = 60;
             let cumulativeMinutesOffset = currentMinutes;
+            const sessionActive = state.mode === AppMode.RUNNING;
 
             let wedgesHtml = '';
             state.activities.forEach((activity, index) => {
                 let wedgeDurationMinutes = 0;
                 if (activity.completed) {
                     wedgeDurationMinutes = 0;
-                } else if (state.isRunning && index === state.currentIndex) {
+                } else if (sessionActive && index === state.currentIndex) {
                     wedgeDurationMinutes = activity.remainingSeconds / 60;
-                } else if (state.isRunning && index < state.currentIndex) {
+                } else if (sessionActive && index < state.currentIndex) {
                     wedgeDurationMinutes = 0;
                 } else {
                     wedgeDurationMinutes = activity.duration;
@@ -774,7 +1011,7 @@
 
                 cumulativeMinutesOffset += wedgeDurationMinutes;
 
-                wedgesHtml += `<path d="${pathData}" fill="${activity.color}" class="transition-all duration-300 opacity-60 hover:opacity-80" stroke="white" stroke-width="0.5" />`;
+                wedgesHtml += `<path d="${pathData}" fill="${activity.color}" class="ck-wedge" stroke="white" stroke-width="0.5" />`;
             });
 
             let minuteHashes = '';
@@ -782,7 +1019,7 @@
                 const angle = (i * 6 * Math.PI) / 180;
                 const innerR = i % 5 === 0 ? radius - 8 : radius - 4;
                 const outerR = radius;
-                const strokeClass = i % 5 === 0 ? "stroke-slate-400" : "stroke-slate-200";
+                const strokeClass = i % 5 === 0 ? "ck-tick-major" : "ck-tick";
                 const strokeWidth = i % 5 === 0 ? 2 : 1;
                 
                 minuteHashes += `<line x1="${Math.cos(angle - Math.PI / 2) * innerR + center}" y1="${Math.sin(angle - Math.PI / 2) * innerR + center}" x2="${Math.cos(angle - Math.PI / 2) * outerR + center}" y2="${Math.sin(angle - Math.PI / 2) * outerR + center}" class="${strokeClass}" stroke-width="${strokeWidth}" />`;
@@ -796,22 +1033,29 @@
                 const x = Math.cos(angle - Math.PI / 2) * textR + center;
                 const y = Math.sin(angle - Math.PI / 2) * textR + center;
                 
-                clockNumbers += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" class="fill-slate-500 dark:fill-slate-400 font-bold text-[10px] select-none">${num}</text>`;
+                clockNumbers += `<text x="${x}" y="${y}" text-anchor="middle" dominant-baseline="middle" class="ck-num">${num}</text>`;
             }
 
             return `
+                <svg viewBox="0 0 ${viewBoxSize} ${viewBoxSize}" class="${extraClass}" role="img" aria-label="Visual clock">
+                    <circle cx="${center}" cy="${center}" r="${radius + 8}" class="ck-face" stroke-width="2" />
+                    ${minuteHashes}
+                    ${clockNumbers}
+                    ${wedgesHtml}
+                    <line x1="${center}" y1="${center}" x2="${center + Math.cos((currentHours * 30 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.5)}" y2="${center + Math.sin((currentHours * 30 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.5)}" class="ck-hour" stroke-width="4" stroke-linecap="round" />
+                    <line x1="${center}" y1="${center}" x2="${center + Math.cos((currentMinutes * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.8)}" y2="${center + Math.sin((currentMinutes * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.8)}" class="ck-min" stroke-width="3" stroke-linecap="round" />
+                    <line x1="${center}" y1="${center}" x2="${center + Math.cos((seconds * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.9)}" y2="${center + Math.sin((seconds * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.9)}" class="ck-sec" stroke-width="1.5" stroke-linecap="round" />
+                    <circle cx="${center}" cy="${center}" r="4" class="ck-cap" />
+                    <circle cx="${center}" cy="${center}" r="1.5" class="ck-pin" />
+                </svg>
+            `;
+        }
+
+        // Visual Timer Component (main page)
+        function createVisualTimer() {
+            return `
                 <div class="relative w-full max-w-md mx-auto aspect-square">
-                    <svg viewBox="0 0 ${viewBoxSize} ${viewBoxSize}" class="w-full h-full drop-shadow-2xl">
-                        <circle cx="${center}" cy="${center}" r="${radius + 8}" class="fill-white dark:fill-slate-800 stroke-slate-200 dark:stroke-slate-700" stroke-width="2" />
-                        ${minuteHashes}
-                        ${clockNumbers}
-                        ${wedgesHtml}
-                        <line x1="${center}" y1="${center}" x2="${center + Math.cos((currentHours * 30 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.5)}" y2="${center + Math.sin((currentHours * 30 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.5)}" class="stroke-slate-800 dark:stroke-slate-200" stroke-width="4" stroke-linecap="round" />
-                        <line x1="${center}" y1="${center}" x2="${center + Math.cos((currentMinutes * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.8)}" y2="${center + Math.sin((currentMinutes * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.8)}" class="stroke-indigo-600 dark:stroke-indigo-400" stroke-width="3" stroke-linecap="round" />
-                        <line x1="${center}" y1="${center}" x2="${center + Math.cos((seconds * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.9)}" y2="${center + Math.sin((seconds * 6 * Math.PI) / 180 - Math.PI / 2) * (radius * 0.9)}" class="stroke-red-500" stroke-width="1.5" stroke-linecap="round" />
-                        <circle cx="${center}" cy="${center}" r="4" class="fill-slate-800 dark:fill-white" />
-                        <circle cx="${center}" cy="${center}" r="1.5" class="fill-red-500" />
-                    </svg>
+                    ${buildClockSvg('w-full h-full ck-shadow')}
                 </div>
             `;
         }
@@ -1131,6 +1375,9 @@
                                 <button onclick="navigateToPlanner()" class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors ${state.viewMode === 'planner' ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : ''}" title="Go to Planner">
                                     ${icons.ClipboardList}
                                 </button>
+                                <button onclick="toggleFloatClock()" class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors ${isFloatActive() ? 'bg-indigo-100 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400' : ''}" title="Floating clock" aria-label="Floating clock" aria-pressed="${isFloatActive()}">
+                                    ${icons.FloatWindow}
+                                </button>
                                 <button onclick="toggleDarkMode()" class="p-2 text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors">
                                     ${state.isDarkMode ? icons.Sun : icons.Moon}
                                 </button>
@@ -1266,21 +1513,359 @@
                     }
                 }
             });
+
+            updatePanels();
+        }
+
+        // =====================================================================
+        // FLOATING CLOCK
+        // Two ways to float:
+        //   1. In-page: a draggable, resizable window that sits over the page.
+        //      Lives outside #app so the once-a-second re-render never resets it.
+        //   2. Pop-out: a real always-on-top window (Document Picture-in-Picture)
+        //      that floats over PowerPoint, Slides, other tabs, etc.
+        //      Chrome and Edge on desktop only; the button hides elsewhere.
+        // =====================================================================
+        const FLOAT_KEY = 'mytimer_float_clock';
+        const PIP_SUPPORTED = 'documentPictureInPicture' in window;
+        const floatState = { open: false, minimized: false, ghost: false, x: null, y: null, w: 280, h: 360 };
+        let floatEl = null;
+        let pipWindow = null;
+
+        const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
+
+        function loadFloatState() {
+            try { Object.assign(floatState, JSON.parse(localStorage.getItem(FLOAT_KEY) || '{}')); } catch (e) { }
+        }
+
+        function saveFloatState() {
+            try { localStorage.setItem(FLOAT_KEY, JSON.stringify(floatState)); } catch (e) { }
+        }
+
+        function isFloatActive() {
+            return floatState.open || !!pipWindow;
+        }
+
+        function panelSkeleton() {
+            return `<div class="fc-panel"><div class="fc-clock"></div><div class="fc-side"><div class="fc-info"></div><div class="fc-controls"></div></div></div>`;
+        }
+
+        function setHTML(el, html) {
+            if (el && el._html !== html) {
+                el.innerHTML = html;
+                el._html = html;
+            }
+        }
+
+        function nowString() {
+            return new Date().toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        }
+
+        function panelInfoHTML() {
+            if (state.mode === AppMode.RUNNING) {
+                const a = state.activities[state.currentIndex];
+                if (a) {
+                    return `
+                        <div class="fc-name"><span class="fc-dot" style="background:${a.color}"></span><span class="fc-name-text">${escapeHTML(a.name || 'Untitled Activity')}</span></div>
+                        <div class="fc-count">${formatTime(a.remainingSeconds)}</div>
+                        <div class="fc-meta">${state.isRunning ? '' : 'Paused • '}Activity ${state.currentIndex + 1} of ${state.activities.length}</div>`;
+                }
+            }
+            if (state.mode === AppMode.SUMMARY) {
+                return `<div class="fc-count fc-now">Done!</div><div class="fc-meta">Session complete</div>`;
+            }
+            const total = state.activities.reduce((s, a) => s + a.duration, 0);
+            return `
+                <div class="fc-count fc-now">${nowString()}</div>
+                <div class="fc-meta">${state.activities.length ? `${state.activities.length} activities • ${total} min planned` : 'No activities planned yet'}</div>`;
+        }
+
+        function panelControlsHTML() {
+            if (state.mode === AppMode.RUNNING) {
+                return `
+                    <button class="fc-ctl primary" data-act="pause">${state.isRunning ? icons.Pause + 'Pause' : icons.Play + 'Resume'}</button>
+                    <button class="fc-ctl" data-act="skip" title="Skip to next activity" aria-label="Skip to next activity">${icons.SkipForward}</button>
+                    <button class="fc-ctl" data-act="reset" title="End session" aria-label="End session">${icons.RotateCcw}</button>`;
+            }
+            if (state.mode === AppMode.SUMMARY) {
+                return `<button class="fc-ctl primary" data-act="reset">${icons.RotateCcw}Plan new session</button>`;
+            }
+            return state.activities.length ? `<button class="fc-ctl primary" data-act="start">${icons.Play}Start</button>` : '';
+        }
+
+        function floatTitle() {
+            if (state.mode === AppMode.RUNNING) {
+                const a = state.activities[state.currentIndex];
+                if (a) return `${formatTime(a.remainingSeconds)}${state.isRunning ? '' : ' (paused)'} • ${a.name || 'Untitled Activity'}`;
+            }
+            if (state.mode === AppMode.SUMMARY) return 'Session complete';
+            return `Clock • ${nowString()}`;
+        }
+
+        // Refresh the floating clock and the pop-out window
+        function updatePanels() {
+            const floatVisible = floatEl && floatState.open && !pipWindow;
+            const pipOpen = pipWindow && !pipWindow.closed;
+            if (!floatVisible && !pipOpen) return;
+
+            state.now = new Date();
+            const svg = buildClockSvg();
+            const info = panelInfoHTML();
+            const controls = panelControlsHTML();
+            const title = floatTitle();
+
+            const roots = [];
+            if (floatVisible) roots.push(floatEl);
+            if (pipOpen) roots.push(pipWindow.document);
+
+            roots.forEach(root => {
+                setHTML(root.querySelector('.fc-clock'), svg);
+                setHTML(root.querySelector('.fc-info'), info);
+                setHTML(root.querySelector('.fc-controls'), controls);
+            });
+
+            if (floatVisible) setHTML(floatEl.querySelector('.fc-title'), escapeHTML(title));
+            if (pipOpen) {
+                pipWindow.document.documentElement.classList.toggle('dark', state.isDarkMode);
+                if (pipWindow.document.title !== title) pipWindow.document.title = title;
+            }
+        }
+
+        function handlePanelClick(e) {
+            const btn = e.target.closest('[data-act]');
+            if (!btn) return;
+            switch (btn.dataset.act) {
+                case 'pip': openPip(); break;
+                case 'ghost':
+                    floatState.ghost = !floatState.ghost;
+                    saveFloatState();
+                    applyFloatLayout();
+                    break;
+                case 'min':
+                    floatState.minimized = !floatState.minimized;
+                    saveFloatState();
+                    applyFloatLayout();
+                    break;
+                case 'close':
+                    floatState.open = false;
+                    saveFloatState();
+                    applyFloatLayout();
+                    render();
+                    break;
+                case 'pause': togglePause(); break;
+                case 'skip': skipActivity(); break;
+                case 'reset': resetSession(); break;
+                case 'start': startSession(); break;
+            }
+        }
+
+        function positionFloat() {
+            const vw = document.documentElement.clientWidth;
+            const vh = window.innerHeight;
+            const w = clamp(floatState.w, 180, vw - 16);
+            const h = clamp(floatState.h, 170, vh - 16);
+
+            floatEl.style.width = w + 'px';
+            floatEl.style.height = floatState.minimized ? 'auto' : h + 'px';
+
+            if (floatState.x === null || floatState.y === null) {
+                // First time: tuck into the bottom-right corner
+                floatState.x = vw - w - 24;
+                floatState.y = vh - h - 24;
+            }
+            const elH = floatState.minimized ? floatEl.offsetHeight : h;
+            const x = clamp(floatState.x, 8, vw - w - 8);
+            const y = clamp(floatState.y, 8, vh - elH - 8);
+            floatEl.style.left = x + 'px';
+            floatEl.style.top = y + 'px';
+            return { x, y, w, h };
+        }
+
+        function applyFloatLayout() {
+            if (!floatEl) return;
+            floatEl.hidden = !floatState.open || !!pipWindow;
+            floatEl.classList.toggle('min', floatState.minimized);
+            floatEl.classList.toggle('ghost', floatState.ghost);
+
+            const ghostBtn = floatEl.querySelector('[data-act="ghost"]');
+            ghostBtn.classList.toggle('on', floatState.ghost);
+            ghostBtn.setAttribute('aria-pressed', String(floatState.ghost));
+
+            const minBtn = floatEl.querySelector('[data-act="min"]');
+            minBtn.innerHTML = floatState.minimized ? icons.Expand : icons.Minus;
+            minBtn.title = floatState.minimized ? 'Expand' : 'Minimize';
+            minBtn.setAttribute('aria-label', minBtn.title);
+
+            if (!floatEl.hidden) {
+                updatePanels();
+                positionFloat();
+            }
+        }
+
+        function createFloatClock() {
+            floatEl = document.createElement('div');
+            floatEl.className = 'fc';
+            floatEl.id = 'float-clock';
+            floatEl.hidden = true;
+            floatEl.setAttribute('role', 'region');
+            floatEl.setAttribute('aria-label', 'Floating clock');
+            floatEl.innerHTML = `
+                <div class="fc-bar" title="Drag to move">
+                    <span class="fc-grip" aria-hidden="true">${icons.Grip}</span>
+                    <span class="fc-title">Clock</span>
+                    ${PIP_SUPPORTED ? `<button class="fc-btn" data-act="pip" title="Pop out: float over other apps" aria-label="Pop out: float over other apps">${icons.PopOut}</button>` : ''}
+                    <button class="fc-btn" data-act="ghost" title="See-through" aria-label="See-through">${icons.Ghost}</button>
+                    <button class="fc-btn" data-act="min" title="Minimize" aria-label="Minimize">${icons.Minus}</button>
+                    <button class="fc-btn" data-act="close" title="Close" aria-label="Close">${icons.X}</button>
+                </div>
+                <div class="fc-body">${panelSkeleton()}</div>
+                <div class="fc-resize" title="Drag to resize" aria-hidden="true"></div>
+            `;
+            document.body.appendChild(floatEl);
+            floatEl.addEventListener('click', handlePanelClick);
+
+            // Drag to move (mouse, pen and touch)
+            const bar = floatEl.querySelector('.fc-bar');
+            bar.addEventListener('pointerdown', e => {
+                if (e.target.closest('button') || e.button > 0) return;
+                e.preventDefault();
+                const rect = floatEl.getBoundingClientRect();
+                const offX = e.clientX - rect.left;
+                const offY = e.clientY - rect.top;
+                bar.setPointerCapture(e.pointerId);
+                floatEl.classList.add('dragging');
+
+                const move = ev => {
+                    floatState.x = ev.clientX - offX;
+                    floatState.y = ev.clientY - offY;
+                    const p = positionFloat();
+                    floatState.x = p.x;
+                    floatState.y = p.y;
+                };
+                const up = () => {
+                    bar.removeEventListener('pointermove', move);
+                    bar.removeEventListener('pointerup', up);
+                    bar.removeEventListener('pointercancel', up);
+                    floatEl.classList.remove('dragging');
+                    saveFloatState();
+                };
+                bar.addEventListener('pointermove', move);
+                bar.addEventListener('pointerup', up);
+                bar.addEventListener('pointercancel', up);
+            });
+
+            // Drag corner to resize
+            const handle = floatEl.querySelector('.fc-resize');
+            handle.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = floatEl.getBoundingClientRect();
+                const startX = e.clientX, startY = e.clientY;
+                handle.setPointerCapture(e.pointerId);
+                floatEl.classList.add('dragging');
+
+                const move = ev => {
+                    const vw = document.documentElement.clientWidth;
+                    const vh = window.innerHeight;
+                    floatState.w = clamp(rect.width + ev.clientX - startX, 180, vw - rect.left - 8);
+                    floatState.h = clamp(rect.height + ev.clientY - startY, 170, vh - rect.top - 8);
+                    positionFloat();
+                };
+                const up = () => {
+                    handle.removeEventListener('pointermove', move);
+                    handle.removeEventListener('pointerup', up);
+                    handle.removeEventListener('pointercancel', up);
+                    floatEl.classList.remove('dragging');
+                    saveFloatState();
+                };
+                handle.addEventListener('pointermove', move);
+                handle.addEventListener('pointerup', up);
+                handle.addEventListener('pointercancel', up);
+            });
+
+            window.addEventListener('resize', () => {
+                if (floatEl && !floatEl.hidden) positionFloat();
+            });
+        }
+
+        function toggleFloatClock() {
+            if (pipWindow) {
+                // Turning the feature off closes the pop-out too
+                floatState.open = false;
+                saveFloatState();
+                pipWindow.close();
+                return;
+            }
+            // Chrome/Edge: one click floats the clock over everything (like SWBATs).
+            // Other browsers fall back to the in-page floating clock.
+            if (PIP_SUPPORTED && !floatState.open) {
+                openPip();
+                return;
+            }
+            floatState.open = !floatState.open;
+            saveFloatState();
+            applyFloatLayout();
+            render();
+        }
+
+        async function openPip() {
+            if (!PIP_SUPPORTED) return;
+            if (pipWindow) { pipWindow.focus(); return; }
+
+            let win;
+            try {
+                win = await documentPictureInPicture.requestWindow({ width: 300, height: 360 });
+            } catch (err) {
+                console.error('Could not open the pop-out clock', err);
+                return;
+            }
+            pipWindow = win;
+
+            const doc = win.document;
+            doc.documentElement.classList.add('pip-root');
+            doc.documentElement.classList.toggle('dark', state.isDarkMode);
+            const style = doc.createElement('style');
+            style.textContent = document.getElementById('fc-css').textContent;
+            doc.head.appendChild(style);
+            doc.body.innerHTML = `<div class="fc fc-pip"><div class="fc-body">${panelSkeleton()}</div></div>`;
+            doc.body.addEventListener('click', handlePanelClick);
+
+            // The pop-out stays visible while the main tab is in the background,
+            // so it drives the countdown with its own timer.
+            win.setInterval(() => {
+                tick();
+                updatePanels();
+            }, 250);
+
+            win.addEventListener('pagehide', () => {
+                pipWindow = null;
+                applyFloatLayout();
+                render();
+            });
+
+            applyFloatLayout(); // hides the in-page float while the pop-out is open
+            updatePanels();
+            render();
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
+            loadFloatState();
             
             state.audioElement = new Audio(AUDIO_URLS[state.selectedSound]);
             state.audioElement.volume = state.volume;
             
             state.insights = generateInsights();
+
+            createFloatClock();
             
             setInterval(() => {
                 state.now = new Date();
                 if (!isTyping) {
                     render();
+                } else {
+                    updatePanels();
                 }
             }, 1000);
             
@@ -1289,6 +1874,7 @@
             }
             
             render();
+            applyFloatLayout();
         });
 
         // Make functions available globally
@@ -1300,7 +1886,6 @@
         window.handleInputKeydown = handleInputKeydown;
         window.handleInputBlur = handleInputBlur;
         window.updateInsightsDisplay = updateInsightsDisplay;
-        window.handleFileImport = handleFileImport;
         window.deleteActivity = deleteActivity;
         window.requestDelete = requestDelete;
         window.confirmDelete = confirmDelete;
@@ -1318,6 +1903,7 @@
         window.navigateToPlanner = navigateToPlanner;
         window.navigateToTimer = navigateToTimer;
         window.handleSort = handleSort;
+        window.toggleFloatClock = toggleFloatClock;
         window.state = state;
     </script>
 </body>
