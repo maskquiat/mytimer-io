@@ -1,0 +1,2493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+ <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-18XR8R8MFP');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MyTimer.io - Visual Timer for ADHD & Time Blindness | Free Multi-Activity Timer</title>
+    <meta name="description" content="Free visual timer built by a special educator for ADHD, autism, and executive dysfunction. Plan entire routines with analog clock visualization. Works on all devices.">
+    <meta name="keywords" content="visual timer, ADHD timer, time blindness, executive function, special education, time timer alternative">
+    <link rel="canonical" href="https://mytimer.io/">
+
+    <!-- Open Graph for social sharing -->
+    <meta property="og:title" content="MyTimer.io - Visual Timer for ADHD & Time Blindness">
+    <meta property="og:description" content="Free visual multi-activity timer built by a special educator">
+    <meta property="og:image" content="https://mytimer.io/og-image.png">
+    <meta property="og:url" content="https://mytimer.io">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="MyTimer.io - Visual Timer for ADHD">
+    <meta name="twitter:description" content="Free visual multi-activity timer built by a special educator">
+    <meta name="twitter:image" content="https://mytimer.io/twitter-image.png">
+
+    <!-- Icons -->
+    <link rel="icon" href="/favicon.ico" sizes="any">
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="theme-color" content="#2A64DB">
+
+    <!-- Apply dark mode before first paint (no white flash) -->
+    <script>try{var d=localStorage.getItem('focusflow_dark_mode');if(d==='true'||(d===null&&matchMedia('(prefers-color-scheme: dark)').matches))document.documentElement.classList.add('dark')}catch(e){}</script>
+
+    <!--
+      STYLES: compiled from Tailwind CSS v3.4 (no CDN needed).
+      Only the utility classes used in this file are included. If new Tailwind
+      classes are added to this file, the CSS block below must be recompiled
+      (config: darkMode 'class'; extra color "brand" = the logo palette:
+      50 #EEF4FE 100 #DCE8FD 200 #BCD3FB 300 #8FB4F7 400 #5B8DEF 500 #3D7BF5
+      600 #2A64DB 700 #2150B3 800 #1E438F 900 #1D3A73 950 #14254A).
+    -->
+    <style id="tw">*,:after,:before{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }::backdrop{--tw-border-spacing-x:0;--tw-border-spacing-y:0;--tw-translate-x:0;--tw-translate-y:0;--tw-rotate:0;--tw-skew-x:0;--tw-skew-y:0;--tw-scale-x:1;--tw-scale-y:1;--tw-pan-x: ;--tw-pan-y: ;--tw-pinch-zoom: ;--tw-scroll-snap-strictness:proximity;--tw-gradient-from-position: ;--tw-gradient-via-position: ;--tw-gradient-to-position: ;--tw-ordinal: ;--tw-slashed-zero: ;--tw-numeric-figure: ;--tw-numeric-spacing: ;--tw-numeric-fraction: ;--tw-ring-inset: ;--tw-ring-offset-width:0px;--tw-ring-offset-color:#fff;--tw-ring-color:rgba(59,130,246,.5);--tw-ring-offset-shadow:0 0 #0000;--tw-ring-shadow:0 0 #0000;--tw-shadow:0 0 #0000;--tw-shadow-colored:0 0 #0000;--tw-blur: ;--tw-brightness: ;--tw-contrast: ;--tw-grayscale: ;--tw-hue-rotate: ;--tw-invert: ;--tw-saturate: ;--tw-sepia: ;--tw-drop-shadow: ;--tw-backdrop-blur: ;--tw-backdrop-brightness: ;--tw-backdrop-contrast: ;--tw-backdrop-grayscale: ;--tw-backdrop-hue-rotate: ;--tw-backdrop-invert: ;--tw-backdrop-opacity: ;--tw-backdrop-saturate: ;--tw-backdrop-sepia: ;--tw-contain-size: ;--tw-contain-layout: ;--tw-contain-paint: ;--tw-contain-style: }/*! tailwindcss v3.4.19 | MIT License | https://tailwindcss.com*/*,:after,:before{box-sizing:border-box;border:0 solid #e5e7eb}:after,:before{--tw-content:""}:host,html{line-height:1.5;-webkit-text-size-adjust:100%;-moz-tab-size:4;-o-tab-size:4;tab-size:4;font-family:ui-sans-serif,system-ui,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol,Noto Color Emoji;font-feature-settings:normal;font-variation-settings:normal;-webkit-tap-highlight-color:transparent}body{margin:0;line-height:inherit}hr{height:0;color:inherit;border-top-width:1px}abbr:where([title]){-webkit-text-decoration:underline dotted;text-decoration:underline dotted}h1,h2,h3,h4,h5,h6{font-size:inherit;font-weight:inherit}a{color:inherit;text-decoration:inherit}b,strong{font-weight:bolder}code,kbd,pre,samp{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace;font-feature-settings:normal;font-variation-settings:normal;font-size:1em}small{font-size:80%}sub,sup{font-size:75%;line-height:0;position:relative;vertical-align:baseline}sub{bottom:-.25em}sup{top:-.5em}table{text-indent:0;border-color:inherit;border-collapse:collapse}button,input,optgroup,select,textarea{font-family:inherit;font-feature-settings:inherit;font-variation-settings:inherit;font-size:100%;font-weight:inherit;line-height:inherit;letter-spacing:inherit;color:inherit;margin:0;padding:0}button,select{text-transform:none}button,input:where([type=button]),input:where([type=reset]),input:where([type=submit]){-webkit-appearance:button;background-color:transparent;background-image:none}:-moz-focusring{outline:auto}:-moz-ui-invalid{box-shadow:none}progress{vertical-align:baseline}::-webkit-inner-spin-button,::-webkit-outer-spin-button{height:auto}[type=search]{-webkit-appearance:textfield;outline-offset:-2px}::-webkit-search-decoration{-webkit-appearance:none}::-webkit-file-upload-button{-webkit-appearance:button;font:inherit}summary{display:list-item}blockquote,dd,dl,figure,h1,h2,h3,h4,h5,h6,hr,p,pre{margin:0}fieldset{margin:0}fieldset,legend{padding:0}menu,ol,ul{list-style:none;margin:0;padding:0}dialog{padding:0}textarea{resize:vertical}input::-moz-placeholder,textarea::-moz-placeholder{opacity:1;color:#9ca3af}input::placeholder,textarea::placeholder{opacity:1;color:#9ca3af}[role=button],button{cursor:pointer}:disabled{cursor:default}audio,canvas,embed,iframe,img,object,svg,video{display:block;vertical-align:middle}img,video{max-width:100%;height:auto}[hidden]:where(:not([hidden=until-found])){display:none}.container{width:100%}@media (min-width:640px){.container{max-width:640px}}@media (min-width:768px){.container{max-width:768px}}@media (min-width:1024px){.container{max-width:1024px}}@media (min-width:1280px){.container{max-width:1280px}}@media (min-width:1536px){.container{max-width:1536px}}.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}.visible{visibility:visible}.fixed{position:fixed}.absolute{position:absolute}.relative{position:relative}.sticky{position:sticky}.inset-0{inset:0}.top-0{top:0}.z-10{z-index:10}.z-40{z-index:40}.z-50{z-index:50}.order-1{order:1}.order-2{order:2}.order-3{order:3}.mx-auto{margin-left:auto;margin-right:auto}.mb-1{margin-bottom:.25rem}.mb-2{margin-bottom:.5rem}.mb-3{margin-bottom:.75rem}.mb-4{margin-bottom:1rem}.mb-6{margin-bottom:1.5rem}.ml-0\.5{margin-left:.125rem}.mt-0\.5{margin-top:.125rem}.mt-1{margin-top:.25rem}.mt-2{margin-top:.5rem}.mt-3{margin-top:.75rem}.mt-4{margin-top:1rem}.mt-6{margin-top:1.5rem}.mt-auto{margin-top:auto}.block{display:block}.flex{display:flex}.inline-flex{display:inline-flex}.grid{display:grid}.hidden{display:none}.aspect-square{aspect-ratio:1/1}.h-10{height:2.5rem}.h-11{height:2.75rem}.h-12{height:3rem}.h-14{height:3.5rem}.h-16{height:4rem}.h-20{height:5rem}.h-3{height:.75rem}.h-5{height:1.25rem}.h-7{height:1.75rem}.h-full{height:100%}.max-h-\[85vh\]{max-height:85vh}.min-h-\[28px\]{min-height:28px}.min-h-\[48px\]{min-height:48px}.min-h-screen{min-height:100vh}.w-10{width:2.5rem}.w-11{width:2.75rem}.w-12{width:3rem}.w-14{width:3.5rem}.w-20{width:5rem}.w-3{width:.75rem}.w-5{width:1.25rem}.w-6{width:1.5rem}.w-full{width:100%}.min-w-0{min-width:0}.min-w-\[48px\]{min-width:48px}.max-w-3xl{max-width:48rem}.max-w-4xl{max-width:56rem}.max-w-5xl{max-width:64rem}.max-w-md{max-width:28rem}.max-w-sm{max-width:24rem}.flex-1{flex:1 1 0%}.flex-shrink{flex-shrink:1}.shrink-0{flex-shrink:0}.translate-x-1{--tw-translate-x:0.25rem}.translate-x-1,.translate-x-6{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.translate-x-6{--tw-translate-x:1.5rem}.transform{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.resize{resize:both}.grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.grid-cols-5{grid-template-columns:repeat(5,minmax(0,1fr))}.flex-col{flex-direction:column}.flex-wrap{flex-wrap:wrap}.place-items-center{place-items:center}.items-start{align-items:flex-start}.items-center{align-items:center}.items-stretch{align-items:stretch}.justify-center{justify-content:center}.justify-between{justify-content:space-between}.gap-1{gap:.25rem}.gap-1\.5{gap:.375rem}.gap-2{gap:.5rem}.gap-3{gap:.75rem}.gap-4{gap:1rem}.gap-6{gap:1.5rem}.gap-8{gap:2rem}.space-y-2>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.5rem*var(--tw-space-y-reverse))}.space-y-3>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(.75rem*var(--tw-space-y-reverse))}.space-y-6>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.5rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.5rem*var(--tw-space-y-reverse))}.space-y-7>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(1.75rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(1.75rem*var(--tw-space-y-reverse))}.overflow-hidden{overflow:hidden}.overflow-x-auto{overflow-x:auto}.overflow-y-auto{overflow-y:auto}.truncate{overflow:hidden;text-overflow:ellipsis}.truncate,.whitespace-nowrap{white-space:nowrap}.rounded{border-radius:.25rem}.rounded-2xl{border-radius:1rem}.rounded-3xl{border-radius:1.5rem}.rounded-full{border-radius:9999px}.rounded-lg{border-radius:.5rem}.rounded-xl{border-radius:.75rem}.border{border-width:1px}.border-2{border-width:2px}.border-b{border-bottom-width:1px}.border-dashed{border-style:dashed}.border-brand-200{--tw-border-opacity:1;border-color:rgb(188 211 251/var(--tw-border-opacity,1))}.border-brand-600{--tw-border-opacity:1;border-color:rgb(42 100 219/var(--tw-border-opacity,1))}.border-emerald-100{--tw-border-opacity:1;border-color:rgb(209 250 229/var(--tw-border-opacity,1))}.border-emerald-500{--tw-border-opacity:1;border-color:rgb(16 185 129/var(--tw-border-opacity,1))}.border-slate-100{--tw-border-opacity:1;border-color:rgb(241 245 249/var(--tw-border-opacity,1))}.border-slate-200{--tw-border-opacity:1;border-color:rgb(226 232 240/var(--tw-border-opacity,1))}.border-slate-300{--tw-border-opacity:1;border-color:rgb(203 213 225/var(--tw-border-opacity,1))}.bg-black\/50{background-color:rgba(0,0,0,.5)}.bg-brand-100{--tw-bg-opacity:1;background-color:rgb(220 232 253/var(--tw-bg-opacity,1))}.bg-brand-50{--tw-bg-opacity:1;background-color:rgb(238 244 254/var(--tw-bg-opacity,1))}.bg-brand-600{--tw-bg-opacity:1;background-color:rgb(42 100 219/var(--tw-bg-opacity,1))}.bg-emerald-50{--tw-bg-opacity:1;background-color:rgb(236 253 245/var(--tw-bg-opacity,1))}.bg-emerald-50\/40{background-color:rgba(236,253,245,.4)}.bg-emerald-500{--tw-bg-opacity:1;background-color:rgb(16 185 129/var(--tw-bg-opacity,1))}.bg-red-50{--tw-bg-opacity:1;background-color:rgb(254 242 242/var(--tw-bg-opacity,1))}.bg-red-600{--tw-bg-opacity:1;background-color:rgb(220 38 38/var(--tw-bg-opacity,1))}.bg-slate-100{--tw-bg-opacity:1;background-color:rgb(241 245 249/var(--tw-bg-opacity,1))}.bg-slate-300{--tw-bg-opacity:1;background-color:rgb(203 213 225/var(--tw-bg-opacity,1))}.bg-slate-50{--tw-bg-opacity:1;background-color:rgb(248 250 252/var(--tw-bg-opacity,1))}.bg-transparent{background-color:transparent}.bg-white{--tw-bg-opacity:1;background-color:rgb(255 255 255/var(--tw-bg-opacity,1))}.bg-white\/80{background-color:hsla(0,0%,100%,.8)}.bg-white\/85{background-color:hsla(0,0%,100%,.85)}.bg-gradient-to-br{background-image:linear-gradient(to bottom right,var(--tw-gradient-stops))}.from-brand-50{--tw-gradient-from:#eef4fe var(--tw-gradient-from-position);--tw-gradient-to:rgba(238,244,254,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.to-emerald-50{--tw-gradient-to:#ecfdf5 var(--tw-gradient-to-position)}.to-white{--tw-gradient-to:#fff var(--tw-gradient-to-position)}.p-2{padding:.5rem}.p-3{padding:.75rem}.p-4{padding:1rem}.p-6{padding:1.5rem}.p-8{padding:2rem}.px-1{padding-left:.25rem;padding-right:.25rem}.px-2{padding-left:.5rem;padding-right:.5rem}.px-3{padding-left:.75rem;padding-right:.75rem}.px-4{padding-left:1rem;padding-right:1rem}.px-5{padding-left:1.25rem;padding-right:1.25rem}.px-6{padding-left:1.5rem;padding-right:1.5rem}.px-8{padding-left:2rem;padding-right:2rem}.py-1{padding-top:.25rem;padding-bottom:.25rem}.py-12{padding-top:3rem;padding-bottom:3rem}.py-2{padding-top:.5rem;padding-bottom:.5rem}.py-3{padding-top:.75rem;padding-bottom:.75rem}.py-4{padding-top:1rem;padding-bottom:1rem}.py-6{padding-top:1.5rem;padding-bottom:1.5rem}.pb-12{padding-bottom:3rem}.pl-12{padding-left:3rem}.pt-1{padding-top:.25rem}.pt-4{padding-top:1rem}.text-left{text-align:left}.text-center{text-align:center}.font-mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,Liberation Mono,Courier New,monospace}.text-2xl{font-size:1.5rem;line-height:2rem}.text-3xl{font-size:1.875rem;line-height:2.25rem}.text-6xl{font-size:3.75rem;line-height:1}.text-base{font-size:1rem;line-height:1.5rem}.text-lg{font-size:1.125rem;line-height:1.75rem}.text-sm{font-size:.875rem;line-height:1.25rem}.text-xl{font-size:1.25rem;line-height:1.75rem}.text-xs{font-size:.75rem;line-height:1rem}.font-bold{font-weight:700}.font-extrabold{font-weight:800}.font-medium{font-weight:500}.font-semibold{font-weight:600}.leading-relaxed{line-height:1.625}.leading-tight{line-height:1.25}.tracking-wide{letter-spacing:.025em}.text-black{--tw-text-opacity:1;color:rgb(0 0 0/var(--tw-text-opacity,1))}.text-brand-600{--tw-text-opacity:1;color:rgb(42 100 219/var(--tw-text-opacity,1))}.text-brand-700{--tw-text-opacity:1;color:rgb(33 80 179/var(--tw-text-opacity,1))}.text-emerald-600{--tw-text-opacity:1;color:rgb(5 150 105/var(--tw-text-opacity,1))}.text-emerald-700{--tw-text-opacity:1;color:rgb(4 120 87/var(--tw-text-opacity,1))}.text-red-600{--tw-text-opacity:1;color:rgb(220 38 38/var(--tw-text-opacity,1))}.text-slate-300{--tw-text-opacity:1;color:rgb(203 213 225/var(--tw-text-opacity,1))}.text-slate-400{--tw-text-opacity:1;color:rgb(148 163 184/var(--tw-text-opacity,1))}.text-slate-500{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity,1))}.text-slate-600{--tw-text-opacity:1;color:rgb(71 85 105/var(--tw-text-opacity,1))}.text-slate-700{--tw-text-opacity:1;color:rgb(51 65 85/var(--tw-text-opacity,1))}.text-slate-800{--tw-text-opacity:1;color:rgb(30 41 59/var(--tw-text-opacity,1))}.text-slate-900{--tw-text-opacity:1;color:rgb(15 23 42/var(--tw-text-opacity,1))}.text-white{--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.accent-\[\#2A64DB\]{accent-color:#2a64db}.opacity-50{opacity:.5}.opacity-70{opacity:.7}.shadow{--tw-shadow:0 1px 3px 0 rgba(0,0,0,.1),0 1px 2px -1px rgba(0,0,0,.1);--tw-shadow-colored:0 1px 3px 0 var(--tw-shadow-color),0 1px 2px -1px var(--tw-shadow-color)}.shadow,.shadow-2xl{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-2xl{--tw-shadow:0 25px 50px -12px rgba(0,0,0,.25);--tw-shadow-colored:0 25px 50px -12px var(--tw-shadow-color)}.shadow-lg{--tw-shadow:0 10px 15px -3px rgba(0,0,0,.1),0 4px 6px -4px rgba(0,0,0,.1);--tw-shadow-colored:0 10px 15px -3px var(--tw-shadow-color),0 4px 6px -4px var(--tw-shadow-color)}.shadow-lg,.shadow-md{box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-md{--tw-shadow:0 4px 6px -1px rgba(0,0,0,.1),0 2px 4px -2px rgba(0,0,0,.1);--tw-shadow-colored:0 4px 6px -1px var(--tw-shadow-color),0 2px 4px -2px var(--tw-shadow-color)}.shadow-sm{--tw-shadow:0 1px 2px 0 rgba(0,0,0,.05);--tw-shadow-colored:0 1px 2px 0 var(--tw-shadow-color);box-shadow:var(--tw-ring-offset-shadow,0 0 #0000),var(--tw-ring-shadow,0 0 #0000),var(--tw-shadow)}.shadow-brand-600\/20{--tw-shadow-color:rgba(42,100,219,.2);--tw-shadow:var(--tw-shadow-colored)}.outline{outline-style:solid}.ring{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(3px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.blur{--tw-blur:blur(8px)}.blur,.drop-shadow{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.drop-shadow{--tw-drop-shadow:drop-shadow(0 1px 2px rgba(0,0,0,.1)) drop-shadow(0 1px 1px rgba(0,0,0,.06))}.filter{filter:var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow)}.backdrop-blur-sm{--tw-backdrop-blur:blur(4px)}.backdrop-blur-sm,.backdrop-filter{-webkit-backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia);backdrop-filter:var(--tw-backdrop-blur) var(--tw-backdrop-brightness) var(--tw-backdrop-contrast) var(--tw-backdrop-grayscale) var(--tw-backdrop-hue-rotate) var(--tw-backdrop-invert) var(--tw-backdrop-opacity) var(--tw-backdrop-saturate) var(--tw-backdrop-sepia)}.transition{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,-webkit-backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter;transition-property:color,background-color,border-color,text-decoration-color,fill,stroke,opacity,box-shadow,transform,filter,backdrop-filter,-webkit-backdrop-filter;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-all{transition-property:all;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-colors{transition-property:color,background-color,border-color,text-decoration-color,fill,stroke;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.transition-transform{transition-property:transform;transition-timing-function:cubic-bezier(.4,0,.2,1);transition-duration:.15s}.placeholder\:text-slate-400::-moz-placeholder{--tw-text-opacity:1;color:rgb(148 163 184/var(--tw-text-opacity,1))}.placeholder\:text-slate-400::placeholder{--tw-text-opacity:1;color:rgb(148 163 184/var(--tw-text-opacity,1))}.hover\:border-brand-300:hover{--tw-border-opacity:1;border-color:rgb(143 180 247/var(--tw-border-opacity,1))}.hover\:border-slate-200:hover{--tw-border-opacity:1;border-color:rgb(226 232 240/var(--tw-border-opacity,1))}.hover\:border-slate-300:hover{--tw-border-opacity:1;border-color:rgb(203 213 225/var(--tw-border-opacity,1))}.hover\:bg-brand-100:hover{--tw-bg-opacity:1;background-color:rgb(220 232 253/var(--tw-bg-opacity,1))}.hover\:bg-brand-50:hover{--tw-bg-opacity:1;background-color:rgb(238 244 254/var(--tw-bg-opacity,1))}.hover\:bg-brand-700:hover{--tw-bg-opacity:1;background-color:rgb(33 80 179/var(--tw-bg-opacity,1))}.hover\:bg-emerald-100:hover{--tw-bg-opacity:1;background-color:rgb(209 250 229/var(--tw-bg-opacity,1))}.hover\:bg-red-100:hover{--tw-bg-opacity:1;background-color:rgb(254 226 226/var(--tw-bg-opacity,1))}.hover\:bg-red-50:hover{--tw-bg-opacity:1;background-color:rgb(254 242 242/var(--tw-bg-opacity,1))}.hover\:bg-red-700:hover{--tw-bg-opacity:1;background-color:rgb(185 28 28/var(--tw-bg-opacity,1))}.hover\:bg-slate-100:hover{--tw-bg-opacity:1;background-color:rgb(241 245 249/var(--tw-bg-opacity,1))}.hover\:bg-slate-200:hover{--tw-bg-opacity:1;background-color:rgb(226 232 240/var(--tw-bg-opacity,1))}.hover\:text-brand-600:hover{--tw-text-opacity:1;color:rgb(42 100 219/var(--tw-text-opacity,1))}.hover\:text-brand-700:hover{--tw-text-opacity:1;color:rgb(33 80 179/var(--tw-text-opacity,1))}.hover\:text-red-500:hover{--tw-text-opacity:1;color:rgb(239 68 68/var(--tw-text-opacity,1))}.focus\:outline-none:focus{outline:2px solid transparent;outline-offset:2px}.focus\:ring-2:focus{--tw-ring-offset-shadow:var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);--tw-ring-shadow:var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color);box-shadow:var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow,0 0 #0000)}.focus\:ring-brand-400\/60:focus{--tw-ring-color:rgba(91,141,239,.6)}.focus\:ring-brand-500:focus{--tw-ring-opacity:1;--tw-ring-color:rgb(61 123 245/var(--tw-ring-opacity,1))}.active\:scale-95:active{--tw-scale-x:.95;--tw-scale-y:.95}.active\:scale-95:active,.active\:scale-\[0\.98\]:active{transform:translate(var(--tw-translate-x),var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y))}.active\:scale-\[0\.98\]:active{--tw-scale-x:0.98;--tw-scale-y:0.98}.dark\:border-brand-800:is(.dark *){--tw-border-opacity:1;border-color:rgb(30 67 143/var(--tw-border-opacity,1))}.dark\:border-emerald-900:is(.dark *){--tw-border-opacity:1;border-color:rgb(6 78 59/var(--tw-border-opacity,1))}.dark\:border-slate-600:is(.dark *){--tw-border-opacity:1;border-color:rgb(71 85 105/var(--tw-border-opacity,1))}.dark\:border-slate-700:is(.dark *){--tw-border-opacity:1;border-color:rgb(51 65 85/var(--tw-border-opacity,1))}.dark\:border-slate-800:is(.dark *){--tw-border-opacity:1;border-color:rgb(30 41 59/var(--tw-border-opacity,1))}.dark\:bg-brand-900\/40:is(.dark *){background-color:rgba(29,58,115,.4)}.dark\:bg-brand-900\/50:is(.dark *){background-color:rgba(29,58,115,.5)}.dark\:bg-brand-950:is(.dark *){--tw-bg-opacity:1;background-color:rgb(20 37 74/var(--tw-bg-opacity,1))}.dark\:bg-brand-950\/40:is(.dark *){background-color:rgba(20,37,74,.4)}.dark\:bg-brand-950\/50:is(.dark *){background-color:rgba(20,37,74,.5)}.dark\:bg-brand-950\/60:is(.dark *){background-color:rgba(20,37,74,.6)}.dark\:bg-emerald-950:is(.dark *){--tw-bg-opacity:1;background-color:rgb(2 44 34/var(--tw-bg-opacity,1))}.dark\:bg-emerald-950\/30:is(.dark *){background-color:rgba(2,44,34,.3)}.dark\:bg-emerald-950\/50:is(.dark *){background-color:rgba(2,44,34,.5)}.dark\:bg-red-950\/50:is(.dark *){background-color:rgba(69,10,10,.5)}.dark\:bg-slate-600:is(.dark *){--tw-bg-opacity:1;background-color:rgb(71 85 105/var(--tw-bg-opacity,1))}.dark\:bg-slate-700:is(.dark *){--tw-bg-opacity:1;background-color:rgb(51 65 85/var(--tw-bg-opacity,1))}.dark\:bg-slate-800:is(.dark *){--tw-bg-opacity:1;background-color:rgb(30 41 59/var(--tw-bg-opacity,1))}.dark\:bg-slate-900:is(.dark *){--tw-bg-opacity:1;background-color:rgb(15 23 42/var(--tw-bg-opacity,1))}.dark\:bg-slate-900\/80:is(.dark *){background-color:rgba(15,23,42,.8)}.dark\:bg-slate-900\/85:is(.dark *){background-color:rgba(15,23,42,.85)}.dark\:bg-slate-950:is(.dark *){--tw-bg-opacity:1;background-color:rgb(2 6 23/var(--tw-bg-opacity,1))}.dark\:from-slate-900:is(.dark *){--tw-gradient-from:#0f172a var(--tw-gradient-from-position);--tw-gradient-to:rgba(15,23,42,0) var(--tw-gradient-to-position);--tw-gradient-stops:var(--tw-gradient-from),var(--tw-gradient-to)}.dark\:to-brand-950\/40:is(.dark *){--tw-gradient-to:rgba(20,37,74,.4) var(--tw-gradient-to-position)}.dark\:to-emerald-950:is(.dark *){--tw-gradient-to:#022c22 var(--tw-gradient-to-position)}.dark\:text-brand-200:is(.dark *){--tw-text-opacity:1;color:rgb(188 211 251/var(--tw-text-opacity,1))}.dark\:text-brand-300:is(.dark *){--tw-text-opacity:1;color:rgb(143 180 247/var(--tw-text-opacity,1))}.dark\:text-emerald-300:is(.dark *){--tw-text-opacity:1;color:rgb(110 231 183/var(--tw-text-opacity,1))}.dark\:text-emerald-400:is(.dark *){--tw-text-opacity:1;color:rgb(52 211 153/var(--tw-text-opacity,1))}.dark\:text-red-400:is(.dark *){--tw-text-opacity:1;color:rgb(248 113 113/var(--tw-text-opacity,1))}.dark\:text-slate-100:is(.dark *){--tw-text-opacity:1;color:rgb(241 245 249/var(--tw-text-opacity,1))}.dark\:text-slate-200:is(.dark *){--tw-text-opacity:1;color:rgb(226 232 240/var(--tw-text-opacity,1))}.dark\:text-slate-300:is(.dark *){--tw-text-opacity:1;color:rgb(203 213 225/var(--tw-text-opacity,1))}.dark\:text-slate-400:is(.dark *){--tw-text-opacity:1;color:rgb(148 163 184/var(--tw-text-opacity,1))}.dark\:text-slate-500:is(.dark *){--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity,1))}.dark\:text-white:is(.dark *){--tw-text-opacity:1;color:rgb(255 255 255/var(--tw-text-opacity,1))}.dark\:placeholder\:text-slate-500:is(.dark *)::-moz-placeholder{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity,1))}.dark\:placeholder\:text-slate-500:is(.dark *)::placeholder{--tw-text-opacity:1;color:rgb(100 116 139/var(--tw-text-opacity,1))}.dark\:hover\:border-slate-600:hover:is(.dark *){--tw-border-opacity:1;border-color:rgb(71 85 105/var(--tw-border-opacity,1))}.dark\:hover\:bg-brand-900:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(29 58 115/var(--tw-bg-opacity,1))}.dark\:hover\:bg-brand-950\/60:hover:is(.dark *){background-color:rgba(20,37,74,.6)}.dark\:hover\:bg-red-950\/40:hover:is(.dark *){background-color:rgba(69,10,10,.4)}.dark\:hover\:bg-slate-600:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(71 85 105/var(--tw-bg-opacity,1))}.dark\:hover\:bg-slate-700:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(51 65 85/var(--tw-bg-opacity,1))}.dark\:hover\:bg-slate-800:hover:is(.dark *){--tw-bg-opacity:1;background-color:rgb(30 41 59/var(--tw-bg-opacity,1))}.dark\:hover\:text-brand-300:hover:is(.dark *){--tw-text-opacity:1;color:rgb(143 180 247/var(--tw-text-opacity,1))}@media (min-width:640px){.sm\:block{display:block}.sm\:inline{display:inline}.sm\:max-h-\[90vh\]{max-height:90vh}.sm\:flex-1{flex:1 1 0%}.sm\:grid-cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}.sm\:flex-row{flex-direction:row}.sm\:items-center{align-items:center}.sm\:gap-3{gap:.75rem}.sm\:space-y-8>:not([hidden])~:not([hidden]){--tw-space-y-reverse:0;margin-top:calc(2rem*(1 - var(--tw-space-y-reverse)));margin-bottom:calc(2rem*var(--tw-space-y-reverse))}.sm\:rounded-3xl{border-radius:1.5rem}.sm\:p-3{padding:.75rem}.sm\:p-4{padding:1rem}.sm\:p-6{padding:1.5rem}.sm\:p-8{padding:2rem}.sm\:px-4{padding-left:1rem;padding-right:1rem}.sm\:px-6{padding-left:1.5rem;padding-right:1.5rem}.sm\:py-8{padding-top:2rem;padding-bottom:2rem}.sm\:text-7xl{font-size:4.5rem;line-height:1}}@media (min-width:1024px){.lg\:col-span-5{grid-column:span 5/span 5}.lg\:col-span-7{grid-column:span 7/span 7}.lg\:grid{display:grid}.lg\:max-h-\[460px\]{max-height:460px}.lg\:grid-cols-12{grid-template-columns:repeat(12,minmax(0,1fr))}.lg\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}.lg\:overflow-y-auto{overflow-y:auto}}</style>
+    <style>
+        /* Ensure proper dark mode text contrast */
+        .dark .text-slate-900 { color: rgb(241 245 249) !important; }
+        .dark .text-slate-800 { color: rgb(248 250 252) !important; }
+        .dark .text-slate-700 { color: rgb(226 232 240) !important; }
+        .dark .text-slate-600 { color: rgb(203 213 225) !important; }
+        .dark .text-black { color: white !important; }
+
+        [hidden] { display: none !important; }
+
+        /* Touch: every control is at least 44x44 and taps don't wait for double-tap zoom */
+        #app button, #toast-root button { min-height: 44px; min-width: 44px; touch-action: manipulation; }
+        :focus-visible { outline: 3px solid #2A64DB; outline-offset: 2px; }
+        .dark :focus-visible { outline-color: #8FB4F7; }
+        .i5 svg { width: 20px; height: 20px; }
+        .i4 svg { width: 16px; height: 16px; }
+        .tabnums { font-variant-numeric: tabular-nums; }
+        .no-scrollbar { scrollbar-width: none; }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+
+        /* Toast */
+        #toast-root { position: fixed; left: 50%; bottom: 20px; transform: translateX(-50%); z-index: 80; width: max-content; max-width: calc(100vw - 32px); }
+        .toast { display: flex; align-items: center; gap: 12px; padding: 8px 8px 8px 18px; border-radius: 16px; background: #1F2430; color: #fff; font: 600 15px/1.3 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; box-shadow: 0 16px 40px -12px rgb(15 23 42 / .45); animation: toast-in .2s ease-out; }
+        .toast-btn { border: 0; border-radius: 12px; padding: 0 16px; background: #DCE8FD; color: #14254A; font: 800 14px/1 ui-sans-serif, system-ui, sans-serif; cursor: pointer; }
+        @keyframes toast-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+
+        /* Respect the system "reduce motion" setting */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: .01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: .01ms !important;
+                scroll-behavior: auto !important;
+            }
+            .active\:scale-95:active, .active\:scale-90:active, .active\:scale-\[0\.98\]:active { transform: none !important; }
+        }
+
+        @media print {
+            body { background-color: white !important; color: black !important; }
+            nav, .print-hidden, .fc, #toast-root { display: none !important; }
+            main { display: block !important; margin: 0 !important; padding: 0 !important; }
+            section { box-shadow: none !important; border: none !important; margin-bottom: 20px !important; }
+        }
+    </style>
+
+    <!-- Floating clock + clock face styles. Plain CSS (no Tailwind) so the
+         same rules can be copied into the pop-out window. -->
+    <style id="fc-css">
+        /* ---- Clock face ---- */
+        .ck-face { fill: #ffffff; stroke: #DCE8FD; }
+        .dark .ck-face { fill: #1e293b; stroke: #334155; }
+        .ck-tick { stroke: #e2e8f0; }
+        .dark .ck-tick { stroke: #475569; }
+        .ck-tick-major { stroke: #94a3b8; }
+        .ck-num { fill: #64748b; font-weight: 700; font-size: 10px; font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif; user-select: none; }
+        .dark .ck-num { fill: #94a3b8; }
+        .ck-wedge { opacity: .72; }
+        .ck-hour { stroke: #1F2430; }
+        .dark .ck-hour { stroke: #e2e8f0; }
+        .ck-min { stroke: #2A64DB; }
+        .dark .ck-min { stroke: #8FB4F7; }
+        .ck-sec { stroke: #E8604C; }
+        .ck-cap { fill: #1F2430; }
+        .dark .ck-cap { fill: #ffffff; }
+        .ck-pin { fill: #E8604C; }
+        .ck-shadow { filter: drop-shadow(0 20px 22px rgb(31 36 48 / 0.14)); }
+
+        /* ---- Wedge patterns (optional, for telling activities apart without color) ---- */
+        .ck-pat { fill: rgba(31, 36, 48, .5); stroke: none; }
+        .ck-pat-line { fill: none; stroke: rgba(31, 36, 48, .5); stroke-width: 1.4; }
+        .dark .ck-pat { fill: rgba(255, 255, 255, .6); }
+        .dark .ck-pat-line { stroke: rgba(255, 255, 255, .6); }
+
+        /* ---- Floating window ---- */
+        .fc {
+            position: fixed;
+            z-index: 60;
+            display: flex;
+            flex-direction: column;
+            background: rgba(255, 255, 255, .94);
+            -webkit-backdrop-filter: blur(10px);
+            backdrop-filter: blur(10px);
+            border: 1px solid #DCE8FD;
+            border-radius: 18px;
+            box-shadow: 0 24px 48px -16px rgb(15 23 42 / .35), 0 2px 6px rgb(15 23 42 / .08);
+            overflow: hidden;
+            color: #0f172a;
+            font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            transition: opacity .2s ease;
+            box-sizing: border-box;
+        }
+        .fc[hidden] { display: none; }
+        .dark .fc { background: rgba(15, 23, 42, .94); border-color: #334155; color: #f1f5f9; }
+        .fc.ghost { opacity: .4; }
+        .fc.ghost:hover, .fc.ghost.dragging, .fc.ghost:focus-within { opacity: 1; }
+        .fc.min { height: auto !important; }
+        .fc.min .fc-body, .fc.min .fc-resize { display: none; }
+
+        .fc-bar {
+            display: flex;
+            align-items: center;
+            gap: 2px;
+            padding: 2px 2px 2px 8px;
+            background: #DCE8FD;
+            color: #1F2430;
+            cursor: grab;
+            touch-action: none;
+            user-select: none;
+            -webkit-user-select: none;
+            flex-shrink: 0;
+        }
+        .dark .fc-bar { background: #1D3A73; color: #f1f5f9; }
+        .fc.dragging .fc-bar { cursor: grabbing; }
+        .fc-grip { display: grid; place-items: center; opacity: .55; }
+        .fc-grip svg { width: 14px; height: 14px; }
+        .fc-title {
+            flex: 1;
+            min-width: 0;
+            font-size: 13px;
+            font-weight: 800;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            font-variant-numeric: tabular-nums;
+        }
+        .fc-btn {
+            width: 44px;
+            height: 44px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border: 0;
+            border-radius: 12px;
+            background: transparent;
+            color: inherit;
+            cursor: pointer;
+            padding: 0;
+            touch-action: manipulation;
+        }
+        .fc-btn:hover { background: rgba(255, 255, 255, .55); }
+        .fc-btn.on { background: rgba(255, 255, 255, .85); }
+        .dark .fc-btn:hover { background: rgba(255, 255, 255, .12); }
+        .dark .fc-btn.on { background: rgba(255, 255, 255, .2); }
+        .fc-btn svg { width: 18px; height: 18px; }
+
+        .fc-body { flex: 1; min-height: 0; container-type: size; }
+        .fc-panel {
+            height: 100%;
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 12px 14px;
+        }
+        .fc-clock { flex: 1 1 0; min-height: 0; min-width: 0; width: 100%; display: flex; justify-content: center; }
+        .fc-clock svg { width: 100%; height: 100%; display: block; }
+        .fc-side { display: flex; flex-direction: column; align-items: center; gap: 6px; flex-shrink: 0; max-width: 100%; }
+        .fc-info { display: flex; flex-direction: column; align-items: center; gap: 3px; max-width: 100%; }
+        .fc-name { display: flex; align-items: center; gap: 6px; max-width: 100%; font-size: 13px; font-weight: 700; }
+        .fc-name-text { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .fc-dot { width: 12px; height: 12px; border-radius: 50%; flex-shrink: 0; }
+        .fc-count {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+            font-weight: 800;
+            font-size: clamp(20px, 15cqmin, 72px);
+            line-height: 1;
+            color: #2A64DB;
+            font-variant-numeric: tabular-nums;
+        }
+        .dark .fc-count { color: #8FB4F7; }
+        .fc-count.fc-now { color: #0f172a; }
+        .dark .fc-count.fc-now { color: #f1f5f9; }
+        .fc-meta { font-size: 11px; font-weight: 600; color: #64748b; text-align: center; }
+        .dark .fc-meta { color: #94a3b8; }
+        .fc-controls { display: flex; gap: 6px; }
+        .fc-ctl {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            min-width: 44px;
+            min-height: 44px;
+            border: 0;
+            border-radius: 12px;
+            padding: 0 12px;
+            font: 800 13px/1 ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+            background: #f1f5f9;
+            color: #334155;
+            cursor: pointer;
+            touch-action: manipulation;
+        }
+        .fc-ctl:hover { background: #e2e8f0; }
+        .dark .fc-ctl { background: #1e293b; color: #e2e8f0; }
+        .dark .fc-ctl:hover { background: #334155; }
+        .fc-ctl.primary { background: #2A64DB; color: #ffffff; }
+        .fc-ctl.primary:hover { background: #2150B3; }
+        .fc-ctl svg { width: 16px; height: 16px; }
+        .fc-btn:focus-visible, .fc-ctl:focus-visible { outline: 3px solid #2A64DB; outline-offset: 2px; }
+
+        .fc-resize {
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            width: 28px;
+            height: 28px;
+            cursor: nwse-resize;
+            touch-action: none;
+            background:
+                linear-gradient(135deg, transparent 55%, #94a3b8 55%, #94a3b8 62%, transparent 62%, transparent 72%, #94a3b8 72%, #94a3b8 79%, transparent 79%);
+            opacity: .7;
+        }
+
+        /* Wide window: clock on the left, text on the right */
+        @container (min-aspect-ratio: 5/4) {
+            .fc-panel { flex-direction: row; gap: 14px; padding: 10px 16px; }
+            .fc-clock { flex: 0 1 auto; height: 100%; width: auto; aspect-ratio: 1; }
+            .fc-side { align-items: flex-start; max-width: 55%; }
+            .fc-info { align-items: flex-start; }
+            .fc-meta { text-align: left; }
+        }
+        /* Small window: drop the extras, keep clock + countdown */
+        @container (max-height: 250px) and (max-aspect-ratio: 5/4) { .fc-controls { display: none; } }
+        @container (max-height: 200px) and (max-aspect-ratio: 5/4) { .fc-meta { display: none; } }
+        @container (max-height: 120px) { .fc-controls, .fc-meta, .fc-name { display: none; } }
+
+        /* ---- Pop-out (Picture-in-Picture) window ---- */
+        .pip-root, .pip-root body { margin: 0; height: 100%; background: #ffffff; }
+        .pip-root.dark, .pip-root.dark body { background: #0f172a; }
+        .fc.fc-pip {
+            position: relative;
+            z-index: auto;
+            width: 100%;
+            height: 100%;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            background: transparent;
+            -webkit-backdrop-filter: none;
+            backdrop-filter: none;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .fc, .toast { transition: none !important; animation: none !important; }
+        }
+    </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 min-h-screen">
+    <div id="app"></div>
+    <div id="toast-root" role="status" aria-live="polite"></div>
+
+    <script>
+        // =====================================================================
+        // CONSTANTS
+        // =====================================================================
+        const REDUCED_MOTION = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const DEFAULT_TITLE = document.title;
+
+        // Brand palette (from the logo). Used for new activities and templates.
+        const C = { blue: '#5B8DEF', orange: '#F7994A', green: '#6FD36F', purple: '#A97BDD', pink: '#DB6B8C', yellow: '#F2C94C', teal: '#3FB8AF', coral: '#E8604C' };
+        const COLORS = [C.blue, C.orange, C.green, C.purple, C.pink, C.yellow, C.teal, C.coral];
+
+        // Optional wedge patterns. "auto" picks one by position so neighbours differ.
+        const PATTERNS = [
+            { id: 'stripes', label: 'Stripes' },
+            { id: 'dots', label: 'Dots' },
+            { id: 'grid', label: 'Grid' },
+            { id: 'hlines', label: 'Lines' },
+            { id: 'zigzag', label: 'Zigzag' },
+            { id: 'checker', label: 'Checks' },
+            { id: 'backslash', label: 'Reverse stripes' }
+        ];
+        const PATTERN_IDS = PATTERNS.map(p => p.id);
+
+        // Local sound files (no outside servers)
+        const SOUND_FILES = {
+            chime: 'sounds/chime.mp3',
+            bell: 'sounds/bell.mp3',
+            alert: 'sounds/alert.mp3'
+        };
+        const SOUND_OPTIONS = [
+            { id: 'chime', emoji: '🎵', label: 'Chime', desc: 'Gentle and calming tone' },
+            { id: 'bell', emoji: '🔔', label: 'Bell', desc: 'Clear and pleasant ring' },
+            { id: 'alert', emoji: '⏰', label: 'Alert', desc: 'Sharp and attention-getting' }
+        ];
+
+        const QUICK_MINUTES = [1, 2, 3, 5, 10, 15, 20, 30, 45, 60];
+
+        // ---- Template gallery ----
+        const TEMPLATE_CATEGORIES = [
+            { id: 'all', label: 'All' },
+            { id: 'classroom', label: 'Classroom', icon: '🏫' },
+            { id: 'home', label: 'Home & routines', icon: '🏠' },
+            { id: 'study', label: 'Study & focus', icon: '📚' },
+            { id: 'ef', label: 'Executive function', icon: '🧠' },
+            { id: 'wellness', label: 'Calm & movement', icon: '🌿' },
+            { id: 'mine', label: 'My templates', icon: '⭐' }
+        ];
+        const T = (id, category, icon, name, description, steps) => ({
+            id, category, icon, name, description,
+            activities: steps.map(([n, d, c]) => ({ name: n, duration: d, color: c }))
+        });
+        const TEMPLATES = [
+            // Classroom
+            T('classroom-transition', 'classroom', '🔄', 'Classroom Transition', 'Clear, timed steps for moving between lessons.',
+                [['Clean up station', 3, C.orange], ['Gather on the carpet', 2, C.blue], ['Ready for the lesson', 5, C.green]]),
+            T('morning-arrival', 'classroom', '🎒', 'Morning Arrival', 'Unpack, settle in and start the day calmly.',
+                [['Unpack & hang up', 5, C.orange], ['Morning work', 10, C.blue], ['Attendance & lunch count', 3, C.yellow], ['Morning meeting', 12, C.green]]),
+            T('small-group-reading', 'classroom', '📖', 'Small-Group Reading', 'A tight 30-minute guided reading block.',
+                [['Phonics warm-up', 5, C.yellow], ['Guided reading', 15, C.blue], ['Word work', 8, C.purple], ['Exit ticket', 2, C.green]]),
+            T('learning-centers', 'classroom', '🧩', 'Learning Centers', 'Three rotations with built-in transition time.',
+                [['Center 1', 12, C.blue], ['Rotate', 2, C.yellow], ['Center 2', 12, C.purple], ['Rotate', 2, C.yellow], ['Center 3', 12, C.teal], ['Clean up', 3, C.orange]]),
+            T('test-session', 'classroom', '📝', 'Test or Quiz Session', 'Paced sections with a stretch break and time to check work.',
+                [['Read the directions', 3, C.yellow], ['Section 1', 20, C.blue], ['Stretch break', 2, C.green], ['Section 2', 20, C.purple], ['Check your work', 5, C.orange]]),
+            T('dismissal', 'classroom', '🚌', 'Clean-Up & Dismissal', 'End the day without the last-minute rush.',
+                [['Clean up', 5, C.orange], ['Pack up', 5, C.blue], ['Chairs up', 2, C.yellow], ['Line up', 3, C.green]]),
+            // Home & routines
+            T('morning-routine', 'home', '🌅', 'Morning Routine', 'Structure for a smooth start to the day.',
+                [['Wake & stretch', 5, C.green], ['Getting ready', 15, C.blue], ['Healthy breakfast', 20, C.orange], ['Pack bag', 10, C.purple]]),
+            T('after-school-homework', 'home', '🏠', 'After-School Homework', 'Decompress first, then homework in focused blocks.',
+                [['Snack & decompress', 15, C.orange], ['Homework block', 20, C.blue], ['Movement break', 5, C.green], ['Homework block', 20, C.purple], ['Pack bag for tomorrow', 5, C.teal]]),
+            T('bedtime-routine', 'home', '🌙', 'Bedtime Routine', 'A predictable wind-down for easier nights.',
+                [['Tidy up', 10, C.orange], ['Bath or shower', 15, C.teal], ['Pajamas & teeth', 10, C.blue], ['Read together', 15, C.purple], ['Lights out', 5, C.pink]]),
+            T('chore-sprint', 'home', '🧺', 'Chore Sprint', 'Short, clear chore blocks that actually get finished.',
+                [['Pick up room', 10, C.blue], ['Laundry', 10, C.purple], ['Dishes', 10, C.teal]]),
+            T('screen-time', 'home', '📱', 'Screen Time Wind-Down', 'A built-in warning makes screens-off easier.',
+                [['Screen time', 30, C.blue], ['Finish up: 5 minutes left', 5, C.yellow], ['Transition activity', 10, C.green]]),
+            // Study & focus
+            T('pomodoro', 'study', '🍅', 'Pomodoro', 'Classic 25/5 focus cycles.',
+                [['Focus', 25, C.coral], ['Short break', 5, C.green], ['Focus', 25, C.blue], ['Short break', 5, C.teal]]),
+            T('deep-work', 'study', '🎯', 'Deep Work 50/10', 'One long focus block with a real break.',
+                [['Deep work', 50, C.blue], ['Break', 10, C.green]]),
+            T('exam-review', 'study', '🗂️', 'Exam Review', 'Structured review that ends with self-testing.',
+                [['Gather materials', 5, C.yellow], ['Review notes', 20, C.blue], ['Practice questions', 20, C.purple], ['Break', 5, C.green], ['Self-quiz', 10, C.orange]]),
+            T('writing-sprint', 'study', '✍️', 'Writing Sprint', 'From blank page to revised draft.',
+                [['Brainstorm', 5, C.yellow], ['Outline', 10, C.orange], ['Draft', 25, C.blue], ['Break', 5, C.green], ['Revise', 15, C.purple]]),
+            T('reading-session', 'study', '📚', 'Independent Reading', 'Preview, read, then put it in your own words.',
+                [['Preview', 3, C.yellow], ['Read', 20, C.blue], ['Summarize', 7, C.purple]]),
+            // Executive function
+            T('task-starter', 'ef', '🚀', 'Get Started', 'Task initiation: clear your space, choose one thing, just start.',
+                [['Clear your space', 2, C.yellow], ['Pick one task', 1, C.orange], ['Just start', 10, C.blue], ['Check in', 2, C.green]]),
+            T('planner-check', 'ef', '🗓️', 'Planner Check-In', 'Review, prioritize and schedule the week’s work.',
+                [['Review assignments', 5, C.blue], ['Prioritize', 5, C.orange], ['Schedule work time', 5, C.purple]]),
+            T('homework-launch', 'ef', '🧭', 'Homework Launch', 'Plan the night before diving in.',
+                [['Check planner', 3, C.yellow], ['Gather materials', 2, C.orange], ['First task', 15, C.blue], ['Movement break', 3, C.green], ['Second task', 15, C.purple], ['Pack it up', 2, C.teal]]),
+            T('big-project-chunk', 'ef', '🧱', 'Big Project Chunk', 'Break a large assignment into one doable piece.',
+                [['Review the goal', 3, C.yellow], ['Do one piece', 20, C.blue], ['Break', 5, C.green], ['Write the next step', 2, C.purple]]),
+            // Calm & movement
+            T('calm-down', 'wellness', '🌿', 'Calm-Down Reset', 'A short, predictable reset for big feelings.',
+                [['Breathe', 2, C.teal], ['Stretch', 3, C.green], ['Quiet choice', 5, C.purple]]),
+            T('brain-break', 'wellness', '⚡', 'Brain Break', 'Move, breathe, refocus.',
+                [['Move your body', 3, C.orange], ['Breathe', 1, C.teal], ['Get ready to learn', 1, C.blue]]),
+            T('workout', 'wellness', '💪', 'Quick Workout', 'Warm up, work hard, cool down.',
+                [['Warm-up', 5, C.yellow], ['Intervals', 20, C.coral], ['Cool-down', 5, C.teal]]),
+            T('quiet-time', 'wellness', '🧘', 'Guided Quiet Time', 'Settle, focus on breathing, return.',
+                [['Settle in', 2, C.purple], ['Breath focus', 10, C.teal], ['Body scan', 5, C.blue], ['Return', 1, C.green]])
+        ];
+        const FEATURED_TEMPLATE_IDS = ['morning-routine', 'pomodoro', 'classroom-transition', 'task-starter'];
+
+        const AppMode = {
+            PLANNING: 'PLANNING',
+            RUNNING: 'RUNNING',
+            SUMMARY: 'SUMMARY'
+        };
+
+        // Lucide icons as SVG strings
+        const icons = {
+            Play: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="6 3 20 12 6 21 6 3"></polygon></svg>',
+            Pause: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="4" height="16" x="6" y="4"></rect><rect width="4" height="16" x="14" y="4"></rect></svg>',
+            RotateCcw: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"></path><path d="M3 3v5h5"></path></svg>',
+            Plus: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M12 5v14"></path></svg>',
+            Trash2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h18"></path><path d="M19 6v14c0 1-1 2-2 2H7c-1 0-2-1-2-2V6"></path><path d="M8 6V4c0-1 1-2 2-2h4c1 0 2 1 2 2v2"></path><line x1="10" x2="10" y1="11" y2="17"></line><line x1="14" x2="14" y1="11" y2="17"></line></svg>',
+            CheckCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>',
+            Clock: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>',
+            Coffee: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M10 2v2"></path><path d="M14 2v2"></path><path d="M16 8a1 1 0 0 1 1 1v8a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V9a1 1 0 0 1 1-1h14a4 4 0 1 1 0 8h-1"></path><path d="M6 2v2"></path></svg>',
+            LayoutGrid: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="7" height="7" x="3" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="3" rx="1"></rect><rect width="7" height="7" x="14" y="14" rx="1"></rect><rect width="7" height="7" x="3" y="14" rx="1"></rect></svg>',
+            Settings2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 7h-9"></path><path d="M14 17H5"></path><circle cx="17" cy="17" r="3"></circle><circle cx="7" cy="7" r="3"></circle></svg>',
+            X: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6 6 18"></path><path d="m6 6 12 12"></path></svg>',
+            Upload: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path><polyline points="17 8 12 3 7 8"></polyline><line x1="12" x2="12" y1="3" y2="15"></line></svg>',
+            Save: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"></path><polyline points="17 21 17 13 7 13 7 21"></polyline><polyline points="7 3 7 8 15 8"></polyline></svg>',
+            Square: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="18" height="18" x="3" y="3" rx="2"></rect></svg>',
+            CheckSquare: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 11 12 14 22 4"></polyline><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path></svg>',
+            BarChart3: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"></path><path d="M18 17V9"></path><path d="M13 17V5"></path><path d="M8 17v-3"></path></svg>',
+            Brain: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5a3 3 0 1 0-5.997.125 4 4 0 0 0-2.526 5.77 4 4 0 0 0 .556 6.588A4 4 0 1 0 12 18Z"></path><path d="M12 5a3 3 0 1 1 5.997.125 4 4 0 0 1 2.526 5.77 4 4 0 0 1-.556 6.588A4 4 0 1 1 12 18Z"></path><path d="M15 13a4.5 4.5 0 0 1-3-4 4.5 4.5 0 0 1-3 4"></path><path d="M17.599 6.5a3 3 0 0 0 .399-1.375"></path><path d="M6.003 5.125A3 3 0 0 0 6.401 6.5"></path><path d="M3.477 10.896a4 4 0 0 1 .585-.396"></path><path d="M19.938 10.5a4 4 0 0 1 .585.396"></path><path d="M6 18a4 4 0 0 1-1.967-.516"></path><path d="M19.967 17.484A4 4 0 0 1 18 18"></path></svg>',
+            Moon: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path></svg>',
+            Sun: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2"></path><path d="M12 20v2"></path><path d="m4.93 4.93 1.41 1.41"></path><path d="m17.66 17.66 1.41 1.41"></path><path d="M2 12h2"></path><path d="M20 12h2"></path><path d="m6.34 17.66-1.41 1.41"></path><path d="m19.07 4.93-1.41 1.41"></path></svg>',
+            Volume2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon><path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path><path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path></svg>',
+            Loader2: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-6.219-8.56"></path></svg>',
+            Sparkles: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"></path><path d="M5 3v4"></path><path d="M19 17v4"></path><path d="M3 5h4"></path><path d="M17 19h4"></path></svg>',
+            ClipboardList: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="8" height="4" x="8" y="2" rx="1" ry="1"></rect><path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2"></path><path d="M12 11h4"></path><path d="M12 16h4"></path><path d="M8 11h.01"></path><path d="M8 16h.01"></path></svg>',
+            PlayCircle: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><polygon points="10 8 16 12 10 16 10 8"></polygon></svg>',
+            FileUp: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"></path><polyline points="14 2 14 8 20 8"></polyline><path d="M12 12v6"></path><path d="m15 15-3-3-3 3"></path></svg>',
+            // Floating clock icons
+            FloatWindow: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 9V6a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v10c0 1.1.9 2 2 2h4"></path><rect width="10" height="7" x="12" y="13" rx="2"></rect></svg>',
+            PopOut: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h6v6"></path><path d="M10 14 21 3"></path><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path></svg>',
+            Ghost: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M12 2a10 10 0 0 1 0 20z" fill="currentColor"></path></svg>',
+            Minus: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path></svg>',
+            Expand: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="16" height="16" x="4" y="4" rx="2"></rect></svg>',
+            Grip: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="9" cy="5" r="1.6"></circle><circle cx="9" cy="12" r="1.6"></circle><circle cx="9" cy="19" r="1.6"></circle><circle cx="15" cy="5" r="1.6"></circle><circle cx="15" cy="12" r="1.6"></circle><circle cx="15" cy="19" r="1.6"></circle></svg>',
+            SkipForward: '<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 4 15 12 5 20 5 4"></polygon><line x1="19" x2="19" y1="5" y2="19"></line></svg>'
+        };
+        const lucide = (inner, fill = 'none') => `<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="${fill}" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+        Object.assign(icons, {
+            Zap: lucide('<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon>'),
+            Link: lucide('<path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>'),
+            Repeat: lucide('<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8"></path><path d="M21 3v5h-5"></path>'),
+            Library: lucide('<rect x="3" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="3" width="7" height="7" rx="1"></rect><rect x="14" y="14" width="7" height="7" rx="1"></rect><rect x="3" y="14" width="7" height="7" rx="1"></rect>')
+        });
+
+        const LOGO_SVG = `<svg viewBox="0 0 128 128" width="40" height="40" aria-hidden="true"><circle cx="64" cy="64" r="58" fill="#fff" stroke="#3D7BF5" stroke-width="10"/><path d="M64 64 L64 14 A50 50 0 0 1 114 64 Z" fill="#5B8DEF"/><path d="M64 64 L114 64 A50 50 0 0 1 106.4 90.5 Z" fill="#6FD36F"/><path d="M64 64 L106.4 90.5 A50 50 0 0 1 33.4 103.4 Z" fill="#F7994A"/><path d="M64 64 L33.4 103.4 A50 50 0 0 1 14.8 55.3 Z" fill="#A97BDD"/><path d="M64 64 L14.8 55.3 A50 50 0 0 1 64 14 Z" fill="#DB6B8C"/><path d="M64 64V24M64 64H94" stroke="#1F2430" stroke-width="10" stroke-linecap="round" fill="none"/></svg>`;
+
+        // Global State
+        let state = {
+            activities: [],
+            mode: AppMode.PLANNING,
+            viewMode: 'planner',
+            currentIndex: 0,
+            isRunning: false,
+            activityEndsAt: null, // timestamp (ms) when the current activity ends; keeps time accurate in background tabs
+            insights: "",
+            isDarkMode: false,
+            isSettingsOpen: false,
+            deleteConfirmation: null,
+            customTemplates: [],
+            selectedIds: new Set(),
+            selectedSound: 'chime',
+            volume: 0.5,
+            defaultBreakDuration: 5,
+            confirmBeforeDelete: true,
+            clockFace: 'auto',          // 'auto' | '60' | '12h'
+            patternsOn: false,
+            showSeconds: !REDUCED_MOTION,
+            galleryOpen: false,
+            galleryCat: 'all',
+            stash: null,                // the user's plan, kept safe while a quick timer runs
+            now: new Date(),
+            dragItem: null,
+            dragOverItem: null
+        };
+
+        // Utility Functions
+        function generateId() {
+            return 'id-' + Math.random().toString(36).substr(2, 9) + Date.now().toString(36);
+        }
+
+        function formatTime(seconds) {
+            seconds = Math.max(0, Math.round(seconds));
+            const h = Math.floor(seconds / 3600);
+            const mins = Math.floor((seconds % 3600) / 60);
+            const secs = seconds % 60;
+            const mm = (h ? mins.toString().padStart(2, '0') : mins.toString().padStart(2, '0'));
+            return h ? `${h}:${mm}:${secs.toString().padStart(2, '0')}` : `${mm}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function formatDuration(minutes) {
+            minutes = Math.round(minutes);
+            if (minutes < 60) return `${minutes} min`;
+            const h = Math.floor(minutes / 60), m = minutes % 60;
+            return m ? `${h} h ${m} min` : `${h} h`;
+        }
+
+        function clockTime(date) {
+            return date.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
+        }
+
+        function escapeHTML(str) {
+            return String(str).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+        }
+
+        function totalMinutesOf(list) {
+            return list.reduce((sum, a) => sum + (a.duration || 0), 0);
+        }
+
+        function saveToLocalStorage() {
+            try {
+                // While a quick timer runs, keep the user's real plan saved
+                const plan = state.stash || state.activities;
+                localStorage.setItem('focusflow_activities', JSON.stringify(plan));
+                localStorage.setItem('focusflow_volume', state.volume.toString());
+                localStorage.setItem('focusflow_sound', state.selectedSound);
+                localStorage.setItem('focusflow_break_dur', state.defaultBreakDuration.toString());
+                localStorage.setItem('focusflow_custom_templates', JSON.stringify(state.customTemplates));
+                localStorage.setItem('focusflow_confirm_delete', state.confirmBeforeDelete.toString());
+                localStorage.setItem('focusflow_dark_mode', state.isDarkMode.toString());
+                localStorage.setItem('mytimer_clock_face', state.clockFace);
+                localStorage.setItem('mytimer_patterns', state.patternsOn.toString());
+                localStorage.setItem('mytimer_seconds', state.showSeconds.toString());
+            } catch (e) { }
+        }
+
+        function generateInsights() {
+            if (state.activities.length === 0) {
+                return "Ready to plan your day? Start by adding your first task. Breaking down your day into manageable activities helps reduce overwhelm and builds momentum.";
+            }
+
+            const totalMinutes = state.activities.reduce((sum, a) => sum + a.duration, 0);
+            const activityCount = state.activities.length;
+            const hasBreaks = state.activities.some(a => a.name.toLowerCase().includes('break'));
+            const longestTask = Math.max(...state.activities.map(a => a.duration));
+            const shortTasks = state.activities.filter(a => a.duration <= 15).length;
+            const mediumTasks = state.activities.filter(a => a.duration > 15 && a.duration <= 45).length;
+            const longTasks = state.activities.filter(a => a.duration > 45).length;
+
+            let insights = [];
+
+            // Total time insights
+            if (totalMinutes > 180) {
+                insights.push("You've planned an ambitious session—over 3 hours. Remember, sustained focus works best in chunks. Consider whether you can tackle this today or if splitting across multiple sessions would feel more achievable.");
+            } else if (totalMinutes > 90) {
+                insights.push("Your session is about " + Math.round(totalMinutes / 60 * 10) / 10 + " hours. This is a solid focused work block. You're setting yourself up for meaningful progress.");
+            } else if (totalMinutes >= 30) {
+                insights.push("A " + totalMinutes + "-minute session is perfectly sized for maintaining focus and building momentum. You've got this.");
+            } else {
+                insights.push("Short, focused sessions like this can be incredibly powerful. Even " + totalMinutes + " minutes of intentional work creates forward movement.");
+            }
+
+            // Break insights
+            if (!hasBreaks && totalMinutes > 60) {
+                insights.push("I notice you haven't scheduled any breaks yet. Your brain needs micro-rests to sustain attention. Consider adding a 5-minute break after every hour to maintain your mental sharpness.");
+            } else if (hasBreaks) {
+                insights.push("Great call including breaks. These moments of restoration aren't weakness—they're strategic. Your future focused self will thank you.");
+            }
+
+            // Task structure insights
+            if (longestTask > 60) {
+                insights.push("Your longest task is " + longestTask + " minutes. If you find yourself avoiding it or feeling stuck, that might be a signal it needs breaking down further. What's the smallest first step you could start with?");
+            }
+
+            if (shortTasks > mediumTasks + longTasks && activityCount > 5) {
+                insights.push("You've broken things into many small tasks—that's excellent for executive function. Each completion gives you a dopamine hit and reinforces your momentum. The cascade of small wins often matters more than one big accomplishment.");
+            }
+
+            if (longTasks >= 3) {
+                insights.push("Several longer tasks here. Remember: you don't have to feel motivated to begin. Motivation often follows action, not the other way around. Start with just 5 minutes, and notice what happens.");
+            }
+
+            // Activity count insights
+            if (activityCount === 1) {
+                insights.push("Single-tasking—there's power in this simplicity. When you're only focusing on one thing, you eliminate decision fatigue. Just this, right now.");
+            } else if (activityCount <= 3) {
+                insights.push("A focused session with " + activityCount + " clear priorities. This level of intentionality is where productivity becomes sustainable rather than exhausting.");
+            } else if (activityCount > 8) {
+                insights.push("You've mapped out quite a few activities. Be gentle with yourself if you don't complete everything—flexibility is part of the process. What matters most if you can only finish half?");
+            }
+
+            // Motivational and executive function insights
+            const motivationalInsights = [
+                "Starting is often the hardest part. Once you begin, your brain's task-switching costs decrease and you'll find your rhythm. That first minute is an investment in the next 59.",
+                "Notice: you're already here, planning. That's executive function in action. The fact that you're structuring your time means you're already succeeding at something many people struggle with.",
+                "If you feel resistance, that's normal. Your brain is weighing effort against reward. Sometimes we just need to gently override that initial 'no' and trust the process.",
+                "These aren't just tasks—they're commitments to your future self. Each one completed is evidence that you can trust yourself to follow through.",
+                "Perfect conditions rarely exist. Starting where you are, with what you have, is the actual skill. You're building that skill right now.",
+            ];
+
+            insights.push(motivationalInsights[Math.floor(Math.random() * motivationalInsights.length)]);
+
+            // Time-of-day contextual insights
+            const hour = new Date().getHours();
+            if (hour >= 6 && hour < 10) {
+                insights.push("Morning energy is often your clearest cognitive window. If possible, front-load your most demanding work now while your mental resources are fresh.");
+            } else if (hour >= 14 && hour < 16) {
+                insights.push("Afternoon attention naturally dips around now. This is normal circadian biology. If you're feeling fuzzy, a 5-minute walk or stretching can reset your focus more than caffeine.");
+            } else if (hour >= 20 && hour < 24) {
+                insights.push("Evening sessions work differently than morning ones. Your analytical mind might be tired, but creative or maintenance tasks can flow easily now. Honor where your energy is.");
+            }
+
+            // Return 2-3 randomly selected insights for variety
+            const selectedInsights = [];
+            const shuffled = insights.sort(() => 0.5 - Math.random());
+            const numInsights = Math.min(3, shuffled.length);
+            
+            for (let i = 0; i < numInsights; i++) {
+                selectedInsights.push(shuffled[i]);
+            }
+
+            return selectedInsights.join(' ');
+        }
+
+        function loadFromLocalStorage() {
+            const get = k => { try { return localStorage.getItem(k); } catch (e) { return null; } };
+            const saved = get('focusflow_activities');
+            const savedVol = get('focusflow_volume');
+            const savedSound = get('focusflow_sound');
+            const savedBreakDur = get('focusflow_break_dur');
+            const savedCustomTemplates = get('focusflow_custom_templates');
+            const savedConfirmDelete = get('focusflow_confirm_delete');
+            const savedDarkMode = get('focusflow_dark_mode');
+            const savedFace = get('mytimer_clock_face');
+            const savedPatterns = get('mytimer_patterns');
+            const savedSeconds = get('mytimer_seconds');
+
+            if (savedVol) state.volume = parseFloat(savedVol);
+            if (savedBreakDur) state.defaultBreakDuration = parseInt(savedBreakDur);
+            if (savedSound && SOUND_FILES[savedSound]) state.selectedSound = savedSound;
+            if (savedCustomTemplates) {
+                try {
+                    state.customTemplates = JSON.parse(savedCustomTemplates).map((t, i) => ({
+                        ...t,
+                        id: t.id || ('custom-' + i + '-' + Date.now().toString(36)),
+                        category: 'mine',
+                        icon: t.icon || '⭐'
+                    }));
+                } catch (e) { }
+            }
+            if (savedConfirmDelete !== null) state.confirmBeforeDelete = savedConfirmDelete === 'true';
+            if (['auto', '60', '12h'].includes(savedFace)) state.clockFace = savedFace;
+            if (savedPatterns !== null) state.patternsOn = savedPatterns === 'true';
+            if (savedSeconds !== null) state.showSeconds = savedSeconds === 'true';
+
+            let darkModeValue = false;
+            if (savedDarkMode !== null) {
+                darkModeValue = savedDarkMode === 'true';
+            } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
+                darkModeValue = true;
+            }
+            state.isDarkMode = darkModeValue;
+
+            if (saved) {
+                try {
+                    const parsed = JSON.parse(saved);
+                    state.activities = parsed.map(a => ({
+                        ...a,
+                        completed: false,
+                        remainingSeconds: a.duration * 60
+                    }));
+                } catch (e) { }
+            }
+        }
+
+        // =====================================================================
+        // PLAN EDITING
+        // =====================================================================
+        function addActivity() {
+            const newId = generateId();
+            const duration = 15;
+            const colorIndex = state.activities.length % COLORS.length;
+            state.activities.push({
+                id: newId,
+                name: "",
+                duration: duration,
+                color: COLORS[colorIndex],
+                completed: false,
+                remainingSeconds: duration * 60
+            });
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+
+            requestAnimationFrame(() => {
+                const input = document.getElementById(`activity-input-${newId}`);
+                if (input) input.focus();
+            });
+        }
+
+        function addBreak() {
+            const newId = generateId();
+            state.activities.push({
+                id: newId,
+                name: "Break",
+                duration: state.defaultBreakDuration,
+                color: C.green,
+                completed: false,
+                remainingSeconds: state.defaultBreakDuration * 60
+            });
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+        }
+
+        function updateActivity(id, updates) {
+            const index = state.activities.findIndex(a => a.id === id);
+            if (index !== -1) {
+                if (updates.duration !== undefined) updates.duration = Math.min(720, Math.max(1, updates.duration));
+                state.activities[index] = { ...state.activities[index], ...updates };
+                if (updates.duration !== undefined) {
+                    state.activities[index].remainingSeconds = updates.duration * 60;
+                    state.insights = generateInsights();
+                }
+                saveToLocalStorage();
+                if (updates.duration !== undefined) render();
+            }
+        }
+
+        let nameInputTimeout = null;
+        let isTyping = false;
+        let pendingRender = false;
+
+        function handleActivityNameChange(id, value) {
+            isTyping = true;
+            const index = state.activities.findIndex(a => a.id === id);
+            if (index !== -1) {
+                state.activities[index].name = value;
+                saveToLocalStorage();
+            }
+            clearTimeout(nameInputTimeout);
+            nameInputTimeout = setTimeout(() => {
+                state.insights = generateInsights();
+                updateInsightsDisplay();
+            }, 2000);
+        }
+
+        function handleInputFocus(id) {
+            isTyping = true;
+            const input = document.getElementById(`activity-input-${id}`);
+            if (input && input.value && input.value !== 'Untitled Activity') {
+                input.dataset.originalValue = input.value;
+                setTimeout(() => input.select(), 10);
+            }
+        }
+
+        function handleInputKeydown(event, id) {
+            const input = document.getElementById(`activity-input-${id}`);
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                input.blur();
+            } else if (event.key === 'Escape') {
+                event.preventDefault();
+                if (input.dataset.originalValue) {
+                    input.value = input.dataset.originalValue;
+                    const index = state.activities.findIndex(a => a.id === id);
+                    if (index !== -1) {
+                        state.activities[index].name = input.dataset.originalValue;
+                        saveToLocalStorage();
+                    }
+                }
+                input.blur();
+            }
+        }
+
+        function handleInputBlur(id) {
+            isTyping = false;
+            const input = document.getElementById(`activity-input-${id}`);
+            const index = state.activities.findIndex(a => a.id === id);
+            if (index !== -1 && !state.activities[index].name.trim()) {
+                state.activities[index].name = "Untitled Activity";
+                saveToLocalStorage();
+                if (input) input.value = "Untitled Activity";
+            }
+            state.insights = generateInsights();
+            updateInsightsDisplay();
+            updateLive(true); // floating clock shows the new name
+            if (pendingRender) { pendingRender = false; render(); }
+        }
+
+        function updateInsightsDisplay() {
+            document.querySelectorAll('.coach-insights-text').forEach(el => {
+                el.textContent = state.insights || "Add activities to receive personalized insights and coaching.";
+            });
+        }
+
+        function deleteActivity(id) {
+            state.activities = state.activities.filter(a => a.id !== id);
+            state.selectedIds.delete(id);
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+        }
+
+        function deleteSelected() {
+            state.activities = state.activities.filter(a => !state.selectedIds.has(a.id));
+            state.selectedIds.clear();
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+        }
+
+        function requestDelete(id) {
+            if (state.confirmBeforeDelete) {
+                state.deleteConfirmation = id;
+                render();
+            } else if (Array.isArray(id)) {
+                deleteSelected();
+            } else {
+                deleteActivity(id);
+            }
+        }
+
+        function confirmDelete() {
+            if (Array.isArray(state.deleteConfirmation)) deleteSelected();
+            else deleteActivity(state.deleteConfirmation);
+            state.deleteConfirmation = null;
+            render();
+        }
+
+        function cancelDelete() {
+            state.deleteConfirmation = null;
+            render();
+        }
+
+        function toggleSelect(id) {
+            if (state.selectedIds.has(id)) state.selectedIds.delete(id);
+            else state.selectedIds.add(id);
+            render();
+        }
+
+        function toggleSelectAll() {
+            if (state.selectedIds.size === state.activities.length) state.selectedIds.clear();
+            else state.selectedIds = new Set(state.activities.map(a => a.id));
+            render();
+        }
+
+        function handleSort() {
+            if (state.dragItem === null || state.dragOverItem === null) return;
+            const items = [...state.activities];
+            const draggedItem = items[state.dragItem];
+            items.splice(state.dragItem, 1);
+            items.splice(state.dragOverItem, 0, draggedItem);
+            state.activities = items;
+            state.dragItem = null;
+            state.dragOverItem = null;
+            saveToLocalStorage();
+            render();
+        }
+
+        // ---- Patterns ----
+        function resolvePattern(activity, index) {
+            if (!state.patternsOn) return null;
+            if (activity.pattern === 'none') return null;
+            if (activity.pattern && PATTERN_IDS.includes(activity.pattern)) return activity.pattern;
+            return PATTERN_IDS[index % PATTERN_IDS.length];
+        }
+
+        function patternLabel(id) {
+            const p = PATTERNS.find(p => p.id === id);
+            return p ? p.label : 'Solid';
+        }
+
+        function cyclePattern(id) {
+            const index = state.activities.findIndex(a => a.id === id);
+            if (index === -1) return;
+            const order = [...PATTERN_IDS, 'none'];
+            const current = resolvePattern(state.activities[index], index) || 'none';
+            state.activities[index].pattern = order[(order.indexOf(current) + 1) % order.length];
+            saveToLocalStorage();
+            render();
+        }
+
+        // Shared <defs> for wedge patterns. Injected once per document.
+        function patternDefsHTML() {
+            const p = (id, inner, extra = '') => `<pattern id="mtp-${id}" width="8" height="8" patternUnits="userSpaceOnUse" ${extra}>${inner}</pattern>`;
+            return `<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+                ${p('stripes', '<rect width="3" height="8" class="ck-pat"/>', 'patternTransform="rotate(45)"')}
+                ${p('backslash', '<rect width="3" height="8" class="ck-pat"/>', 'patternTransform="rotate(-45)"')}
+                ${p('dots', '<circle cx="4" cy="4" r="1.8" class="ck-pat"/>')}
+                ${p('grid', '<path d="M0 .7H8M.7 0V8" class="ck-pat-line"/>')}
+                ${p('hlines', '<rect width="8" height="2.6" class="ck-pat"/>')}
+                ${p('zigzag', '<path d="M-1 6 L2 2 L4 6 L6 2 L9 6" class="ck-pat-line"/>')}
+                ${p('checker', '<rect width="4" height="4" class="ck-pat"/><rect x="4" y="4" width="4" height="4" class="ck-pat"/>')}
+            </defs></svg>`;
+        }
+
+        // Small color (+ pattern) disc used in lists so they match the clock
+        function swatchSVG(activity, index, size = 16) {
+            const pat = resolvePattern(activity, index);
+            return `<svg width="${size}" height="${size}" viewBox="0 0 24 24" aria-hidden="true" class="shrink-0"><circle cx="12" cy="12" r="11" fill="${activity.color}"/>${pat ? `<circle cx="12" cy="12" r="11" fill="url(#mtp-${pat})"/>` : ''}</svg>`;
+        }
+
+        // =====================================================================
+        // SESSION + TIMER ENGINE
+        // =====================================================================
+        function startSession() {
+            if (state.activities.length === 0) return;
+            unlockAudio();
+            state.mode = AppMode.RUNNING;
+            state.viewMode = 'timer';
+            state.currentIndex = 0;
+            state.isRunning = true;
+            state.activities = state.activities.map(a => ({
+                ...a,
+                completed: false,
+                remainingSeconds: a.duration * 60
+            }));
+            startTimer();
+            render();
+        }
+
+        // ---- Timer engine (timestamp-anchored) ----
+        // Remaining time is calculated from a fixed end time rather than counted
+        // down tick by tick, so it stays correct even when the browser slows
+        // timers in a background tab (e.g. while PowerPoint is in front).
+        // tick() is safe to call from anywhere, as often as you like.
+        function tick() {
+            if (state.mode !== AppMode.RUNNING || !state.isRunning || !state.activityEndsAt) return false;
+            const now = Date.now();
+            let changed = false;
+
+            while (state.isRunning) {
+                const current = state.activities[state.currentIndex];
+                if (!current) {
+                    finishSession();
+                    changed = true;
+                    break;
+                }
+
+                const remaining = Math.max(0, Math.ceil((state.activityEndsAt - now) / 1000));
+                if (current.remainingSeconds !== remaining) {
+                    current.remainingSeconds = remaining;
+                    changed = true;
+                }
+                if (remaining > 0) break;
+
+                // Current activity finished
+                playSound();
+                current.completed = true;
+                changed = true;
+
+                const nextIncomplete = state.activities.findIndex((a, i) => i > state.currentIndex && !a.completed);
+                if (nextIncomplete !== -1) {
+                    state.currentIndex = nextIncomplete;
+                    // Chain from the previous end time so no time is lost if we were throttled
+                    state.activityEndsAt += state.activities[nextIncomplete].remainingSeconds * 1000;
+                } else {
+                    finishSession();
+                }
+                saveToLocalStorage();
+            }
+            return changed;
+        }
+
+        function finishSession() {
+            state.mode = AppMode.SUMMARY;
+            state.isRunning = false;
+            state.activityEndsAt = null;
+        }
+
+        function startTimer() {
+            const current = state.activities[state.currentIndex];
+            if (!current) return;
+            state.activityEndsAt = Date.now() + current.remainingSeconds * 1000;
+        }
+
+        function stopTimer() {
+            state.activityEndsAt = null;
+        }
+
+        function togglePause() {
+            unlockAudio();
+            if (state.isRunning) {
+                tick(); // lock in the exact remaining time
+                state.isRunning = false;
+                stopTimer();
+            } else {
+                state.isRunning = true;
+                startTimer();
+            }
+            render();
+        }
+
+        function resetSession() {
+            stopTimer();
+            state.mode = AppMode.PLANNING;
+            state.viewMode = 'planner';
+            state.currentIndex = 0;
+            state.isRunning = false;
+            if (state.stash) {
+                // A quick timer just ended: bring the user's plan back
+                state.activities = state.stash;
+                state.stash = null;
+            }
+            state.activities = state.activities.map(a => ({
+                ...a,
+                completed: false,
+                remainingSeconds: a.duration * 60
+            }));
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+        }
+
+        function skipActivity() {
+            if (state.isRunning) tick();
+            if (state.mode !== AppMode.RUNNING) {
+                render();
+                return;
+            }
+            if (state.currentIndex >= state.activities.length - 1) {
+                state.activities[state.currentIndex].completed = true;
+                finishSession();
+            } else {
+                state.activities[state.currentIndex].completed = true;
+                const nextIncomplete = state.activities.findIndex((a, i) => i > state.currentIndex && !a.completed);
+                if (nextIncomplete !== -1) {
+                    state.currentIndex = nextIncomplete;
+                    if (state.isRunning) {
+                        state.activityEndsAt = Date.now() + state.activities[nextIncomplete].remainingSeconds * 1000;
+                    }
+                } else {
+                    finishSession();
+                }
+            }
+            saveToLocalStorage();
+            render();
+        }
+
+        // ---- Quick timers ----
+        function startQuickTimer(minutes, autostart = true) {
+            minutes = Math.round(parseFloat(minutes));
+            if (!(minutes >= 1)) {
+                showToast('Enter a number of minutes (1–720).');
+                return;
+            }
+            minutes = Math.min(720, minutes);
+            if (state.mode !== AppMode.PLANNING) resetSession();
+            if (!state.stash) state.stash = state.activities;
+            state.activities = [{
+                id: generateId(),
+                name: `${minutes}-minute timer`,
+                duration: minutes,
+                color: C.blue,
+                completed: false,
+                remainingSeconds: minutes * 60
+            }];
+            startSession();
+            if (!autostart) {
+                // Loaded from a link: ready to go, waiting for a tap (lets sound play later)
+                state.isRunning = false;
+                stopTimer();
+                render();
+            }
+        }
+
+        function isFreshSession() {
+            const cur = state.activities[state.currentIndex];
+            return state.mode === AppMode.RUNNING && !state.isRunning && state.currentIndex === 0 &&
+                cur && cur.remainingSeconds === cur.duration * 60;
+        }
+
+        // ---- Templates ----
+        function allTemplates() {
+            return [...TEMPLATES, ...state.customTemplates];
+        }
+
+        function findTemplate(id) {
+            return allTemplates().find(t => t.id === id);
+        }
+
+        function loadPreset(preset) {
+            state.activities = preset.activities.map(a => ({
+                id: generateId(),
+                name: a.name,
+                duration: a.duration,
+                color: a.color,
+                ...(a.pattern ? { pattern: a.pattern } : {}),
+                completed: false,
+                remainingSeconds: a.duration * 60
+            }));
+            state.selectedIds.clear();
+            state.insights = generateInsights();
+            saveToLocalStorage();
+            render();
+        }
+
+        function applyTemplateById(id) {
+            const tpl = findTemplate(id);
+            if (!tpl) return;
+            if (state.mode === AppMode.RUNNING && !state.stash) {
+                if (!confirm('End the current session and load this template?')) return;
+            }
+            if (state.mode !== AppMode.PLANNING) resetSession();
+            const previous = state.activities.map(a => ({ ...a }));
+            state.galleryOpen = false;
+            state.viewMode = 'planner';
+            loadPreset(tpl);
+            if (previous.length) {
+                showToast(`Loaded “${tpl.name}”`, 'Undo', () => {
+                    state.activities = previous;
+                    state.insights = generateInsights();
+                    saveToLocalStorage();
+                    render();
+                });
+            } else {
+                showToast(`Loaded “${tpl.name}”`);
+            }
+        }
+
+        function templateLink(id) {
+            const base = location.protocol === 'file:' ? 'https://mytimer.io/' : location.origin + location.pathname;
+            return `${base}?template=${encodeURIComponent(id)}`;
+        }
+
+        async function copyTemplateLink(id) {
+            const url = templateLink(id);
+            try {
+                await navigator.clipboard.writeText(url);
+                showToast('Link copied. Anyone who opens it gets this template.');
+            } catch (e) {
+                window.prompt('Copy this link:', url);
+            }
+        }
+
+        function saveCurrentAsTemplate() {
+            if (!state.activities.length) return;
+            const name = (window.prompt('Name this template:', '') || '').trim();
+            if (!name) return;
+            const total = totalMinutesOf(state.activities);
+            state.customTemplates.push({
+                id: 'custom-' + generateId(),
+                category: 'mine',
+                icon: '⭐',
+                name,
+                description: `${state.activities.length} steps • ${formatDuration(total)}`,
+                activities: state.activities.map(a => ({
+                    name: a.name || 'Untitled Activity',
+                    duration: a.duration,
+                    color: a.color,
+                    ...(a.pattern ? { pattern: a.pattern } : {})
+                }))
+            });
+            saveToLocalStorage();
+            render();
+            showToast(`Saved “${name}” to My templates`);
+        }
+
+        function deleteCustomTemplate(id) {
+            const tpl = state.customTemplates.find(t => t.id === id);
+            if (!tpl || !confirm(`Delete the template “${tpl.name}”?`)) return;
+            state.customTemplates = state.customTemplates.filter(t => t.id !== id);
+            saveToLocalStorage();
+            render();
+        }
+
+        function openGallery(cat) {
+            state.galleryOpen = true;
+            if (cat) state.galleryCat = cat;
+            render();
+            requestAnimationFrame(() => document.getElementById('gallery-close')?.focus());
+        }
+
+        function closeGallery() {
+            state.galleryOpen = false;
+            render();
+        }
+
+        function setGalleryCat(cat) {
+            state.galleryCat = cat;
+            render();
+        }
+
+        // =====================================================================
+        // SOUND (local files, unlocked on the first tap so they can play later)
+        // =====================================================================
+        const audioEls = {};
+        let audioUnlocked = false;
+        let audioCtx = null;
+
+        function initAudio() {
+            Object.entries(SOUND_FILES).forEach(([key, src]) => {
+                const a = new Audio(src);
+                a.preload = 'auto';
+                audioEls[key] = a;
+            });
+        }
+
+        function unlockAudio() {
+            if (audioUnlocked) return;
+            audioUnlocked = true;
+            Object.values(audioEls).forEach(a => {
+                a.muted = true;
+                const p = a.play();
+                if (p && p.then) {
+                    p.then(() => { a.pause(); a.currentTime = 0; a.muted = false; })
+                     .catch(() => { a.muted = false; });
+                } else {
+                    a.muted = false;
+                }
+            });
+            try {
+                audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+                if (audioCtx.state === 'suspended') audioCtx.resume();
+            } catch (e) { }
+        }
+
+        // Backup beep if a sound file can't play for any reason
+        function beepFallback() {
+            try {
+                audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
+                const t0 = audioCtx.currentTime;
+                [0, 0.25].forEach(offset => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'sine';
+                    osc.frequency.value = 880;
+                    gain.gain.setValueAtTime(0.0001, t0 + offset);
+                    gain.gain.exponentialRampToValueAtTime(Math.max(0.001, state.volume * 0.6), t0 + offset + 0.01);
+                    gain.gain.exponentialRampToValueAtTime(0.0001, t0 + offset + 0.2);
+                    osc.connect(gain).connect(audioCtx.destination);
+                    osc.start(t0 + offset);
+                    osc.stop(t0 + offset + 0.22);
+                });
+            } catch (e) { }
+        }
+
+        function playSound(name = state.selectedSound) {
+            if (state.volume <= 0) return;
+            const a = audioEls[name];
+            if (!a || a.error) { beepFallback(); return; }
+            try { a.pause(); a.currentTime = 0; } catch (e) { }
+            a.muted = false;
+            a.volume = state.volume;
+            const p = a.play();
+            if (p && p.catch) p.catch(() => beepFallback());
+        }
+
+        function handleSoundChange(newSound) {
+            if (!SOUND_FILES[newSound]) return;
+            unlockAudio();
+            state.selectedSound = newSound;
+            saveToLocalStorage();
+            playSound(newSound);
+            render();
+        }
+
+        function setVolume(value) {
+            state.volume = parseFloat(value);
+            const label = document.getElementById('volume-label');
+            if (label) label.textContent = `${Math.round(state.volume * 100)}%`;
+        }
+
+        // =====================================================================
+        // SETTINGS + NAVIGATION
+        // =====================================================================
+        function toggleDarkMode() {
+            state.isDarkMode = !state.isDarkMode;
+            document.documentElement.classList.toggle('dark', state.isDarkMode);
+            saveToLocalStorage();
+            render();
+        }
+
+        function setClockFace(face) {
+            state.clockFace = face;
+            saveToLocalStorage();
+            render();
+        }
+
+        function togglePatterns() {
+            state.patternsOn = !state.patternsOn;
+            saveToLocalStorage();
+            render();
+        }
+
+        function toggleSeconds() {
+            state.showSeconds = !state.showSeconds;
+            saveToLocalStorage();
+            render();
+        }
+
+        function toggleConfirmDelete() {
+            state.confirmBeforeDelete = !state.confirmBeforeDelete;
+            saveToLocalStorage();
+            render();
+        }
+
+        function openSettings() {
+            state.isSettingsOpen = true;
+            render();
+            requestAnimationFrame(() => document.getElementById('settings-close')?.focus());
+        }
+
+        function closeSettings() {
+            state.isSettingsOpen = false;
+            render();
+        }
+
+        function navigateToPlanner() {
+            state.viewMode = 'planner';
+            render();
+        }
+
+        function navigateToTimer() {
+            if (state.mode === AppMode.RUNNING) {
+                state.viewMode = 'timer';
+            } else if (state.activities.length > 0) {
+                startSession();
+                state.viewMode = 'timer';
+            }
+            render();
+        }
+
+        // =====================================================================
+        // TOAST
+        // =====================================================================
+        let toastTimer = null;
+        function showToast(message, actionLabel, actionFn) {
+            const root = document.getElementById('toast-root');
+            root.innerHTML = `<div class="toast"><span>${escapeHTML(message)}</span>${actionLabel ? `<button class="toast-btn" type="button">${escapeHTML(actionLabel)}</button>` : ''}</div>`;
+            if (actionLabel && actionFn) {
+                root.querySelector('.toast-btn').addEventListener('click', () => { actionFn(); hideToast(); });
+            }
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(hideToast, actionLabel ? 7000 : 3500);
+        }
+        function hideToast() {
+            const root = document.getElementById('toast-root');
+            if (root) root.innerHTML = '';
+        }
+
+        // =====================================================================
+        // CLOCK FACE
+        // One ClockView per visible clock (main page, floating window, pop-out).
+        // The SVG is built once; each second only the hands and wedge shapes move.
+        // =====================================================================
+
+        // Minutes each activity still occupies on the clock
+        function planWedges() {
+            const running = state.mode === AppMode.RUNNING;
+            if (state.mode === AppMode.SUMMARY) return [];
+            return state.activities.map((a, i) => {
+                let d;
+                if (a.completed) d = 0;
+                else if (running && i === state.currentIndex) d = a.remainingSeconds / 60;
+                else if (running && i < state.currentIndex) d = 0;
+                else d = a.duration;
+                return { a, i, d };
+            }).filter(w => w.d > 0);
+        }
+
+        // 60-minute face, or 12-hour face when the plan runs past an hour (auto)
+        function faceInfo(wedges) {
+            const total = wedges.reduce((s, w) => s + w.d, 0);
+            let scale;
+            if (state.clockFace === '12h') scale = 720;
+            else if (state.clockFace === '60') scale = 60;
+            else scale = total > 60 ? 720 : 60;
+            return { scale, total, overflow: Math.max(0, total - scale) };
+        }
+
+        function faceLabel() {
+            const wedges = planWedges();
+            if (!wedges.length) return '';
+            const f = faceInfo(wedges);
+            const left = state.mode === AppMode.RUNNING ? 'left' : 'planned';
+            if (f.scale === 720) {
+                const base = `12-hour view · ${formatDuration(f.total)} ${left}`;
+                return f.overflow > 0 ? `${base} · +${formatDuration(f.overflow)} beyond 12 h` : base;
+            }
+            if (f.overflow > 0) return `Showing the next hour · +${formatDuration(f.overflow)} more`;
+            return '';
+        }
+
+        function wedgePath(cx, cy, r, startFrac, endFrac) {
+            const pt = f => [cx + r * Math.sin(2 * Math.PI * f), cy - r * Math.cos(2 * Math.PI * f)];
+            if (endFrac - startFrac >= 0.9999) {
+                return `M ${cx} ${cy - r} A ${r} ${r} 0 1 1 ${cx} ${cy + r} A ${r} ${r} 0 1 1 ${cx} ${cy - r} Z`;
+            }
+            const [x0, y0] = pt(startFrac);
+            const [x1, y1] = pt(endFrac);
+            const large = endFrac - startFrac > 0.5 ? 1 : 0;
+            return `M ${cx} ${cy} L ${x0.toFixed(2)} ${y0.toFixed(2)} A ${r} ${r} 0 ${large} 1 ${x1.toFixed(2)} ${y1.toFixed(2)} Z`;
+        }
+
+        class ClockView {
+            constructor(container, extraClass = '') {
+                const V = 240, R = 100, CX = 120;
+                let ticks = '';
+                for (let i = 0; i < 60; i++) {
+                    const angle = (i * 6 * Math.PI) / 180;
+                    const major = i % 5 === 0;
+                    const innerR = major ? R - 8 : R - 4;
+                    const x1 = Math.cos(angle - Math.PI / 2) * innerR + CX, y1 = Math.sin(angle - Math.PI / 2) * innerR + CX;
+                    const x2 = Math.cos(angle - Math.PI / 2) * R + CX, y2 = Math.sin(angle - Math.PI / 2) * R + CX;
+                    ticks += `<line x1="${x1.toFixed(2)}" y1="${y1.toFixed(2)}" x2="${x2.toFixed(2)}" y2="${y2.toFixed(2)}" class="${major ? 'ck-tick-major' : 'ck-tick'}" stroke-width="${major ? 2 : 1}"/>`;
+                }
+                let nums = '';
+                for (let n = 1; n <= 12; n++) {
+                    const angle = (n * 30 * Math.PI) / 180, tr = R - 22;
+                    nums += `<text x="${(Math.cos(angle - Math.PI / 2) * tr + CX).toFixed(2)}" y="${(Math.sin(angle - Math.PI / 2) * tr + CX).toFixed(2)}" text-anchor="middle" dominant-baseline="middle" class="ck-num">${n}</text>`;
+                }
+                container.innerHTML = `
+                    <svg viewBox="0 0 ${V} ${V}" class="${extraClass}" role="img" aria-label="Clock showing your planned activities">
+                        <circle cx="${CX}" cy="${CX}" r="${R + 8}" class="ck-face" stroke-width="2"/>
+                        ${ticks}${nums}
+                        <g class="ck-wedges"></g>
+                        <line class="ck-hour" x1="${CX}" y1="${CX}" x2="${CX}" y2="${CX - R * 0.5}" stroke-width="4" stroke-linecap="round"/>
+                        <line class="ck-min" x1="${CX}" y1="${CX}" x2="${CX}" y2="${CX - R * 0.8}" stroke-width="3" stroke-linecap="round"/>
+                        <line class="ck-sec" x1="${CX}" y1="${CX}" x2="${CX}" y2="${CX - R * 0.9}" stroke-width="1.5" stroke-linecap="round"/>
+                        <circle cx="${CX}" cy="${CX}" r="4" class="ck-cap"/>
+                        <circle cx="${CX}" cy="${CX}" r="1.5" class="ck-pin"/>
+                    </svg>`;
+                this.svg = container.querySelector('svg');
+                this.wedgeGroup = this.svg.querySelector('.ck-wedges');
+                this.hour = this.svg.querySelector('.ck-hour');
+                this.min = this.svg.querySelector('.ck-min');
+                this.sec = this.svg.querySelector('.ck-sec');
+                this.pin = this.svg.querySelector('.ck-pin');
+                this.signature = null;
+                this.shapes = [];
+                this.R = R;
+                this.CX = CX;
+            }
+
+            update() {
+                const now = state.now;
+                const s = now.getSeconds();
+                const m = now.getMinutes() + s / 60;
+                const h = (now.getHours() % 12) + m / 60;
+                const CX = this.CX;
+
+                this.hour.setAttribute('transform', `rotate(${(h * 30).toFixed(2)} ${CX} ${CX})`);
+                this.min.setAttribute('transform', `rotate(${(m * 6).toFixed(2)} ${CX} ${CX})`);
+                this.sec.setAttribute('transform', `rotate(${s * 6} ${CX} ${CX})`);
+                const secDisplay = state.showSeconds ? '' : 'none';
+                if (this.sec.style.display !== secDisplay) {
+                    this.sec.style.display = secDisplay;
+                    this.pin.style.display = secDisplay;
+                }
+
+                // Wedges start at the minute hand (60-minute face) or hour hand (12-hour face)
+                const wedges = planWedges();
+                const face = faceInfo(wedges);
+                let cursor = face.scale === 60 ? m : h * 60;
+                let used = 0;
+                const segs = [];
+                for (const w of wedges) {
+                    if (used >= face.scale) break;
+                    const d = Math.min(w.d, face.scale - used);
+                    segs.push({
+                        w,
+                        pattern: resolvePattern(w.a, w.i),
+                        d: wedgePath(CX, CX, this.R, cursor / face.scale, (cursor + d) / face.scale)
+                    });
+                    cursor += d;
+                    used += d;
+                }
+
+                const signature = segs.map(sg => sg.w.a.color + ':' + (sg.pattern || '')).join('|');
+                if (signature !== this.signature) {
+                    this.signature = signature;
+                    this.wedgeGroup.innerHTML = segs.map(sg =>
+                        `<path class="ck-wedge" fill="${sg.w.a.color}" stroke="white" stroke-width="0.5"/>` +
+                        (sg.pattern ? `<path fill="url(#mtp-${sg.pattern})" pointer-events="none"/>` : '')
+                    ).join('');
+                    this.shapes = segs.map(() => []);
+                    const paths = this.wedgeGroup.querySelectorAll('path');
+                    let p = 0;
+                    segs.forEach((sg, k) => {
+                        this.shapes[k].push(paths[p++]);
+                        if (sg.pattern) this.shapes[k].push(paths[p++]);
+                    });
+                }
+                segs.forEach((sg, k) => this.shapes[k].forEach(el => {
+                    if (el.getAttribute('d') !== sg.d) el.setAttribute('d', sg.d);
+                }));
+            }
+        }
+
+        // Static mini pie for template cards (starts at 12 o'clock)
+        function miniPieSVG(activities, size = 56) {
+            const total = totalMinutesOf(activities) || 1;
+            let acc = 0;
+            const shapes = activities.map((a, i) => {
+                const d = wedgePath(50, 50, 46, acc / total, (acc + a.duration) / total);
+                acc += a.duration;
+                const pat = resolvePattern(a, i);
+                return `<path d="${d}" fill="${a.color}" stroke="white" stroke-width="1"/>` + (pat ? `<path d="${d}" fill="url(#mtp-${pat})"/>` : '');
+            }).join('');
+            return `<svg width="${size}" height="${size}" viewBox="0 0 100 100" aria-hidden="true" class="shrink-0"><circle cx="50" cy="50" r="49" class="ck-face" stroke-width="1"/>${shapes}</svg>`;
+        }
+
+        // =====================================================================
+        // LIVE UPDATES (once a second: clock hands, countdown, end time)
+        // Everything else only re-renders when something actually changes.
+        // =====================================================================
+        let mainClock = null;
+        let floatClock = null;
+        let pipClock = null;
+        let lastLiveKey = '';
+
+        function remainingPlanSeconds() {
+            if (state.mode === AppMode.RUNNING) {
+                return state.activities.reduce((sum, a, i) => {
+                    if (a.completed || i < state.currentIndex) return sum;
+                    if (i === state.currentIndex) return sum + a.remainingSeconds;
+                    return sum + a.duration * 60;
+                }, 0);
+            }
+            if (state.mode === AppMode.PLANNING) return totalMinutesOf(state.activities) * 60;
+            return 0;
+        }
+
+        function nowString() {
+            return clockTime(new Date());
+        }
+
+        function floatTitle() {
+            if (state.mode === AppMode.RUNNING) {
+                const a = state.activities[state.currentIndex];
+                if (a) return `${formatTime(a.remainingSeconds)}${state.isRunning ? '' : ' (paused)'} • ${a.name || 'Untitled Activity'}`;
+            }
+            if (state.mode === AppMode.SUMMARY) return 'Session complete';
+            return `Clock • ${nowString()}`;
+        }
+
+        function liveValues() {
+            const cur = state.activities[state.currentIndex];
+            const running = state.mode === AppMode.RUNNING && cur;
+            return {
+                countdown: running ? formatTime(cur.remainingSeconds) : '',
+                now: nowString(),
+                endsAt: clockTime(new Date(Date.now() + remainingPlanSeconds() * 1000)),
+                face: faceLabel(),
+                floatTitle: floatTitle()
+            };
+        }
+
+        function fillLive(doc, vals) {
+            doc.querySelectorAll('[data-live]').forEach(el => {
+                const v = vals[el.dataset.live];
+                if (v === undefined) return;
+                if (el.dataset.live === 'face') el.hidden = !v;
+                if (el.textContent !== v) el.textContent = v;
+            });
+        }
+
+        function updateLive(force = false) {
+            const nowMs = Date.now();
+            const cur = state.activities[state.currentIndex];
+            const key = Math.floor(nowMs / 1000) + '|' + (cur ? cur.remainingSeconds : '') + '|' + state.mode + state.isRunning;
+            if (!force && key === lastLiveKey) return;
+            lastLiveKey = key;
+            state.now = new Date(nowMs);
+
+            const vals = liveValues();
+
+            // Tab title shows the countdown (visible even when the tab is in the background).
+            // Activity names are left out on purpose: analytics records page titles.
+            let title = DEFAULT_TITLE;
+            if (state.mode === AppMode.RUNNING && cur) title = `${state.isRunning ? '' : '⏸ '}${vals.countdown} | MyTimer.io`;
+            else if (state.mode === AppMode.SUMMARY) title = '✓ Session complete | MyTimer.io';
+            if (document.title !== title) document.title = title;
+
+            const pipOpen = pipWindow && !pipWindow.closed;
+            if (!document.hidden) {
+                if (mainClock && mainClock.svg.isConnected) mainClock.update();
+                if (floatClock && floatEl && !floatEl.hidden && !floatState.minimized) floatClock.update();
+                fillLive(document, vals);
+            }
+            if (pipOpen) {
+                if (pipClock) pipClock.update();
+                fillLive(pipWindow.document, vals);
+                if (pipWindow.document.title !== vals.floatTitle) pipWindow.document.title = vals.floatTitle;
+            }
+        }
+
+        function structuralKey() {
+            return state.mode + '|' + state.currentIndex + '|' + state.isRunning;
+        }
+
+        // Single heartbeat: keeps the timer accurate and the display fresh
+        function heartbeat() {
+            const before = structuralKey();
+            tick();
+            if (structuralKey() !== before) {
+                if (isTyping) { pendingRender = true; updatePanels(); }
+                else render();
+            } else {
+                updateLive();
+            }
+        }
+
+        // =====================================================================
+        // RENDERING (only when something structural changes)
+        // =====================================================================
+        const card = 'bg-white dark:bg-slate-900 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm';
+        const btnPrimary = 'bg-brand-600 hover:bg-brand-700 text-white';
+        const btnSecondary = 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700';
+
+        function navButton(onclick, icon, label, active = false, pressed = null) {
+            return `<button onclick="${onclick}" class="w-12 h-12 grid place-items-center rounded-xl transition-colors ${active ? 'bg-brand-100 dark:bg-brand-900/40 text-brand-700 dark:text-brand-300' : 'text-slate-600 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-800'}" title="${label}" aria-label="${label}"${pressed !== null ? ` aria-pressed="${pressed}"` : ''}>${icon}</button>`;
+        }
+
+        function switchButton(on, onclick, label) {
+            return `<button type="button" role="switch" aria-checked="${on}" aria-label="${label}" onclick="${onclick}" class="h-11 px-1 shrink-0 flex items-center">
+                <span class="w-12 h-7 rounded-full flex items-center transition-colors ${on ? 'bg-brand-600' : 'bg-slate-300 dark:bg-slate-600'}">
+                    <span class="w-5 h-5 bg-white rounded-full shadow transition-transform ${on ? 'translate-x-6' : 'translate-x-1'}"></span>
+                </span>
+            </button>`;
+        }
+
+        function createStatsCard(label, value, iconName, colorClass) {
+            return `
+                <div class="bg-white dark:bg-slate-800 p-4 rounded-2xl border border-slate-100 dark:border-slate-700 shadow-sm flex items-center gap-4">
+                    <div class="p-3 rounded-xl ${colorClass}">${icons[iconName]}</div>
+                    <div>
+                        <p class="text-sm font-medium text-slate-500 dark:text-slate-400">${label}</p>
+                        <p class="text-xl font-bold text-slate-900 dark:text-white">${value}</p>
+                    </div>
+                </div>`;
+        }
+
+        function clockSection(footer) {
+            return `
+                <section class="bg-gradient-to-br from-brand-50 to-white dark:from-slate-900 dark:to-brand-950/40 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-6 sm:p-8">
+                    <div id="main-clock" class="relative w-full max-w-md mx-auto aspect-square"></div>
+                    <div class="mt-3 flex justify-center min-h-[28px]">
+                        <span data-live="face" hidden class="inline-flex items-center px-3 py-1 rounded-full text-xs font-bold bg-white/80 dark:bg-slate-800 text-slate-600 dark:text-slate-300 border border-slate-200 dark:border-slate-700"></span>
+                    </div>
+                    ${footer}
+                </section>`;
+        }
+
+        function templateRow(t) {
+            const total = totalMinutesOf(t.activities);
+            return `
+                <button onclick="applyTemplateById('${t.id}')" class="w-full text-left p-3 bg-slate-50 dark:bg-slate-800 rounded-2xl hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors border border-slate-100 dark:border-slate-700 flex items-center gap-3">
+                    <div class="text-2xl w-10 text-center" aria-hidden="true">${t.icon}</div>
+                    <div class="flex-1 min-w-0">
+                        <p class="font-bold text-sm text-slate-900 dark:text-white truncate">${escapeHTML(t.name)}</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mt-0.5">${t.activities.length} steps • ${formatDuration(total)}</p>
+                    </div>
+                    ${miniPieSVG(t.activities, 40)}
+                </button>`;
+        }
+
+        function planningView() {
+            const totalMinutes = totalMinutesOf(state.activities);
+            const hasPlan = state.activities.length > 0;
+            const featured = FEATURED_TEMPLATE_IDS.map(findTemplate).filter(Boolean);
+
+            return `
+                <div class="lg:grid lg:grid-cols-12 gap-8 flex flex-col">
+                    <div class="lg:col-span-7 space-y-6 sm:space-y-8">
+                        ${clockSection(`
+                            <div class="mt-3 text-center">
+                                <p class="text-sm font-semibold tracking-wide text-slate-500 dark:text-slate-400 mb-1">READY TO BEGIN</p>
+                                <p class="text-lg font-bold text-slate-900 dark:text-white">${state.activities.length} ${state.activities.length === 1 ? 'Activity' : 'Activities'} • ${formatDuration(totalMinutes)}</p>
+                                ${hasPlan ? `<p class="text-sm text-slate-600 dark:text-slate-300 mt-1">Start now and you’ll finish at <b class="tabnums" data-live="endsAt"></b></p>` : ''}
+                            </div>`)}
+
+                        <div class="grid grid-cols-2 gap-4">
+                            ${createStatsCard('Total Time', formatDuration(totalMinutes), 'Clock', 'bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-300')}
+                            ${createStatsCard('Activities', state.activities.length, 'LayoutGrid', 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300')}
+                        </div>
+
+                        ${hasPlan ? `
+                        <button onclick="startSession()" class="${btnPrimary} w-full h-16 flex items-center justify-center gap-3 px-8 text-lg font-extrabold rounded-2xl shadow-lg shadow-brand-600/20 transition-all active:scale-[0.98]">
+                            ${icons.Play} START SESSION
+                        </button>` : ''}
+
+                        <section class="${card} p-6">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-brand-100 dark:bg-brand-900/50 text-brand-700 dark:text-brand-300">${icons.Brain}</div>
+                                <h3 class="font-bold text-lg text-slate-900 dark:text-white">Coach Insights</h3>
+                            </div>
+                            <p class="coach-insights-text text-slate-600 dark:text-slate-300 leading-relaxed">${escapeHTML(state.insights || "Add activities to receive personalized insights and coaching.")}</p>
+                        </section>
+                    </div>
+
+                    <div class="lg:col-span-5 flex flex-col gap-6">
+                        <section class="${card} p-6 order-1">
+                            <h3 class="font-bold text-lg flex items-center gap-2 text-slate-900 dark:text-white"><span class="text-brand-600 dark:text-brand-300 i5">${icons.Zap}</span> Quick timer</h3>
+                            ${state.mode === AppMode.PLANNING ? `
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-1 mb-4">One tap to start. Your plan stays saved.</p>
+                            <div class="grid grid-cols-5 gap-2">
+                                ${QUICK_MINUTES.map(m => `
+                                <button onclick="startQuickTimer(${m})" class="h-12 rounded-xl bg-brand-50 dark:bg-brand-950/60 text-brand-700 dark:text-brand-200 font-extrabold hover:bg-brand-100 dark:hover:bg-brand-900 transition-colors tabnums" aria-label="Start a ${m}-minute timer">${m}<span class="text-xs font-bold opacity-70 ml-0.5">m</span></button>`).join('')}
+                            </div>
+                            <form class="flex gap-2 mt-3" onsubmit="event.preventDefault(); startQuickTimer(this.elements.qm.value);">
+                                <label for="qm" class="sr-only">Custom minutes</label>
+                                <input id="qm" name="qm" type="number" min="1" max="720" inputmode="numeric" placeholder="Other (minutes)" class="flex-1 min-w-0 h-12 px-4 rounded-xl bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white placeholder:text-slate-400 font-semibold">
+                                <button type="submit" class="${btnPrimary} h-12 px-5 rounded-xl font-bold">Start</button>
+                            </form>` : `
+                            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">A session is running. End it to start a quick timer.</p>`}
+                        </section>
+
+                        <section class="${card} p-6 order-2">
+                            <div class="flex items-center justify-between gap-2 mb-4">
+                                <h3 class="font-bold text-lg flex items-center gap-2 text-slate-900 dark:text-white"><span class="text-brand-600 dark:text-brand-300 i5">${icons.Sparkles}</span> Templates</h3>
+                                <button onclick="openGallery('all')" class="h-11 px-3 rounded-xl text-sm font-bold text-brand-700 dark:text-brand-300 hover:bg-brand-50 dark:hover:bg-brand-950/60">Browse all (${allTemplates().length})</button>
+                            </div>
+                            <div class="space-y-2">${featured.map(templateRow).join('')}</div>
+                            ${hasPlan ? `
+                            <button onclick="saveCurrentAsTemplate()" class="mt-3 w-full h-12 flex items-center justify-center gap-2 rounded-xl border-2 border-dashed border-slate-200 dark:border-slate-700 text-sm font-bold text-slate-600 dark:text-slate-300 hover:border-brand-300 hover:text-brand-700 dark:hover:text-brand-300 transition-colors">
+                                <span class="i4">${icons.Save}</span> Save current plan as a template
+                            </button>` : ''}
+                        </section>
+
+                        <section class="${card} flex-1 flex flex-col relative overflow-hidden order-3">
+                            <div class="px-4 sm:px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm z-10">
+                                <div class="flex items-center gap-1">
+                                    ${hasPlan ? `
+                                    <button onclick="toggleSelectAll()" class="w-11 h-11 grid place-items-center rounded-xl text-slate-400 hover:text-brand-600 transition-colors" aria-label="${state.selectedIds.size === state.activities.length ? 'Deselect all' : 'Select all'}">
+                                        ${state.selectedIds.size === state.activities.length ? icons.CheckSquare : icons.Square}
+                                    </button>` : ''}
+                                    <h3 class="font-bold text-lg text-slate-900 dark:text-white">Planner</h3>
+                                </div>
+                                <div class="flex gap-2 print-hidden">
+                                    ${state.selectedIds.size > 0 ? `
+                                    <button onclick="requestDelete(Array.from(state.selectedIds))" class="w-11 h-11 grid place-items-center bg-red-50 dark:bg-red-950/50 text-red-600 dark:text-red-400 rounded-xl hover:bg-red-100 transition-all active:scale-95" aria-label="Delete selected">
+                                        ${icons.Trash2}
+                                    </button>` : ''}
+                                    <button onclick="addBreak()" class="h-11 flex items-center gap-1.5 px-3 bg-emerald-50 dark:bg-emerald-950/50 text-emerald-700 dark:text-emerald-300 text-xs font-bold rounded-xl border border-emerald-100 dark:border-emerald-900 hover:bg-emerald-100 transition-all active:scale-95">
+                                        <span class="i4">${icons.Coffee}</span> BREAK
+                                    </button>
+                                    <button onclick="addActivity()" class="${btnPrimary} w-11 h-11 grid place-items-center rounded-xl transition-all active:scale-95 shadow-md shadow-brand-600/20" aria-label="Add activity">
+                                        ${icons.Plus}
+                                    </button>
+                                </div>
+                            </div>
+
+                            <div id="activities-scroll-container" class="flex-1 p-3 sm:p-4 lg:overflow-y-auto lg:max-h-[460px]">
+                                ${!hasPlan ? `
+                                <div class="h-full flex flex-col items-center justify-center py-12 text-slate-400 text-center px-6">
+                                    <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-full mb-4">${icons.LayoutGrid}</div>
+                                    <p class="font-medium text-slate-500 dark:text-slate-400">Empty Planner</p>
+                                    <p class="text-xs mt-1">Add activities, or pick a template above.</p>
+                                </div>` : `
+                                <div class="space-y-3">${state.activities.map(activityRow).join('')}</div>`}
+                            </div>
+                        </section>
+                    </div>
+                </div>`;
+        }
+
+        function activityRow(activity, index) {
+            const selected = state.selectedIds.has(activity.id);
+            const pat = resolvePattern(activity, index);
+            const marker = state.patternsOn
+                ? `<button onclick="cyclePattern('${activity.id}')" class="w-11 h-11 grid place-items-center rounded-xl hover:bg-slate-100 dark:hover:bg-slate-700 shrink-0" title="Pattern: ${patternLabel(pat)}. Tap to change." aria-label="Pattern: ${patternLabel(pat)}. Tap to change.">${swatchSVG(activity, index, 26)}</button>`
+                : `<span class="w-6 grid place-items-center shrink-0">${swatchSVG(activity, index, 14)}</span>`;
+            return `
+                <div draggable="true"
+                    ondragstart="state.dragItem = ${index}"
+                    ondragenter="state.dragOverItem = ${index}"
+                    ondragend="handleSort()"
+                    ondragover="event.preventDefault()"
+                    class="group relative p-2 sm:p-3 rounded-2xl border transition-colors ${selected ? 'border-emerald-500 bg-emerald-50/40 dark:bg-emerald-950/30' : 'bg-white dark:bg-slate-800 border-slate-100 dark:border-slate-700 hover:border-slate-200 dark:hover:border-slate-600'} ${!activity.name ? 'border-dashed border-slate-300 dark:border-slate-600' : ''}">
+                    <div class="flex items-center gap-1">
+                        <button onclick="toggleSelect('${activity.id}')" class="w-11 h-11 grid place-items-center rounded-xl text-slate-300 dark:text-slate-500 hover:text-brand-600 transition-colors shrink-0" aria-label="${selected ? 'Deselect' : 'Select'} ${escapeHTML(activity.name || 'activity')}" aria-pressed="${selected}">
+                            ${selected ? icons.CheckSquare : icons.Square}
+                        </button>
+                        ${marker}
+                        <input id="activity-input-${activity.id}" type="text"
+                            class="flex-1 min-w-0 h-11 bg-transparent font-bold focus:outline-none focus:ring-2 focus:ring-brand-400/60 rounded-lg px-2 text-base text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
+                            value="${escapeHTML(activity.name)}"
+                            aria-label="Activity name"
+                            oninput="handleActivityNameChange('${activity.id}', this.value)"
+                            onfocus="handleInputFocus('${activity.id}')"
+                            onblur="handleInputBlur('${activity.id}')"
+                            onkeydown="handleInputKeydown(event, '${activity.id}')"
+                            placeholder="Type activity name..." />
+                        <button onclick="requestDelete('${activity.id}')" class="w-11 h-11 grid place-items-center rounded-xl text-slate-300 dark:text-slate-500 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-950/40 transition-colors shrink-0" aria-label="Delete ${escapeHTML(activity.name || 'activity')}">
+                            <span class="i5">${icons.Trash2}</span>
+                        </button>
+                    </div>
+                    <div class="flex items-center gap-2 mt-1 pl-12">
+                        <button onclick="updateActivity('${activity.id}', { duration: ${activity.duration} - 1 })"
+                            class="w-11 h-11 grid place-items-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl transition-all active:scale-95 text-slate-700 dark:text-slate-200 text-xl font-bold"
+                            aria-label="Decrease by 1 minute">−</button>
+                        <label class="h-11 flex items-center gap-1 bg-slate-100 dark:bg-slate-700 px-3 rounded-xl">
+                            <span class="sr-only">Minutes for ${escapeHTML(activity.name || 'activity')}</span>
+                            <input type="number" inputmode="numeric" pattern="[0-9]*"
+                                class="w-12 bg-transparent focus:outline-none focus:ring-2 focus:ring-brand-500 rounded text-center text-base font-bold text-slate-900 dark:text-slate-100 tabnums"
+                                value="${activity.duration}"
+                                onchange="updateActivity('${activity.id}', { duration: parseInt(this.value) || 1 })"
+                                min="1" max="720" />
+                            <span class="text-xs font-semibold text-slate-500 dark:text-slate-400">min</span>
+                        </label>
+                        <button onclick="updateActivity('${activity.id}', { duration: ${activity.duration} + 1 })"
+                            class="w-11 h-11 grid place-items-center bg-slate-100 dark:bg-slate-700 hover:bg-slate-200 dark:hover:bg-slate-600 rounded-xl transition-all active:scale-95 text-slate-700 dark:text-slate-200 text-xl font-bold"
+                            aria-label="Increase by 1 minute">+</button>
+                    </div>
+                </div>`;
+        }
+
+        function runningView() {
+            const currentActivity = state.activities[state.currentIndex];
+            const completedCount = state.activities.filter(a => a.completed).length;
+            const fresh = isFreshSession();
+            const pauseLabel = state.isRunning ? 'PAUSE' : (fresh ? 'START' : 'RESUME');
+            return `
+                <div class="max-w-4xl mx-auto space-y-6 sm:space-y-8">
+                    ${clockSection(`
+                        <div class="mt-4 text-center space-y-3">
+                            <div class="flex items-center justify-center gap-2">
+                                ${swatchSVG(currentActivity, state.currentIndex, 18)}
+                                <h2 class="text-2xl font-extrabold text-slate-900 dark:text-white">${escapeHTML(currentActivity.name || 'Untitled Activity')}</h2>
+                            </div>
+                            <div class="text-6xl sm:text-7xl font-mono font-extrabold text-brand-600 dark:text-brand-300 tabnums" data-live="countdown" aria-live="off"></div>
+                            <p class="text-sm font-medium text-slate-500 dark:text-slate-400">
+                                ${state.isRunning ? '' : (fresh ? 'Ready • ' : 'Paused • ')}Activity ${state.currentIndex + 1} of ${state.activities.length}${completedCount ? ` • ${completedCount} completed` : ''}
+                            </p>
+                            <p class="text-sm text-slate-600 dark:text-slate-300">${state.activities.length > 1 ? 'Session ends' : 'Ends'} at <b class="tabnums" data-live="endsAt"></b></p>
+                        </div>
+                        <div class="flex gap-3 mt-6">
+                            <button onclick="togglePause()" class="${btnPrimary} flex-1 h-14 flex items-center justify-center gap-2 px-6 font-extrabold rounded-2xl transition-all shadow-lg shadow-brand-600/20 active:scale-[0.98]">
+                                ${state.isRunning ? icons.Pause : icons.Play} ${pauseLabel}
+                            </button>
+                            <button onclick="skipActivity()" class="${btnSecondary} h-14 px-5 sm:px-6 font-bold rounded-2xl transition-all active:scale-95 flex items-center gap-2" aria-label="Skip to next activity">
+                                <span class="i5">${icons.SkipForward}</span><span class="hidden sm:inline">SKIP</span>
+                            </button>
+                            <button onclick="resetSession()" class="${btnSecondary} w-14 h-14 grid place-items-center rounded-2xl transition-all active:scale-95" aria-label="End session" title="End session">
+                                ${icons.RotateCcw}
+                            </button>
+                        </div>`)}
+
+                    ${state.activities.length > 1 ? `
+                    <section class="${card} p-6">
+                        <h3 class="font-bold text-lg mb-4 text-slate-900 dark:text-white">Up Next</h3>
+                        <div class="space-y-2">
+                            ${state.activities.map((activity, index) => `
+                            <div class="flex items-center gap-3 p-3 rounded-xl ${index === state.currentIndex ? 'bg-brand-50 dark:bg-brand-950/60 border-2 border-brand-200 dark:border-brand-800' : 'bg-slate-50 dark:bg-slate-800'} ${activity.completed ? 'opacity-50' : ''}">
+                                ${swatchSVG(activity, index, 16)}
+                                <span class="flex-1 font-medium text-sm text-slate-900 dark:text-white">${escapeHTML(activity.name || 'Untitled Activity')}</span>
+                                <span class="text-xs font-bold text-slate-500 dark:text-slate-400">${formatDuration(activity.duration)}</span>
+                                ${activity.completed ? `<span class="text-emerald-600 dark:text-emerald-400 i5" aria-label="Completed">${icons.CheckCircle}</span>` : ''}
+                            </div>`).join('')}
+                        </div>
+                    </section>` : ''}
+                </div>`;
+        }
+
+        function summaryView() {
+            const totalMinutes = totalMinutesOf(state.activities);
+            const completedCount = state.activities.filter(a => a.completed).length;
+            return `
+                <div class="max-w-3xl mx-auto space-y-6 sm:space-y-8">
+                    <section class="bg-gradient-to-br from-brand-50 to-emerald-50 dark:from-slate-900 dark:to-emerald-950 rounded-3xl border border-slate-100 dark:border-slate-800 shadow-sm p-8 text-center">
+                        <div class="w-20 h-20 mx-auto mb-4 rounded-full bg-emerald-500 flex items-center justify-center text-white">${icons.CheckCircle}</div>
+                        <h2 class="text-3xl font-extrabold text-slate-900 dark:text-white mb-2">Session Complete!</h2>
+                        <p class="text-lg text-slate-600 dark:text-slate-300">Great work on completing your activities.</p>
+                    </section>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        ${createStatsCard('Completed', `${completedCount} of ${state.activities.length}`, 'CheckCircle', 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300')}
+                        ${createStatsCard('Total Time', formatDuration(totalMinutes), 'Clock', 'bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-300')}
+                    </div>
+
+                    <section class="${card} p-6">
+                        <h3 class="font-bold text-lg mb-4 text-slate-900 dark:text-white">Activity Summary</h3>
+                        <div class="space-y-2">
+                            ${state.activities.map((activity, index) => `
+                            <div class="flex items-center gap-3 p-3 rounded-xl bg-slate-50 dark:bg-slate-800">
+                                ${swatchSVG(activity, index, 16)}
+                                <span class="flex-1 font-medium text-sm text-slate-900 dark:text-white">${escapeHTML(activity.name || 'Untitled Activity')}</span>
+                                <span class="text-xs font-bold text-slate-500 dark:text-slate-400">${formatDuration(activity.duration)}</span>
+                                ${activity.completed ? `<span class="text-emerald-600 dark:text-emerald-400 i5" aria-label="Completed">${icons.CheckCircle}</span>` : ''}
+                            </div>`).join('')}
+                        </div>
+                    </section>
+
+                    <div class="flex flex-col sm:flex-row gap-3">
+                        <button onclick="startSession()" class="${btnSecondary} sm:flex-1 h-16 flex items-center justify-center gap-3 px-8 text-lg font-extrabold rounded-2xl transition-all active:scale-[0.98]">
+                            ${icons.Repeat} RUN AGAIN
+                        </button>
+                        <button onclick="resetSession()" class="${btnPrimary} sm:flex-1 h-16 flex items-center justify-center gap-3 px-8 text-lg font-extrabold rounded-2xl shadow-lg shadow-brand-600/20 transition-all active:scale-[0.98]">
+                            ${icons.ClipboardList} PLAN NEW SESSION
+                        </button>
+                    </div>
+                </div>`;
+        }
+
+        function settingsModal() {
+            const faceBtn = (id, label) => `
+                <button onclick="setClockFace('${id}')" role="radio" aria-checked="${state.clockFace === id}" class="h-12 rounded-xl border-2 text-sm font-bold transition-colors ${state.clockFace === id ? 'border-brand-600 bg-brand-50 dark:bg-brand-950/50 text-brand-700 dark:text-brand-200' : 'border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:border-slate-300'}">${label}</button>`;
+            return `
+                <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4" onclick="if(event.target === this) closeSettings();">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-md w-full max-h-[85vh] overflow-y-auto" role="dialog" aria-modal="true" aria-labelledby="settings-title">
+                        <div class="px-6 py-4 border-b border-slate-100 dark:border-slate-800 flex items-center justify-between sticky top-0 bg-white dark:bg-slate-900 z-10">
+                            <h2 id="settings-title" class="text-xl font-bold text-slate-900 dark:text-white">Settings</h2>
+                            <button id="settings-close" onclick="closeSettings()" class="w-12 h-12 grid place-items-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-300" aria-label="Close settings">${icons.X}</button>
+                        </div>
+
+                        <div class="p-6 space-y-7">
+                            <div>
+                                <p class="text-sm font-bold mb-3 text-slate-900 dark:text-white">Clock face</p>
+                                <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Clock face">
+                                    ${faceBtn('auto', 'Auto')}${faceBtn('60', '60 min')}${faceBtn('12h', '12 hour')}
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Auto shows one hour, and switches to a 12-hour face when your plan runs longer so nothing overlaps.</p>
+                            </div>
+
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">Wedge patterns</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">Adds stripes, dots and other textures so activities can be told apart without relying on color. Tap an activity’s swatch in the planner to choose its pattern.</p>
+                                </div>
+                                ${switchButton(state.patternsOn, 'togglePatterns()', 'Wedge patterns')}
+                            </div>
+
+                            <div class="flex items-start justify-between gap-4">
+                                <div>
+                                    <p class="text-sm font-bold text-slate-900 dark:text-white">Second hand</p>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">${REDUCED_MOTION ? 'Off by default because your device is set to reduce motion.' : 'Turn off for a calmer, less busy clock.'}</p>
+                                </div>
+                                ${switchButton(state.showSeconds, 'toggleSeconds()', 'Second hand')}
+                            </div>
+
+                            <div>
+                                <p class="text-sm font-bold mb-3 text-slate-900 dark:text-white">Completion Sound</p>
+                                <div class="space-y-2" role="radiogroup" aria-label="Completion sound">
+                                    ${SOUND_OPTIONS.map(s => `
+                                    <button onclick="handleSoundChange('${s.id}')" role="radio" aria-checked="${state.selectedSound === s.id}"
+                                        class="w-full p-4 rounded-xl border-2 transition-colors text-left flex items-center gap-3 ${state.selectedSound === s.id ? 'border-brand-600 bg-brand-50 dark:bg-brand-950/40' : 'border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600'}">
+                                        <span class="w-5 h-5 rounded-full border-2 flex items-center justify-center shrink-0 ${state.selectedSound === s.id ? 'border-brand-600' : 'border-slate-300 dark:border-slate-600'}">
+                                            ${state.selectedSound === s.id ? '<span class="w-3 h-3 rounded-full bg-brand-600"></span>' : ''}
+                                        </span>
+                                        <span class="flex-1">
+                                            <span class="flex items-center gap-2"><span class="text-2xl" aria-hidden="true">${s.emoji}</span><span class="font-bold text-slate-900 dark:text-white">${s.label}</span></span>
+                                            <span class="block text-xs text-slate-500 dark:text-slate-400 mt-0.5">${s.desc}</span>
+                                        </span>
+                                    </button>`).join('')}
+                                </div>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-3">Tap to preview and select</p>
+                            </div>
+
+                            <div>
+                                <label for="volume" class="block text-sm font-bold mb-2 text-slate-900 dark:text-white">Volume: <span id="volume-label">${Math.round(state.volume * 100)}%</span></label>
+                                <input id="volume" type="range" min="0" max="1" step="0.1" value="${state.volume}" oninput="setVolume(this.value)" onchange="saveToLocalStorage(); playSound();" class="w-full h-11 accent-[#2A64DB]" />
+                            </div>
+
+                            <div>
+                                <label for="break-dur" class="block text-sm font-bold mb-2 text-slate-900 dark:text-white">Default Break Duration (minutes)</label>
+                                <input id="break-dur" type="number" min="1" max="120" inputmode="numeric" value="${state.defaultBreakDuration}" onchange="state.defaultBreakDuration = Math.max(1, parseInt(this.value) || 5); saveToLocalStorage();" class="w-full h-12 px-4 bg-slate-50 dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700 text-slate-900 dark:text-white font-semibold" />
+                            </div>
+
+                            <div class="flex items-center justify-between gap-4">
+                                <p class="text-sm font-bold text-slate-900 dark:text-white">Confirm Before Delete</p>
+                                ${switchButton(state.confirmBeforeDelete, 'toggleConfirmDelete()', 'Confirm before delete')}
+                            </div>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function galleryModal() {
+            const cat = state.galleryCat;
+            const list = allTemplates().filter(t => cat === 'all' || t.category === cat);
+            const catButton = c => {
+                const count = c.id === 'all' ? allTemplates().length : allTemplates().filter(t => t.category === c.id).length;
+                if (c.id === 'mine' && !count) return '';
+                return `<button onclick="setGalleryCat('${c.id}')" aria-pressed="${cat === c.id}" class="h-11 px-4 shrink-0 rounded-full text-sm font-bold whitespace-nowrap transition-colors ${cat === c.id ? 'bg-brand-600 text-white' : 'bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-200 dark:hover:bg-slate-700'}">${c.icon ? c.icon + ' ' : ''}${c.label}</button>`;
+            };
+            return `
+                <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-stretch sm:items-center justify-center sm:p-4" onclick="if(event.target === this) closeGallery();">
+                    <div class="bg-slate-50 dark:bg-slate-950 sm:rounded-3xl shadow-2xl w-full max-w-5xl sm:max-h-[90vh] flex flex-col overflow-hidden" role="dialog" aria-modal="true" aria-labelledby="gallery-title">
+                        <div class="bg-white dark:bg-slate-900 border-b border-slate-100 dark:border-slate-800">
+                            <div class="px-4 sm:px-6 pt-4 flex items-center justify-between gap-3">
+                                <div>
+                                    <h2 id="gallery-title" class="text-xl font-extrabold text-slate-900 dark:text-white">Template gallery</h2>
+                                    <p class="text-sm text-slate-500 dark:text-slate-400">Pick a routine, then edit it however you like.</p>
+                                </div>
+                                <button id="gallery-close" onclick="closeGallery()" class="w-12 h-12 grid place-items-center hover:bg-slate-100 dark:hover:bg-slate-800 rounded-xl transition-colors text-slate-600 dark:text-slate-300 shrink-0" aria-label="Close gallery">${icons.X}</button>
+                            </div>
+                            <div class="flex gap-2 px-4 sm:px-6 py-3 overflow-x-auto no-scrollbar">${TEMPLATE_CATEGORIES.map(catButton).join('')}</div>
+                        </div>
+                        <div class="flex-1 overflow-y-auto p-4 sm:p-6">
+                            ${list.length ? `
+                            <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                                ${list.map(t => {
+                                    const total = totalMinutesOf(t.activities);
+                                    const custom = t.category === 'mine';
+                                    return `
+                                    <article class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-100 dark:border-slate-800 shadow-sm p-4 flex flex-col gap-3">
+                                        <div class="flex items-center gap-3">
+                                            ${miniPieSVG(t.activities, 60)}
+                                            <div class="min-w-0">
+                                                <h3 class="font-bold text-slate-900 dark:text-white leading-tight"><span aria-hidden="true">${t.icon}</span> ${escapeHTML(t.name)}</h3>
+                                                <p class="text-xs font-semibold text-slate-500 dark:text-slate-400 mt-1">${t.activities.length} steps • ${formatDuration(total)}</p>
+                                            </div>
+                                        </div>
+                                        <p class="text-sm text-slate-600 dark:text-slate-300">${escapeHTML(t.description || '')}</p>
+                                        <ul class="flex flex-wrap gap-1.5">
+                                            ${t.activities.map((a, i) => `<li class="inline-flex items-center gap-1.5 px-2 py-1 rounded-lg bg-slate-50 dark:bg-slate-800 text-xs font-semibold text-slate-700 dark:text-slate-200">${swatchSVG(a, i, 12)}${escapeHTML(a.name)} <span class="text-slate-400">${a.duration}m</span></li>`).join('')}
+                                        </ul>
+                                        <div class="flex gap-2 mt-auto pt-1">
+                                            <button onclick="applyTemplateById('${t.id}')" class="${btnPrimary} flex-1 h-12 rounded-xl font-bold">Use template</button>
+                                            ${custom
+                                                ? `<button onclick="deleteCustomTemplate('${t.id}')" class="${btnSecondary} w-12 h-12 grid place-items-center rounded-xl" aria-label="Delete template ${escapeHTML(t.name)}" title="Delete template"><span class="i5">${icons.Trash2}</span></button>`
+                                                : `<button onclick="copyTemplateLink('${t.id}')" class="${btnSecondary} w-12 h-12 grid place-items-center rounded-xl" aria-label="Copy link to ${escapeHTML(t.name)}" title="Copy a shareable link"><span class="i5">${icons.Link}</span></button>`}
+                                        </div>
+                                    </article>`;
+                                }).join('')}
+                            </div>` : `<p class="text-center text-slate-500 py-12">No templates here yet.</p>`}
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        function deleteModal() {
+            return `
+                <div class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+                    <div class="bg-white dark:bg-slate-900 rounded-3xl shadow-2xl max-w-sm w-full p-6" role="alertdialog" aria-modal="true" aria-labelledby="delete-title">
+                        <h2 id="delete-title" class="text-xl font-bold mb-4 text-slate-900 dark:text-white">Confirm Delete</h2>
+                        <p class="text-slate-600 dark:text-slate-300 mb-6">Are you sure you want to delete ${Array.isArray(state.deleteConfirmation) ? state.deleteConfirmation.length + ' activities' : 'this activity'}?</p>
+                        <div class="flex gap-3">
+                            <button onclick="cancelDelete()" class="${btnSecondary} flex-1 h-12 font-bold rounded-xl transition-all">Cancel</button>
+                            <button onclick="confirmDelete()" class="flex-1 h-12 bg-red-600 text-white font-bold rounded-xl hover:bg-red-700 transition-all">Delete</button>
+                        </div>
+                    </div>
+                </div>`;
+        }
+
+        // Main Render Function
+        function render() {
+            const scrollContainer = document.getElementById('activities-scroll-container');
+            const scrollTop = scrollContainer ? scrollContainer.scrollTop : 0;
+            const activeElement = document.activeElement;
+            const activeId = activeElement?.id;
+            const cursorPosition = activeElement?.selectionStart;
+            pendingRender = false;
+
+            const displayMode = state.viewMode === 'timer' && state.mode === AppMode.RUNNING ? 'RUNNING' :
+                                state.mode === AppMode.SUMMARY ? 'SUMMARY' : 'PLANNING';
+
+            const mainContent = displayMode === 'RUNNING' ? runningView()
+                : displayMode === 'SUMMARY' ? summaryView()
+                : planningView();
+
+            const app = document.getElementById('app');
+            app.innerHTML = `
+                <div class="min-h-screen pb-12">
+                    <nav class="border-b border-slate-100 dark:border-slate-800 sticky top-0 z-40 backdrop-blur-sm bg-white/85 dark:bg-slate-900/85 print-hidden">
+                        <div class="container mx-auto px-3 sm:px-4 py-2 flex items-center justify-between gap-2">
+                            <a href="./" onclick="event.preventDefault(); navigateToPlanner();" class="flex items-center justify-center gap-2 sm:gap-3 min-h-[48px] min-w-[48px] rounded-xl" aria-label="MyTimer.io home">
+                                ${LOGO_SVG}
+                                <span class="hidden sm:block text-xl font-extrabold text-slate-900 dark:text-white">MyTimer.io</span>
+                            </a>
+                            <div class="flex items-center gap-1">
+                                ${state.mode === AppMode.RUNNING || state.mode === AppMode.SUMMARY ? navButton('navigateToTimer()', icons.PlayCircle, 'Go to timer', state.viewMode === 'timer') : ''}
+                                ${navButton('navigateToPlanner()', icons.ClipboardList, 'Go to planner', state.viewMode === 'planner')}
+                                ${navButton('toggleFloatClock()', icons.FloatWindow, 'Floating clock', isFloatActive(), isFloatActive())}
+                                ${navButton('toggleDarkMode()', state.isDarkMode ? icons.Sun : icons.Moon, state.isDarkMode ? 'Light mode' : 'Dark mode')}
+                                ${navButton('openSettings()', icons.Settings2, 'Settings')}
+                            </div>
+                        </div>
+                    </nav>
+
+                    <main class="container mx-auto px-4 py-6 sm:py-8">
+                        ${mainContent}
+                    </main>
+
+                    ${state.galleryOpen ? galleryModal() : ''}
+                    ${state.isSettingsOpen ? settingsModal() : ''}
+                    ${state.deleteConfirmation ? deleteModal() : ''}
+                </div>
+            `;
+
+            const clockHost = document.getElementById('main-clock');
+            mainClock = clockHost ? new ClockView(clockHost, 'w-full h-full ck-shadow') : null;
+
+            requestAnimationFrame(() => {
+                const newScrollContainer = document.getElementById('activities-scroll-container');
+                if (newScrollContainer && scrollTop > 0) newScrollContainer.scrollTop = scrollTop;
+                if (activeId && activeId.startsWith('activity-input-')) {
+                    const input = document.getElementById(activeId);
+                    if (input) {
+                        input.focus();
+                        if (typeof cursorPosition === 'number') input.setSelectionRange(cursorPosition, cursorPosition);
+                    }
+                }
+            });
+
+            updatePanels();
+        }
+
+        // =====================================================================
+        // FLOATING CLOCK
+        // Two ways to float:
+        //   1. In-page: a draggable, resizable window that sits over the page.
+        //      Lives outside #app so re-renders never reset it.
+        //   2. Pop-out: a real always-on-top window (Document Picture-in-Picture)
+        //      that floats over PowerPoint, Slides, other tabs, etc.
+        //      Chrome and Edge on desktop only; the button hides elsewhere.
+        // =====================================================================
+        const FLOAT_KEY = 'mytimer_float_clock';
+        const PIP_SUPPORTED = 'documentPictureInPicture' in window;
+        const floatState = { open: false, minimized: false, ghost: false, x: null, y: null, w: 280, h: 360 };
+        let floatEl = null;
+        let pipWindow = null;
+
+        const clamp = (v, lo, hi) => Math.min(Math.max(v, lo), Math.max(lo, hi));
+
+        function loadFloatState() {
+            try { Object.assign(floatState, JSON.parse(localStorage.getItem(FLOAT_KEY) || '{}')); } catch (e) { }
+        }
+
+        function saveFloatState() {
+            try { localStorage.setItem(FLOAT_KEY, JSON.stringify(floatState)); } catch (e) { }
+        }
+
+        function isFloatActive() {
+            return floatState.open || !!pipWindow;
+        }
+
+        function panelSkeleton() {
+            return `<div class="fc-panel"><div class="fc-clock"></div><div class="fc-side"><div class="fc-info"></div><div class="fc-controls"></div></div></div>`;
+        }
+
+        function setHTML(el, html) {
+            if (el && el._html !== html) {
+                el.innerHTML = html;
+                el._html = html;
+            }
+        }
+
+        // Structure only; the changing numbers are filled in by updateLive()
+        function panelInfoHTML() {
+            if (state.mode === AppMode.RUNNING) {
+                const a = state.activities[state.currentIndex];
+                if (a) {
+                    return `
+                        <div class="fc-name"><span class="fc-dot" style="background:${a.color}"></span><span class="fc-name-text">${escapeHTML(a.name || 'Untitled Activity')}</span></div>
+                        <div class="fc-count" data-live="countdown"></div>
+                        <div class="fc-meta">${state.isRunning ? '' : (isFreshSession() ? 'Ready • ' : 'Paused • ')}Activity ${state.currentIndex + 1} of ${state.activities.length}</div>`;
+                }
+            }
+            if (state.mode === AppMode.SUMMARY) {
+                return `<div class="fc-count fc-now">Done!</div><div class="fc-meta">Session complete</div>`;
+            }
+            const total = totalMinutesOf(state.activities);
+            return `
+                <div class="fc-count fc-now" data-live="now"></div>
+                <div class="fc-meta">${state.activities.length ? `${state.activities.length} activities • ${formatDuration(total)} planned` : 'No activities planned yet'}</div>`;
+        }
+
+        function panelControlsHTML() {
+            if (state.mode === AppMode.RUNNING) {
+                return `
+                    <button class="fc-ctl primary" data-act="pause">${state.isRunning ? icons.Pause + 'Pause' : icons.Play + (isFreshSession() ? 'Start' : 'Resume')}</button>
+                    <button class="fc-ctl" data-act="skip" title="Skip to next activity" aria-label="Skip to next activity">${icons.SkipForward}</button>
+                    <button class="fc-ctl" data-act="reset" title="End session" aria-label="End session">${icons.RotateCcw}</button>`;
+            }
+            if (state.mode === AppMode.SUMMARY) {
+                return `<button class="fc-ctl primary" data-act="reset">${icons.RotateCcw}Plan new session</button>`;
+            }
+            return state.activities.length ? `<button class="fc-ctl primary" data-act="start">${icons.Play}Start</button>` : '';
+        }
+
+        // Refresh the structure of the floating clock and the pop-out window
+        function updatePanels() {
+            const floatVisible = floatEl && floatState.open && !pipWindow;
+            const pipOpen = pipWindow && !pipWindow.closed;
+            if (floatVisible || pipOpen) {
+                const info = panelInfoHTML();
+                const controls = panelControlsHTML();
+                const roots = [];
+                if (floatVisible) roots.push(floatEl);
+                if (pipOpen) roots.push(pipWindow.document);
+                roots.forEach(root => {
+                    setHTML(root.querySelector('.fc-info'), info);
+                    setHTML(root.querySelector('.fc-controls'), controls);
+                });
+                if (pipOpen) pipWindow.document.documentElement.classList.toggle('dark', state.isDarkMode);
+            }
+            updateLive(true);
+        }
+
+        function handlePanelClick(e) {
+            const btn = e.target.closest('[data-act]');
+            if (!btn) return;
+            switch (btn.dataset.act) {
+                case 'pip': openPip(); break;
+                case 'ghost':
+                    floatState.ghost = !floatState.ghost;
+                    saveFloatState();
+                    applyFloatLayout();
+                    break;
+                case 'min':
+                    floatState.minimized = !floatState.minimized;
+                    saveFloatState();
+                    applyFloatLayout();
+                    break;
+                case 'close':
+                    floatState.open = false;
+                    saveFloatState();
+                    applyFloatLayout();
+                    render();
+                    break;
+                case 'pause': togglePause(); break;
+                case 'skip': skipActivity(); break;
+                case 'reset': resetSession(); break;
+                case 'start': startSession(); break;
+            }
+        }
+
+        function positionFloat() {
+            const vw = document.documentElement.clientWidth;
+            const vh = window.innerHeight;
+            const w = clamp(floatState.w, 230, vw - 16);
+            const h = clamp(floatState.h, 190, vh - 16);
+
+            floatEl.style.width = w + 'px';
+            floatEl.style.height = floatState.minimized ? 'auto' : h + 'px';
+
+            if (floatState.x === null || floatState.y === null) {
+                // First time: tuck into the bottom-right corner
+                floatState.x = vw - w - 24;
+                floatState.y = vh - h - 24;
+            }
+            const elH = floatState.minimized ? floatEl.offsetHeight : h;
+            const x = clamp(floatState.x, 8, vw - w - 8);
+            const y = clamp(floatState.y, 8, vh - elH - 8);
+            floatEl.style.left = x + 'px';
+            floatEl.style.top = y + 'px';
+            return { x, y, w, h };
+        }
+
+        function applyFloatLayout() {
+            if (!floatEl) return;
+            floatEl.hidden = !floatState.open || !!pipWindow;
+            floatEl.classList.toggle('min', floatState.minimized);
+            floatEl.classList.toggle('ghost', floatState.ghost);
+
+            const ghostBtn = floatEl.querySelector('[data-act="ghost"]');
+            ghostBtn.classList.toggle('on', floatState.ghost);
+            ghostBtn.setAttribute('aria-pressed', String(floatState.ghost));
+
+            const minBtn = floatEl.querySelector('[data-act="min"]');
+            minBtn.innerHTML = floatState.minimized ? icons.Expand : icons.Minus;
+            minBtn.title = floatState.minimized ? 'Expand' : 'Minimize';
+            minBtn.setAttribute('aria-label', minBtn.title);
+
+            if (!floatEl.hidden) {
+                updatePanels();
+                positionFloat();
+            }
+        }
+
+        function createFloatClock() {
+            floatEl = document.createElement('div');
+            floatEl.className = 'fc';
+            floatEl.id = 'float-clock';
+            floatEl.hidden = true;
+            floatEl.setAttribute('role', 'region');
+            floatEl.setAttribute('aria-label', 'Floating clock');
+            floatEl.innerHTML = `
+                <div class="fc-bar" title="Drag to move">
+                    <span class="fc-grip" aria-hidden="true">${icons.Grip}</span>
+                    <span class="fc-title" data-live="floatTitle">Clock</span>
+                    ${PIP_SUPPORTED ? `<button class="fc-btn" data-act="pip" title="Pop out: float over other apps" aria-label="Pop out: float over other apps">${icons.PopOut}</button>` : ''}
+                    <button class="fc-btn" data-act="ghost" title="See-through" aria-label="See-through">${icons.Ghost}</button>
+                    <button class="fc-btn" data-act="min" title="Minimize" aria-label="Minimize">${icons.Minus}</button>
+                    <button class="fc-btn" data-act="close" title="Close" aria-label="Close">${icons.X}</button>
+                </div>
+                <div class="fc-body">${panelSkeleton()}</div>
+                <div class="fc-resize" title="Drag to resize" aria-hidden="true"></div>
+            `;
+            document.body.appendChild(floatEl);
+            floatClock = new ClockView(floatEl.querySelector('.fc-clock'));
+            floatEl.addEventListener('click', handlePanelClick);
+
+            // Drag to move (mouse, pen and touch)
+            const bar = floatEl.querySelector('.fc-bar');
+            bar.addEventListener('pointerdown', e => {
+                if (e.target.closest('button') || e.button > 0) return;
+                e.preventDefault();
+                const rect = floatEl.getBoundingClientRect();
+                const offX = e.clientX - rect.left;
+                const offY = e.clientY - rect.top;
+                bar.setPointerCapture(e.pointerId);
+                floatEl.classList.add('dragging');
+
+                const move = ev => {
+                    floatState.x = ev.clientX - offX;
+                    floatState.y = ev.clientY - offY;
+                    const p = positionFloat();
+                    floatState.x = p.x;
+                    floatState.y = p.y;
+                };
+                const up = () => {
+                    bar.removeEventListener('pointermove', move);
+                    bar.removeEventListener('pointerup', up);
+                    bar.removeEventListener('pointercancel', up);
+                    floatEl.classList.remove('dragging');
+                    saveFloatState();
+                };
+                bar.addEventListener('pointermove', move);
+                bar.addEventListener('pointerup', up);
+                bar.addEventListener('pointercancel', up);
+            });
+
+            // Drag corner to resize
+            const handle = floatEl.querySelector('.fc-resize');
+            handle.addEventListener('pointerdown', e => {
+                e.preventDefault();
+                e.stopPropagation();
+                const rect = floatEl.getBoundingClientRect();
+                const startX = e.clientX, startY = e.clientY;
+                handle.setPointerCapture(e.pointerId);
+                floatEl.classList.add('dragging');
+
+                const move = ev => {
+                    const vw = document.documentElement.clientWidth;
+                    const vh = window.innerHeight;
+                    floatState.w = clamp(rect.width + ev.clientX - startX, 230, vw - rect.left - 8);
+                    floatState.h = clamp(rect.height + ev.clientY - startY, 190, vh - rect.top - 8);
+                    positionFloat();
+                };
+                const up = () => {
+                    handle.removeEventListener('pointermove', move);
+                    handle.removeEventListener('pointerup', up);
+                    handle.removeEventListener('pointercancel', up);
+                    floatEl.classList.remove('dragging');
+                    saveFloatState();
+                };
+                handle.addEventListener('pointermove', move);
+                handle.addEventListener('pointerup', up);
+                handle.addEventListener('pointercancel', up);
+            });
+
+            window.addEventListener('resize', () => {
+                if (floatEl && !floatEl.hidden) positionFloat();
+            });
+        }
+
+        function toggleFloatClock() {
+            if (pipWindow) {
+                // Turning the feature off closes the pop-out too
+                floatState.open = false;
+                saveFloatState();
+                pipWindow.close();
+                return;
+            }
+            // Chrome/Edge: one click floats the clock over everything (like SWBATs).
+            // Other browsers fall back to the in-page floating clock.
+            if (PIP_SUPPORTED && !floatState.open) {
+                openPip();
+                return;
+            }
+            floatState.open = !floatState.open;
+            saveFloatState();
+            applyFloatLayout();
+            render();
+        }
+
+        async function openPip() {
+            if (!PIP_SUPPORTED) return;
+            if (pipWindow) { pipWindow.focus(); return; }
+
+            let win;
+            try {
+                win = await documentPictureInPicture.requestWindow({ width: 300, height: 360 });
+            } catch (err) {
+                console.error('Could not open the pop-out clock', err);
+                return;
+            }
+            pipWindow = win;
+
+            const doc = win.document;
+            doc.documentElement.classList.add('pip-root');
+            doc.documentElement.classList.toggle('dark', state.isDarkMode);
+            const style = doc.createElement('style');
+            style.textContent = document.getElementById('fc-css').textContent;
+            doc.head.appendChild(style);
+            doc.body.innerHTML = `${patternDefsHTML()}<div class="fc fc-pip"><div class="fc-body">${panelSkeleton()}</div></div>`;
+            doc.body.addEventListener('click', handlePanelClick);
+            pipClock = new ClockView(doc.querySelector('.fc-clock'));
+
+            // The pop-out stays visible while the main tab is in the background,
+            // so it drives the countdown with its own heartbeat.
+            win.setInterval(heartbeat, 250);
+
+            win.addEventListener('pagehide', () => {
+                pipWindow = null;
+                pipClock = null;
+                applyFloatLayout();
+                render();
+            });
+
+            applyFloatLayout(); // hides the in-page float while the pop-out is open
+            updatePanels();
+            render();
+        }
+
+        // =====================================================================
+        // LINKS: ?t=10 (quick timer) and ?template=pomodoro
+        // =====================================================================
+        function handleUrlParams() {
+            const params = new URLSearchParams(location.search);
+            let handled = false;
+            if (params.has('t')) {
+                const minutes = parseFloat(params.get('t'));
+                if (minutes >= 1 && minutes <= 720) {
+                    startQuickTimer(minutes, false);
+                    handled = true;
+                }
+            } else if (params.has('template')) {
+                const tpl = findTemplate(params.get('template'));
+                if (tpl) {
+                    applyTemplateById(tpl.id);
+                    handled = true;
+                }
+            }
+            if (params.has('t') || params.has('template')) {
+                try { history.replaceState(null, '', location.pathname + location.hash); } catch (e) { }
+            }
+            return handled;
+        }
+
+        // =====================================================================
+        // INITIALIZE
+        // =====================================================================
+        // Remove any service worker left over from earlier versions of the site
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations()
+                .then(regs => regs.forEach(reg => reg.unregister()))
+                .catch(() => { });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFromLocalStorage();
+            loadFloatState();
+            document.documentElement.classList.toggle('dark', state.isDarkMode);
+            document.body.insertAdjacentHTML('afterbegin', patternDefsHTML());
+
+            initAudio();
+            ['pointerdown', 'keydown'].forEach(evt =>
+                document.addEventListener(evt, unlockAudio, { once: true, capture: true }));
+
+            state.insights = generateInsights();
+            createFloatClock();
+
+            if (!handleUrlParams()) render();
+            applyFloatLayout();
+
+            setInterval(heartbeat, 250);
+            document.addEventListener('visibilitychange', () => {
+                if (!document.hidden) { tick(); updateLive(true); }
+            });
+
+            // Escape closes whichever dialog is open
+            document.addEventListener('keydown', e => {
+                if (e.key !== 'Escape') return;
+                if (state.deleteConfirmation) cancelDelete();
+                else if (state.isSettingsOpen) closeSettings();
+                else if (state.galleryOpen) closeGallery();
+            });
+        });
+
+        // Make functions available globally
+        Object.assign(window, {
+            addActivity, addBreak, updateActivity, handleActivityNameChange, handleInputFocus,
+            handleInputKeydown, handleInputBlur, updateInsightsDisplay, deleteActivity, requestDelete,
+            confirmDelete, cancelDelete, toggleSelect, toggleSelectAll, startSession, togglePause,
+            resetSession, skipActivity, playSound, handleSoundChange, setVolume, loadPreset, toggleDarkMode,
+            navigateToPlanner, navigateToTimer, handleSort, toggleFloatClock, startQuickTimer,
+            applyTemplateById, copyTemplateLink, saveCurrentAsTemplate, deleteCustomTemplate,
+            openGallery, closeGallery, setGalleryCat, setClockFace, togglePatterns, toggleSeconds,
+            toggleConfirmDelete, openSettings, closeSettings, cyclePattern, saveToLocalStorage, state
+        });
+    </script>
+</body>
+</html>
