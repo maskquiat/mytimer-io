@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
+ <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-18XR8R8MFP"></script>
 <script>
   window.dataLayer = window.dataLayer || [];
@@ -477,7 +477,7 @@
             volume: 0.5,
             defaultBreakDuration: 5,
             confirmBeforeDelete: true,
-            clockFace: 'auto',          // 'auto' | '60' | '12h'
+            clockFace: 'auto',          // 'auto' (default: minute hand, hour hand past 60 min) | '60' | '12h'
             patternsOn: false,
             showSeconds: !REDUCED_MOTION,
             galleryOpen: false,
@@ -532,7 +532,6 @@
                 localStorage.setItem('focusflow_custom_templates', JSON.stringify(state.customTemplates));
                 localStorage.setItem('focusflow_confirm_delete', state.confirmBeforeDelete.toString());
                 localStorage.setItem('focusflow_dark_mode', state.isDarkMode.toString());
-                localStorage.setItem('mytimer_clock_face', state.clockFace);
                 localStorage.setItem('mytimer_patterns', state.patternsOn.toString());
                 localStorage.setItem('mytimer_seconds', state.showSeconds.toString());
             } catch (e) { }
@@ -635,7 +634,7 @@
             const savedCustomTemplates = get('focusflow_custom_templates');
             const savedConfirmDelete = get('focusflow_confirm_delete');
             const savedDarkMode = get('focusflow_dark_mode');
-            const savedFace = get('mytimer_clock_face');
+            const savedFace = get('mytimer_face_choice'); // only set when the user picks a face in Settings
             const savedPatterns = get('mytimer_patterns');
             const savedSeconds = get('mytimer_seconds');
 
@@ -1278,7 +1277,7 @@
 
         function setClockFace(face) {
             state.clockFace = face;
-            saveToLocalStorage();
+            try { localStorage.setItem('mytimer_face_choice', face); } catch (e) { }
             render();
         }
 
@@ -1378,10 +1377,10 @@
             const wedges = planWedges();
             if (!wedges.length) return '';
             const f = faceInfo(wedges);
-            const left = state.mode === AppMode.RUNNING ? 'left' : 'planned';
             if (f.scale === 720) {
-                const base = `12-hour view · ${formatDuration(f.total)} ${left}`;
-                return f.overflow > 0 ? `${base} · +${formatDuration(f.overflow)} beyond 12 h` : base;
+                if (f.overflow > 0) return `Showing the next 12 hours · +${formatDuration(f.overflow)} more`;
+                if (state.clockFace === 'auto') return `12-hour view · ${formatDuration(f.total)} ${state.mode === AppMode.RUNNING ? 'left' : 'planned'}`;
+                return '';
             }
             if (f.overflow > 0) return `Showing the next hour · +${formatDuration(f.overflow)} more`;
             return '';
@@ -1916,7 +1915,7 @@
                                 <div class="grid grid-cols-3 gap-2" role="radiogroup" aria-label="Clock face">
                                     ${faceBtn('auto', 'Auto')}${faceBtn('60', '60 min')}${faceBtn('12h', '12 hour')}
                                 </div>
-                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Auto shows one hour, and switches to a 12-hour face when your plan runs longer so nothing overlaps.</p>
+                                <p class="text-xs text-slate-500 dark:text-slate-400 mt-2">Auto follows the minute hand, and switches to the hour hand when your plan runs past an hour so nothing overlaps. 60 min always follows the minute hand. 12 hour always follows the hour hand.</p>
                             </div>
 
                             <div class="flex items-start justify-between gap-4">
@@ -2440,6 +2439,13 @@
         // =====================================================================
         // INITIALIZE
         // =====================================================================
+        // Remove any service worker left over from earlier versions of the site
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.getRegistrations()
+                .then(regs => regs.forEach(reg => reg.unregister()))
+                .catch(() => { });
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             loadFromLocalStorage();
             loadFloatState();
